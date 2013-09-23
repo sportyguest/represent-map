@@ -1,5 +1,11 @@
 <?php
 include_once "header.php";
+define('WP_USE_THEMES', false);
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
+$path= "C:\/wamp\/www\/mapa\/represent-map\/include";
+set_include_path(get_include_path(). PATH_SEPARATOR . $path);
+
+require_once ("evento.php");
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +20,7 @@ include_once "header.php";
     Create a map for your startup community!
     https://github.com/abenzer/represent-map
     -->
-    <title><?= $title_tag ?></title>
+    <title><?php echo $title_tag ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -27,6 +33,8 @@ include_once "header.php";
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
     <script type="text/javascript">
       var map;
@@ -132,7 +140,7 @@ include_once "header.php";
         var myOptions = {
           zoom: 11,
           //minZoom: 10,
-          center: new google.maps.LatLng(<?= $lat_lng ?>),
+          center: new google.maps.LatLng(<?php echo $lat_lng ?>),
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           streetViewControl: false,
           mapTypeControl: false,
@@ -165,51 +173,53 @@ include_once "header.php";
         // markers array: name, type (icon), lat, long, description, uri, address
         markers = new Array();
         <?php
-          $types = Array(
-              Array('startup', 'Startups'),
-              Array('accelerator','Accelerators'),
-              Array('incubator', 'Incubators'), 
-              Array('coworking', 'Coworking'), 
-              Array('investor', 'Investors'),
-              Array('service', 'Consulting'),
-              Array('hackerspace', 'Hackerspaces'),
-              Array('event', 'Events'),
-              );
+        global $wpdb;
+        //$eventos= Evento::getEventos($wpdb);
+          // $types = Array(
+          //     Array('natacion', 'Natación'),
+          //     Array('marathon','Marathon'),
+          //     Array('ciclismo', 'Ciclismo'), 
+          //     Array('escalada', 'Escalada'), 
+          //     Array('otros', 'Otros'),
+          //     Array('service', 'Consulting'),
+          //     Array('hackerspace', 'Hackerspaces'),
+          //     Array('event', 'Events'),
+          //     );
           $marker_id = 0;
-          foreach($types as $type) {
-            $places = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
-            $places_total = mysql_num_rows($places);
-            while($place = mysql_fetch_assoc($places)) {
-              $place[title] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[title])));
-              $place[description] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[description])));
-              $place[uri] = addslashes(htmlspecialchars($place[uri]));
-              $place[address] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[address])));
-              echo "
-                markers.push(['".$place[title]."', '".$place[type]."', '".$place[lat]."', '".$place[lng]."', '".$place[description]."', '".$place[uri]."', '".$place[address]."']); 
-                markerTitles[".$marker_id."] = '".$place[title]."';
-              "; 
-              $count[$place[type]]++;
-              $marker_id++;
-            }
+          //foreach($types as $type) {
+
+          $eventos= Evento::getEventosAprobados($wpdb);
+          foreach($eventos as $evento){
+
+            $evento->nombre= htmlspecialchars_decode(addslashes(htmlspecialchars($evento->nombre)));
+            $evento->descripcion= htmlspecialchars_decode(addslashes(htmlspecialchars($evento->descripcion)));
+            $evento->direccion = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->direccion)));
+            echo "
+                markers.push(['".$evento->nombre."', '".$evento->tipo."', '".$evento->lat."', '".$evento->lng."', '".$evento->descripcion."','".$evento->direccion."']); 
+                 markerTitles[".$marker_id."] = '".$evento->titulo."';
+               "; 
+
+
+
+            // $places = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+            // $places_total = mysql_num_rows($places);
+            // while($place = mysql_fetch_assoc($places)) {
+            //   $place[title] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[title])));
+            //   $place[description] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[description])));
+            //   $place[uri] = addslashes(htmlspecialchars($place[uri]));
+            //   $place[address] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[address])));
+            //   echo "
+            //     markers.push(['".$place[title]."', '".$place[type]."', '".$place[lat]."', '".$place[lng]."', '".$place[description]."', '".$place[uri]."', '".$place[address]."']); 
+            //     markerTitles[".$marker_id."] = '".$place[title]."';
+            //   "; 
+
+               $count[$evento->tipo]++;
+               $marker_id++;
+            //   $count[$place[type]]++;
+            //   $marker_id++;
+            // }
           } 
-          if($show_events == true) {
-            $place[type] = "event";
-            $events = mysql_query("SELECT * FROM events WHERE start_date > ".time()." AND start_date < ".(time()+9676800)." ORDER BY id DESC");
-            $events_total = mysql_num_rows($events);
-            while($event = mysql_fetch_assoc($events)) {
-              $event[title] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[title])));
-              $event[description] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[description])));
-              $event[uri] = addslashes(htmlspecialchars($event[uri]));
-              $event[address] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[address])));
-              $event[start_date] = date("D, M j @ g:ia", $event[start_date]);
-              echo "
-                markers.push(['".$event[title]."', 'event', '".$event[lat]."', '".$event[lng]."', '".$event[start_date]."', '".$event[uri]."', '".$event[address]."']); 
-                markerTitles[".$marker_id."] = '".$event[title]."';
-              "; 
-              $count[$place[type]]++;
-              $marker_id++;
-            }
-          }
+          
         ?>
 
         // add markers
@@ -365,7 +375,13 @@ include_once "header.php";
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     
-    <? echo $head_html; ?>
+    <?php echo $head_html; ?>
+    <script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+    
+    });
+  </script>
   </head>
   <body>
     
@@ -390,9 +406,9 @@ include_once "header.php";
       <div class="wrapper">
         <div class="right">
           <div class="share">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?= $domain ?>" data-text="<?= $twitter['share_text'] ?>" data-via="<?= $twitter['username'] ?>" data-count="none">Tweet</a>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $domain ?>" data-text="<?php echo $twitter['share_text'] ?>" data-via="<?php echo $twitter['username'] ?>" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            <div class="fb-like" data-href="<?= $domain ?>" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
+            <div class="fb-like" data-href="<?php echo $domain ?>" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
           </div>
         </div>
         <div class="left">
@@ -405,9 +421,9 @@ include_once "header.php";
             <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>About this Map</a>
             <?php if($sg_enabled) { ?>
               <a href="#modal_add_choose" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Add Something</a>
-            <? } else { ?>
+            <?php } else { ?>
               <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Add Something</a>
-            <? } ?>
+            <?php } ?>
           </div>
           <div class="search">
             <input type="text" name="search" id="search" placeholder="Search for companies..." data-provide="typeahead" autocomplete="off" />
@@ -421,25 +437,30 @@ include_once "header.php";
       <ul class="list" id="list">
         <?php
           $types = Array(
-              Array('startup', 'Startups'),
-              Array('accelerator','Accelerators'),
-              Array('incubator', 'Incubators'), 
-              Array('coworking', 'Coworking'), 
-              Array('investor', 'Investors'),
-              Array('service', 'Consulting'),
-              Array('hackerspace', 'Hackerspaces')
+              Array('natation', 'Natación'),
+              Array('marathon','Marathon'),
+              Array('escalada', 'Escalada'), 
+              Array('ciclismo', 'Ciclismo'),
+              Array('otros', 'Otros')
+              
               );
-          if($show_events == true) {
-            $types[] = Array('event', 'Events'); 
-          }
+          //if($show_events == true) {
+          //  $types[] = Array('event', 'Events'); 
+         // }
           $marker_id = 0;
+
           foreach($types as $type) {
-            if($type[0] != "event") {
-              $markers = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
-            } else {
-              $markers = mysql_query("SELECT * FROM events WHERE start_date > ".time()." AND start_date < ".(time()+4838400)." ORDER BY id DESC");
-            }
-            $markers_total = mysql_num_rows($markers);
+           // if($type[0] != "event") {
+           //   $markers = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+           // } else {
+            //  $markers = mysql_query("SELECT * FROM events WHERE start_date > ".time()." AND start_date < ".(time()+4838400)." ORDER BY id DESC");
+           $markers= array_filter($eventos, function($elem) use($type){
+                    return $event->tipo==$type;
+        
+                 });
+
+            //}
+            $markers_total = count($markers); // 
             echo "
               <li class='category'>
                 <div class='category_item'>
@@ -448,7 +469,8 @@ include_once "header.php";
                 </div>
                 <ul class='list-items list-$type[0]'>
             ";
-            while($marker = mysql_fetch_assoc($markers)) {
+           // while($marker = mysql_fetch_assoc($markers)) {
+            foreach($markers as $marker){
               echo "
                   <li class='".$marker[type]."'>
                     <a href='#' onMouseOver=\"markerListMouseOver('".$marker_id."')\" onMouseOut=\"markerListMouseOut('".$marker_id."')\" onClick=\"goToMarker('".$marker_id."');\">".$marker[title]."</a>
@@ -462,10 +484,10 @@ include_once "header.php";
             ";
           }
         ?>
-        <li class="blurb"><?= $blurb ?></li>
+        <li class="blurb"><?php echo $blurb ?></li>
         <li class="attribution">
           <!-- per our license, you may not remove this line -->
-          <?=$attribution?>
+          <?php echo $attribution?>
         </li>
       </ul>
     </div>
@@ -482,14 +504,14 @@ include_once "header.php";
           in our beloved Los Angeles. We've seeded the map but we need
           your help to keep it fresh. If you don't see your company, please 
           <?php if($sg_enabled) { ?>
-            <a href="#modal_add_choose" data-toggle="modal" data-dismiss="modal">submit it here</a>.
+            <a href="#modal_add_choose" data-toggle="modal" data-dismiss="modal">Añade tu evento</a>.
           <?php } else { ?>
-            <a href="#modal_add" data-toggle="modal" data-dismiss="modal">submit it here</a>.
+            <a href="#modal_add" data-toggle="modal" data-dismiss="modal">Añade tu evento</a>.
           <?php } ?>
           Let's put LA on the map together!
         </p>
         <p>
-        Questions? Feedback? Connect with us: <a href="http://www.twitter.com/<?= $twitter['username'] ?>" target="_blank">@<?= $twitter['username'] ?></a>
+        Questions? Feedback? Connect with us: <a href="http://www.twitter.com/ <?php echo $twitter['username'] ?>" target="_blank">@<?php echo $twitter['username'] ?></a>
         </p>
         <p>
           If you want to support the LA community by linking to this map from your website,
@@ -523,79 +545,94 @@ include_once "header.php";
     
     <!-- add something modal -->
     <div class="modal hide" id="modal_add">
-      <form action="add.php" id="modal_addform" class="form-horizontal">
+      <form method="POST" action="add.php" id="modal_addform" class="form-horizontal">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-          <h3>Add something!</h3>
+          <button type="button" class="close" data-dismiss="modal">x</button>
+          <h3>Añade tu evento</h3>
         </div>
         <div class="modal-body">
           <div id="result"></div>
           <fieldset>
             <div class="control-group">
-              <label class="control-label" for="add_owner_name">Your Name</label>
+              <label class="control-label" for="add_owner_name">Tu nombre</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="owner_name" id="add_owner_name" maxlength="100">
+                <input type="text" class="input-xlarge" name="persona" id="add_owner_name" maxlength="100">
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_owner_email">Your Email</label>
+              <label class="control-label" for="add_owner_email">Tu email</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="owner_email" id="add_owner_email" maxlength="100">
+                <input type="text" class="input-xlarge" name="email" id="add_owner_email" maxlength="100">
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_title">Company Name</label>
+              <label class="control-label" for="add_title">Nombre del evento</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="title" id="add_title" maxlength="100" autocomplete="off">
+                <input type="text" class="input-xlarge" name="nombre" id="add_title" maxlength="100" autocomplete="off">
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="input01">Company Type</label>
+              <label class="control-label" for="input01">Tipo de deporte</label>
               <div class="controls">
-                <select name="type" id="add_type" class="input-xlarge">
-                  <option value="startup">Startup</option>
-                  <option value="accelerator">Accelerator</option>
-                  <option value="incubator">Incubator</option>
-                  <option value="coworking">Coworking</option>
-                  <option value="investor">VC/Angel</option>
-                  <option value="service">Consulting Firm</option>
-                  <option value="hackerspace">Hackerspace</option>
+                <select name="tipo" id="add_type" class="input-xlarge">
+                  <option value="ciclismo">Ciclismo</option>
+                  <option value="marathon">Marathon</option>
+                  <option value="escalada">Escalada</option>
+                  <option value="natacion">Natatión</option>
+                  <option value="otros">Otros</option>
+                  
                 </select>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_address">Address</label>
+              <label class="control-label" for="add_address">Dirección</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="address" id="add_address">
+                <input type="text" class="input-xlarge" name="direccion" id="add_address">
                 <p class="help-block">
-                  Should be your <b>full street address (including city and zip)</b>.
-                  If it works on Google Maps, it will work here.
+                  Direccion en la que se va a realizar el evento
                 </p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_uri">Website URL</label>
+              <label class="control-label" for="add_address">Localidad</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="localidad" id="add_localidad">
+                <p class="help-block">
+                  Localidad en la que se realizará el evento
+                </p>
+              </div>
+            <div class="control-group">
+              <label class="control-label" for="add_date">fecha</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="fecha" id="datepicker">
+                <p class="help-block">
+                  Fecha en la que tiene lugar el evento
+                </p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_uri">URL del evento</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_uri" name="uri" placeholder="http://">
                 <p class="help-block">
-                  Should be your full URL with no trailing slash, e.g. "http://www.yoursite.com"
+                 URL del evento en caso de que lo conozcas.
                 </p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_description">Description</label>
+              <label class="control-label" for="add_description">Descripcion</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="150">
+                <input type="text" class="input-xlarge" id="add_description" name="descripcion" maxlength="150">
                 <p class="help-block">
-                  Brief, concise description. What's your product? What problem do you solve? Max 150 chars.
+                 Describe brevemente en que consiste el evento.
                 </p>
               </div>
             </div>
           </fieldset>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit for Review</button>
-          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
+          <button type="submit" class="btn btn-primary">Aceptar</button>
+          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
         </div>
       </form>
     </div>
@@ -612,10 +649,12 @@ include_once "header.php";
             address = $form.find( '#add_address' ).val(),
             uri = $form.find( '#add_uri' ).val(),
             description = $form.find( '#add_description' ).val(),
+            localidad = $form.find( '#add_localidad' ).val(),
+            datepicker = $form.find( '#datepicker' ).val(),
             url = $form.attr( 'action' );
 
         // send data and get results
-        $.post( url, { owner_name: owner_name, owner_email: owner_email, title: title, type: type, address: address, uri: uri, description: description },
+        $.post( url, { localidad: localidad, datepicker: datepicker, owner_name: owner_name, owner_email: owner_email, title: title, type: type, address: address, uri: uri, description: description },
           function( data ) {
             var content = $( data ).find( '#content' );
             

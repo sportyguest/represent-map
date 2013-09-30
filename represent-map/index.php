@@ -1,11 +1,9 @@
 <?php
 include_once "header.php";
 define('WP_USE_THEMES', false);
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
-$path= "C:\/wamp\/www\/mapa\/represent-map\/include";
-set_include_path(get_include_path(). PATH_SEPARATOR . $path);
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php' );
 
-require_once ("evento.php");
+require_once ("include/evento.php");
 ?>
 
 <!DOCTYPE html>
@@ -33,8 +31,10 @@ require_once ("evento.php");
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>
+    <script type="text/javascript" src="./scripts/cont.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    
     
     <script type="text/javascript">
       var map;
@@ -44,7 +44,11 @@ require_once ("evento.php");
       var highestZIndex = 0;  
       var agent = "default";
       var zoomControl = true;
-
+      var prueba1;
+      var prueba2;
+      var prueba3;
+      var latm = "40.40";
+      var lonm = "-1.85";
 
       // detect browser agent
       $(document).ready(function(){
@@ -57,7 +61,6 @@ require_once ("evento.php");
           zoomControl = false;
         }
       }); 
-      
 
       // resize marker list onload/resize
       $(document).ready(function(){
@@ -89,7 +92,7 @@ require_once ("evento.php");
           },{
             featureType: "road",
             stylers: [
-              { visibility: "on" },
+              { visibility: "off" },
               { hue: "#91ff00" },
               { saturation: -62 },
               { gamma: 1.98 },
@@ -138,12 +141,12 @@ require_once ("evento.php");
 
         // set map options
         var myOptions = {
-          zoom: 11,
+          zoom: 7,
           //minZoom: 10,
-          center: new google.maps.LatLng(<?php echo $lat_lng ?>),
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          streetViewControl: false,
-          mapTypeControl: false,
+          center: new google.maps.LatLng(latm,lonm), // HE escrito a mano, porque no me dejaba pasar el $latm como parametro
+          mapTypeId: google.maps.MapTypeId.HYBRID,
+          streetViewControl: true,
+          mapTypeControl: true,
           panControl: false,
           zoomControl: zoomControl,
           styles: mapStyles,
@@ -152,6 +155,7 @@ require_once ("evento.php");
             position: google.maps.ControlPosition.LEFT_CENTER
           }
         };
+        prueba2=myOptions;
         map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
         zoomLevel = map.getZoom();
 
@@ -173,53 +177,34 @@ require_once ("evento.php");
         // markers array: name, type (icon), lat, long, description, uri, address
         markers = new Array();
         <?php
-        global $wpdb;
-        //$eventos= Evento::getEventos($wpdb);
-          // $types = Array(
-          //     Array('natacion', 'Natación'),
-          //     Array('marathon','Marathon'),
-          //     Array('ciclismo', 'Ciclismo'), 
-          //     Array('escalada', 'Escalada'), 
-          //     Array('otros', 'Otros'),
-          //     Array('service', 'Consulting'),
-          //     Array('hackerspace', 'Hackerspaces'),
-          //     Array('event', 'Events'),
-          //     );
+          global $wpdb;
           $marker_id = 0;
-          //foreach($types as $type) {
+          $approved_events = Evento::getEventosAprobados($wpdb);
+          usort($approved_events, function($evento1,$evento2) {
+            return Evento::getCodeEvent($evento1->category) - Evento::getCodeEvent($evento2->category);
+          });
+          foreach($approved_events as $evento){
+            $evento->name = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->name)));
+            $evento->description= htmlspecialchars_decode(addslashes(htmlspecialchars($evento->description)));
+            $evento->address = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->address)));
+            $evento->category = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->category)));
+            $evento->url = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->url)));
 
-          $eventos= Evento::getEventosAprobados($wpdb);
-          foreach($eventos as $evento){
-
-            $evento->nombre= htmlspecialchars_decode(addslashes(htmlspecialchars($evento->nombre)));
-            $evento->descripcion= htmlspecialchars_decode(addslashes(htmlspecialchars($evento->descripcion)));
-            $evento->direccion = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->direccion)));
             echo "
-                markers.push(['".$evento->nombre."', '".$evento->tipo."', '".$evento->lat."', '".$evento->lng."', '".$evento->descripcion."','".$evento->direccion."']); 
-                 markerTitles[".$marker_id."] = '".$evento->titulo."';
+                markers.push(['" . $evento->name . "', '" . 
+                                  $evento->category . "', '" . 
+                                  $evento->subcategory . "', '" . 
+                                  $evento->lat . "', '" . 
+                                  $evento->lng . "', '" . 
+                                  $evento->description . "', '" . 
+                                  $evento->url . "', '" . 
+                                  $evento->address . "', " .
+                                  (strtotime($evento->date) * 1000) . "]); 
+                 markerTitles[" . $marker_id . "] = '" . $evento->name . "';
                "; 
-
-
-
-            // $places = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
-            // $places_total = mysql_num_rows($places);
-            // while($place = mysql_fetch_assoc($places)) {
-            //   $place[title] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[title])));
-            //   $place[description] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[description])));
-            //   $place[uri] = addslashes(htmlspecialchars($place[uri]));
-            //   $place[address] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[address])));
-            //   echo "
-            //     markers.push(['".$place[title]."', '".$place[type]."', '".$place[lat]."', '".$place[lng]."', '".$place[description]."', '".$place[uri]."', '".$place[address]."']); 
-            //     markerTitles[".$marker_id."] = '".$place[title]."';
-            //   "; 
-
-               $count[$evento->tipo]++;
-               $marker_id++;
-            //   $count[$place[type]]++;
-            //   $marker_id++;
-            // }
-          } 
-          
+            $count[$evento->category]++;
+            $marker_id++;
+          }  
         ?>
 
         // add markers
@@ -228,23 +213,27 @@ require_once ("evento.php");
             content: ""
           });
 
+
           // offset latlong ever so slightly to prevent marker overlap
           rand_x = Math.random();
           rand_y = Math.random();
-          val[2] = parseFloat(val[2]) + parseFloat(parseFloat(rand_x) / 6000);
-          val[3] = parseFloat(val[3]) + parseFloat(parseFloat(rand_y) / 6000);
+          val[3] = parseFloat(val[3]) + parseFloat(parseFloat(rand_x) / 6000);
+          val[4] = parseFloat(val[4]) + parseFloat(parseFloat(rand_y) / 6000);
 
           // show smaller marker icons on mobile
           if(agent == "iphone") {
             var iconSize = new google.maps.Size(16,19);
           } else {
-            iconSize = null;
+           iconSize = null;
+
           }
 
           // build this marker
           var markerImage = new google.maps.MarkerImage("./images/icons/"+val[1]+".png", null, null, null, iconSize);
+          prueba=markerImage;
+
           var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(val[2],val[3]),
+            position: new google.maps.LatLng(val[3],val[4]),
             map: map,
             title: '',
             clickable: true,
@@ -252,7 +241,9 @@ require_once ("evento.php");
             zIndex: 10 + i,
             icon: markerImage
           });
-          marker.type = val[1];
+          marker.category = val[1];
+          marker.subcategory = val[2];
+          marker.date = new Date(val[8]);
           gmarkers.push(marker);
 
           // add marker hover events (if not viewing on mobile)
@@ -272,7 +263,7 @@ require_once ("evento.php");
           }
 
           // format marker URI for display and linking
-          var markerURI = val[5];
+          var markerURI = val[6];
           if(markerURI.substr(0,7) != "http://") {
             markerURI = "http://" + markerURI; 
           }
@@ -284,14 +275,15 @@ require_once ("evento.php");
             infowindow.setContent(
               "<div class='marker_title'>"+val[0]+"</div>"
               + "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div>"
-              + "<div class='marker_desc'>"+val[4]+"</div>"
-              + "<div class='marker_address'>"+val[6]+"</div>"
+              + "<div class='marker_desc'>"+val[5]+"</div>"
+              + "<div class='marker_address'>"+val[7]+"</div>"
             );
             infowindow.open(map, this);
+
           });
 
           // add marker label
-          var latLng = new google.maps.LatLng(val[2], val[3]);
+          var latLng = new google.maps.LatLng(val[3], val[4]);
           var label = new Label({
             map: map,
             id: i
@@ -319,6 +311,19 @@ require_once ("evento.php");
         });
       } 
 
+      $(document).ready(function() {
+        $("#filter_date").change(function() {
+          for(var i = 0; i < 12; i++) {
+            if (this.value == "n/a") {
+              show({"month" : i});
+            } else if (i != this.value) {
+              hide({"month" : i});
+            } else {
+              show({"month" : this.value});
+            }
+          }
+        });
+      });
 
       // zoom to specific marker
       function goToMarker(marker_id) {
@@ -329,38 +334,63 @@ require_once ("evento.php");
         }
       }
 
-      // toggle (hide/show) markers of a given type (on the map)
-      function toggle(type) {
-        if($('#filter_'+type).is('.inactive')) {
-          show(type); 
+      // toggle (hide/show) markers of a given category (on the map)
+      function toggle(query) {
+        if($('#filter_'+query.category).is('.inactive') || $('#filter_sub_'+query.subcategory).is('.inactive')) {
+          show(query); 
         } else {
-          hide(type); 
+          hide(query); 
         }
       }
 
-      // hide all markers of a given type
-      function hide(type) {
+      // hide all markers of a given query
+      // The query parameters can be category, subcategory and month
+      // The month is a number 0-11
+      function hide(query) {
         for (var i=0; i<gmarkers.length; i++) {
-          if (gmarkers[i].type == type) {
+          if ((query.hasOwnProperty("category") && gmarkers[i].category == query.category) ||
+              (query.hasOwnProperty("subcategory") && gmarkers[i].subcategory == query.subcategory) ||
+              (query.hasOwnProperty("month") && gmarkers[i].date.getMonth() == query.month)
+            ) {
             gmarkers[i].setVisible(false);
           }
         }
-        $("#filter_"+type).addClass("inactive");
+        if (query.hasOwnProperty("category")) {
+          $("#filter_"+query.category).addClass("inactive");
+        }
+        if (query.hasOwnProperty("subcategory")) {
+          $("#filter_sub_" + query.subcategory).addClass("inactive");
+        }
       }
 
-      // show all markers of a given type
-      function show(type) {
-        for (var i=0; i<gmarkers.length; i++) {
-          if (gmarkers[i].type == type) {
+      // show all markers of a given category
+      function show(query) {
+        for (var i=0; i < gmarkers.length; i++) {
+          if ((query.hasOwnProperty("category") && 
+                gmarkers[i].category == query.category &&
+                !$("#filter_sub_"+gmarkers[i].subcategory).hasClass("inactive")) ||
+              (query.hasOwnProperty("subcategory") && 
+                gmarkers[i].subcategory == query.subcategory &&
+                !$("#filter_"+gmarkers[i].category).hasClass("inactive") ) ||
+              (query.hasOwnProperty("month") && 
+                gmarkers[i].date.getMonth() == query.month &&
+                !$("#filter_"+gmarkers[i].category).hasClass("inactive") && 
+                !$("#filter_sub_"+gmarkers[i].subcategory).hasClass("inactive"))
+            ) {
             gmarkers[i].setVisible(true);
           }
         }
-        $("#filter_"+type).removeClass("inactive");
+        if (query.hasOwnProperty("category")) {
+          $("#filter_"+query.category).removeClass("inactive");
+        }
+        if (query.hasOwnProperty("subcategory")) {
+          $("#filter_sub_" + query.subcategory).removeClass("inactive");
+        }
       }
       
-      // toggle (hide/show) marker list of a given type
-      function toggleList(type) {
-        $("#list .list-"+type).toggle();
+      // toggle (hide/show) marker list of a given category
+      function toggleList(category) {
+        $("#list .list-"+category).toggle();
       }
 
 
@@ -372,16 +402,39 @@ require_once ("evento.php");
         $("#marker"+marker_id).css("display", "none");
       }
 
+
+
+      function mostrar_categoria(lista) {
+        var deportes= new Array(
+          <?php 
+            $keys = array_keys(Evento::$events_categories);
+            echo "'" . implode("','", $keys) . "'";
+          ?>
+          );
+        for(var i=0; i<deportes.length; i++){
+          var subtipo = "#add_subcategory_" + deportes[i];
+          if (lista[lista.selectedIndex].value==deportes[i])
+          {  
+          $(subtipo).attr('style','display:block;');
+          } 
+          else {
+            $(subtipo).attr('style','display:none;');
+          }
+        }
+      } // mostrar categoria
+
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     
     <?php echo $head_html; ?>
-    <script>
+
+     <script>
   $(function() {
     $( "#datepicker" ).datepicker();
     
     });
   </script>
+ 
   </head>
   <body>
     
@@ -394,7 +447,7 @@ require_once ("evento.php");
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=421651897866629";
+      js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=167652430078861";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
     
@@ -408,7 +461,7 @@ require_once ("evento.php");
           <div class="share">
           <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $domain ?>" data-text="<?php echo $twitter['share_text'] ?>" data-via="<?php echo $twitter['username'] ?>" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            <div class="fb-like" data-href="<?php echo $domain ?>" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
+            <div class="fb-like" data-href="http://localhost/mapa/represent-map/" data-width="100" data-layout="button_count" data-show-faces="false" data-send="true"></div>
           </div>
         </div>
         <div class="left">
@@ -419,14 +472,27 @@ require_once ("evento.php");
           </div>
           <div class="buttons">
             <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>About this Map</a>
-            <?php if($sg_enabled) { ?>
-              <a href="#modal_add_choose" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Add Something</a>
-            <?php } else { ?>
-              <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Add Something</a>
-            <?php } ?>
+            <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Añade tu evento</a>
           </div>
           <div class="search">
-            <input type="text" name="search" id="search" placeholder="Search for companies..." data-provide="typeahead" autocomplete="off" />
+            <input type="text" name="search" id="search" placeholder="Busca competiciones..." data-provide="typeahead" autocomplete="off" />
+          </div>
+          <div class="combob">
+            <select id="filter_date" class="combob" style="background-color: #FFF;">
+              <option value="n/a" selected>Elige mes</option>
+              <option value="0">Enero</option>
+              <option value="1">Febrero</option>
+              <option value="2">Marzo</option>
+              <option value="3">Abril</option>
+              <option value="4">Mayo</option>
+              <option value="5">Junio</option>
+              <option value="6">Julio</option>
+              <option value="7">Agosto</option>
+              <option value="8">Septiembre</option>
+              <option value="9">Octubre</option>
+              <option value="10">Noviembre</option>
+              <option value="11">Diciembre</option>
+            </select>
           </div>
         </div>
       </div>
@@ -436,48 +502,51 @@ require_once ("evento.php");
     <div class="menu" id="menu">
       <ul class="list" id="list">
         <?php
-          $types = Array(
-              Array('natation', 'Natación'),
-              Array('marathon','Marathon'),
-              Array('escalada', 'Escalada'), 
-              Array('ciclismo', 'Ciclismo'),
-              Array('otros', 'Otros')
-              
-              );
-          //if($show_events == true) {
-          //  $types[] = Array('event', 'Events'); 
-         // }
           $marker_id = 0;
 
-          foreach($types as $type) {
-           // if($type[0] != "event") {
-           //   $markers = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
-           // } else {
-            //  $markers = mysql_query("SELECT * FROM events WHERE start_date > ".time()." AND start_date < ".(time()+4838400)." ORDER BY id DESC");
-           $markers= array_filter($eventos, function($elem) use($type){
-                    return $event->tipo==$type;
-        
-                 });
+          foreach(Evento::$events_categories as $key => $value) {
+            $markers = array_filter($approved_events, function($elem) use($key){
+              return $elem->category == $key;
+            });
 
-            //}
-            $markers_total = count($markers); // 
+            $markers_total = count($markers);
+            // Shows the categories
             echo "
               <li class='category'>
                 <div class='category_item'>
-                  <div class='category_toggle' onClick=\"toggle('$type[0]')\" id='filter_$type[0]'></div>
-                  <a href='#' onClick=\"toggleList('$type[0]');\" class='category_info'><img src='./images/icons/$type[0].png' alt='' />$type[1]<span class='total'> ($markers_total)</span></a>
+                  <div class='category_toggle' onClick=\"toggle({'category' : '$key'})\" id='filter_$key'></div>
+                  <a href='#' onClick=\"toggleList('$key');\" class='category_info'>
+                    <img id='bombilla' src='./images/icons/$key.png' alt='' />" . $value["name"] . 
+                    "<span class='total'> ($markers_total)</span>
+                  </a>
                 </div>
-                <ul class='list-items list-$type[0]'>
+                <ul class='list-items list-$key'>
             ";
-           // while($marker = mysql_fetch_assoc($markers)) {
-            foreach($markers as $marker){
+            // Shows the subcategories
+            foreach(Evento::$events_subcategories[$key] as $subcat_key => $subcat_value) {
+              $markers_subcat = array_filter($approved_events, function($elem) use($subcat_key) {
+                return $elem->subcategory == $subcat_key;
+              });
               echo "
-                  <li class='".$marker[type]."'>
-                    <a href='#' onMouseOver=\"markerListMouseOver('".$marker_id."')\" onMouseOut=\"markerListMouseOut('".$marker_id."')\" onClick=\"goToMarker('".$marker_id."');\">".$marker[title]."</a>
+              <li class='category'>
+                <div class='category_item'>
+                  <div class='category_toggle' onClick=\"toggle({'subcategory' : '$subcat_key'})\" id='filter_sub_$subcat_key'></div>
+                  <!--<a href='#' onClick=\"toggleList('$subcat_key');\" class='category_info'>-->
+                    $subcat_value
+                    <span class='total'> (" . count($markers_subcat) . ")</span>
+                  <!--</a>-->
+                </div>
+              </li>
+              ";
+            }
+            /*foreach($markers as $marker){
+              echo "
+                  <li class='".$marker->category."'>
+                    <a href='#' onMouseOver=\"markerListMouseOver('".$marker_id."')\" onMouseOut=\"markerListMouseOut('".$marker_id."')\" onClick=\"goToMarker('".$marker_id."');\">".$marker->name."</a>
                   </li>
               ";
               $marker_id++;
-            }
+            }*/
             echo "
                 </ul>
               </li>
@@ -574,57 +643,75 @@ require_once ("evento.php");
             <div class="control-group">
               <label class="control-label" for="input01">Tipo de deporte</label>
               <div class="controls">
-                <select name="tipo" id="add_type" class="input-xlarge">
-                  <option value="ciclismo">Ciclismo</option>
-                  <option value="marathon">Marathon</option>
-                  <option value="escalada">Escalada</option>
-                  <option value="natacion">Natatión</option>
-                  <option value="otros">Otros</option>
-                  
+                <select name="tipo" id="add_category" class="input-xlarge" onchange="mostrar_categoria(this)">
+                  <option value=""></option>
+                  <?php
+                  // Shows the categories
+                  foreach(Evento::$events_categories as $key => $value) {
+                    echo "<option value='$key'>" . $value["name"] . "</option>";
+                  }
+                  ?>
                 </select>
               </div>
             </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Categoría</label>
+              <div class="controls" id="add_categoria">
+                <?php
+                // Shows the subcategories
+                foreach(Evento::$events_subcategories as $key => $value) {
+                  echo "<select name='categoria' id='add_subcategory_$key' class='input-xlarge' style='display: none'>";
+                    foreach($value as $subcat_key => $subcat_value) {
+                      echo "<option value='$subcat_key'>" . $subcat_value . "</option>";
+                    }
+                  echo "</select>";
+                }
+                ?>
+              </div>
+            </div> 
+
             <div class="control-group">
               <label class="control-label" for="add_address">Dirección</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="direccion" id="add_address">
                 <p class="help-block">
-                  Direccion en la que se va a realizar el evento
+                <!--  Direccion en la que se va a realizar el evento -->
                 </p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="add_address">Localidad</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="localidad" id="add_localidad">
+                <input type="text" class="input-xlarge" name="city" id="add_city">
                 <p class="help-block">
-                  Localidad en la que se realizará el evento
+                  <!-- Localidad en la que se realizará el evento -->
                 </p>
               </div>
+              </div>
             <div class="control-group">
-              <label class="control-label" for="add_date">fecha</label>
+              <label class="control-label" for="add_date">Fecha</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="fecha" id="datepicker">
                 <p class="help-block">
-                  Fecha en la que tiene lugar el evento
+                 <!-- Fecha en la que tiene lugar el evento -->
                 </p>
               </div>
-            </div>
+            </div> 
             <div class="control-group">
               <label class="control-label" for="add_uri">URL del evento</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_uri" name="uri" placeholder="http://">
                 <p class="help-block">
-                 URL del evento en caso de que lo conozcas.
+                <!-- URL del evento en caso de que lo conozcas. -->
                 </p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_description">Descripcion</label>
+              <label class="control-label" for="add_description">Descripción</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" id="add_description" name="descripcion" maxlength="150">
+                <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="150">
                 <p class="help-block">
-                 Describe brevemente en que consiste el evento.
+                <!-- Describe brevemente en que consiste el evento. -->
                 </p>
               </div>
             </div>
@@ -637,51 +724,64 @@ require_once ("evento.php");
       </form>
     </div>
     <script>
-      // add modal form submit
-      $("#modal_addform").submit(function(event) {
-        event.preventDefault(); 
-        // get values
-        var $form = $( this ),
-            owner_name = $form.find( '#add_owner_name' ).val(),
-            owner_email = $form.find( '#add_owner_email' ).val(),
-            title = $form.find( '#add_title' ).val(),
-            type = $form.find( '#add_type' ).val(),
-            address = $form.find( '#add_address' ).val(),
-            uri = $form.find( '#add_uri' ).val(),
-            description = $form.find( '#add_description' ).val(),
-            localidad = $form.find( '#add_localidad' ).val(),
-            datepicker = $form.find( '#datepicker' ).val(),
-            url = $form.attr( 'action' );
+      $(document).ready(function(){ 
 
-        // send data and get results
-        $.post( url, { localidad: localidad, datepicker: datepicker, owner_name: owner_name, owner_email: owner_email, title: title, type: type, address: address, uri: uri, description: description },
-          function( data ) {
-            var content = $( data ).find( '#content' );
-            
-            // if submission was successful, show info alert
-            if(data == "success") {
-              $("#modal_addform #result").html("We've received your submission and will review it shortly. Thanks!"); 
-              $("#modal_addform #result").addClass("alert alert-info");
-              $("#modal_addform p").css("display", "none");
-              $("#modal_addform fieldset").css("display", "none");
-              $("#modal_addform .btn-primary").css("display", "none");
-              
-            // if submission failed, show error
-            } else {
-              $("#modal_addform #result").html(data); 
-              $("#modal_addform #result").addClass("alert alert-danger");
+        // add modal form submit
+        $("#modal_addform").submit(function(event) {
+          event.preventDefault(); 
+          // get values
+          var $form = $( this ),
+              owner_name = $form.find( '#add_owner_name' ).val(),
+              owner_email = $form.find( '#add_owner_email' ).val(),
+              title = $form.find( '#add_title' ).val(),
+              category = $form.find( '#add_category' ).val(),
+              subcategory = $form.find( '#add_subcategory_'+category).val(),
+              address = $form.find( '#add_address' ).val(),
+              uri = $form.find( '#add_uri' ).val(),
+              description = $form.find( '#add_description' ).val(),
+              city = $form.find( '#add_city' ).val(),
+              datepicker = $form.find( '#datepicker' ).val(),
+              url = $form.attr( 'action' );
+              $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: url,
+                data: { owner_name: owner_name, 
+                        owner_email: owner_email, 
+                        title: title, 
+                        category: category, 
+                        subcategory: subcategory, 
+                        address: address, 
+                        datepicker: datepicker,
+                        uri: uri , 
+                        description: description, 
+                        city: city }
+              }).done(function( data ) {
+              // if submission was successful, show info alert
+              if(data.code == "success") {
+                $("#modal_addform #result").html("Hemos recibido tu propuesta, la procesaremos lo más pronto posible. Gracias!"); 
+                $("#modal_addform #result").addClass("alert alert-info");
+                $("#modal_addform p").css("display", "none");
+                $("#modal_addform fieldset").css("display", "none");
+                $("#modal_addform .btn-primary").css("display", "none");
+                
+              // if submission failed, show error
+              } else {
+                $("#modal_addform #result").html(data); 
+                $("#modal_addform #result").addClass("alert alert-danger");
+              }
             }
-          }
-        );
-      });
+          );
+        });
+        });
     </script>
-    
+ 
     <!-- startup genome modal -->
     <div class="modal hide" id="modal_add_choose">
       <form action="add.php" id="modal_addform_choose" class="form-horizontal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">×</button>
-          <h3>Add something!</h3>
+          <h3>Añade tu evento</h3>
         </div>
         <div class="modal-body">
           <p>

@@ -4958,3 +4958,8 @@ a.badge:hover {
 .invisible {
   visibility: hidden;
 }
+
+img#bombilla{
+  width:31px;
+  height:42px;
+}

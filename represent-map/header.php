@@ -19,6 +19,8 @@ function parseInput($value) {
   return $value;
 }
 
+$twitter["username"] = "sportyguest";
+$twitter["share_text"] = "Awesome mapa de competiciones deportivas";
 
 
 ?>

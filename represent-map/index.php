@@ -447,7 +447,7 @@ require_once ("include/evento.php");
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=167652430078861";
+      js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=167839766714035";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
     
@@ -461,7 +461,7 @@ require_once ("include/evento.php");
           <div class="share">
           <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $domain ?>" data-text="<?php echo $twitter['share_text'] ?>" data-via="<?php echo $twitter['username'] ?>" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            <div class="fb-like" data-href="http://localhost/mapa/represent-map/" data-width="100" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+            <div class="fb-like" data-href="http://www.sportyguest.es/mapa/represent-map/represent-map" data-width="100" data-layout="button_count" data-show-faces="false" data-send="true"></div>
           </div>
         </div>
         <div class="left">

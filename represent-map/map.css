@@ -429,15 +429,12 @@ background:#FFF;
 /* add marker modal */
 #modal_add
 {
-  margin-top: -350px;
 }
 #modal_add .modal-body
 {
-  max-height: none;
 }
 #modal_add fieldset
 {
-  padding-top: 15px;
 }
 #modal_add .control-label
 {
@@ -458,7 +455,6 @@ background:#FFF;
 /* get info modal */
 #modal_info
 {
-  margin-top: -350px;
 }
 #modal_info .modal-body
 {
@@ -466,7 +462,6 @@ background:#FFF;
 }
 #modal_info p
 {
-  margin-bottom: 15px;
 }
 #modal_info .connect a,
 #modal_info .connect span

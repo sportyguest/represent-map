@@ -472,6 +472,7 @@ require_once ("include/evento.php");
           </div>
           <div class="buttons">
             <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>Sobre este mapa</a>
+            <a href="#modal_faq" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>FAQ</a>
             <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Añade tu evento</a>
           </div>
           <div class="search">
@@ -562,7 +563,7 @@ require_once ("include/evento.php");
     </div>
     
     <!-- more info modal -->
-    <div class="modal hide" id="modal_info">
+    <div class="modal hide in" id="modal_info">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h3>Sobre este mapa</h3>
@@ -596,12 +597,85 @@ require_once ("include/evento.php");
         <br>
         Creado por Sportyguest Spain S.L
         </p>
-        <div class="modal-footer">
-          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
       </div>
     </div>
-    
+
+    <!-- FAQ modal -->  
+    <div class="modal hide in" id="modal_faq">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>FAQ - Preguntas frecuentes</h3>
+      </div>
+      <div class="modal-body">
+        <ol>
+          <li><a href="#1">¿Qué es Sportyguest Sports Map?</a> </li>
+          <li><a href="#2">¿Por qué lo hemos creado?</a> </li>
+          <li><a href="#3">¿Qué beneficios tiene añadir mi evento en este mapa?</a> </li>
+          <li><a href="#4">¿Vamos a vender estos datos?¿Cómo monetizamos esto?</a> </li>
+          <li><a href="#5">¿Qué tipo de eventos hay en el mapa?</a> </li>
+          <li><a href="#6">¿Cómo añado un evento?</a> </li>
+          <li><a href="#7">¿Cómo puedo modificar un evento existente?</a> </li>
+          <li><a href="#8">Mi evento no está situado bien en el mapa de Sportyguest Sports Map:</a> </li>
+          <li><a href="#9">Me parece una idea muy interesante y me gustaría ayudar a promocionarlo:</a> </li>
+          
+        </ol>
+        <p>&nbsp;</p>
+        <ol>
+          <li><a name="1">¿Qué es Sportyguest Sports Map?</a> 
+            <br>Sportyguest Sports Map es un mapa que representa los eventos deportivos 
+                outdoor de España y del ámbito internacional. 
+          </li>
+          <li><a name="2">¿Por qué lo hemos creado?</a>
+            <br>Hemos creado este mapa de eventos deportivos para que puedas encontrar 
+                los eventos deportivos y experiencias deportivas más cercanas al lugar 
+                donde quieras desplazarte o encontrar aquellos eventos y experiencias más 
+                cercanas a tu lugar de origen, para así poder planificarte tu calendario deportivo. 
+          </li>
+          <li><a name="3">¿Qué beneficios tiene añadir mi evento en este mapa?</a> 
+            <br>Indudablemente, si añades tu evento en este mapa de eventos deportivos vas a tener 
+                una mayor visibilidad, además de un enlace directo al mismo que te permitirá obtener 
+                mas visitantes en la web/blog y probables participantes y visitantes a la ciudad del evento.
+          </li>
+          <li><a name="4">¿Vamos a vender estos datos?¿Cómo monetizamos esto?</a>
+            <br>Absolutamente NO. El objetivo de este mapa es el de darle un valor añadido y una
+               herramienta de fácil acceso y usabilidad a cualquier aficionado al deporte que busque 
+               eventos a los que asistir o nuevas experiencias deportivas que vivir. En ningún momento 
+               cobramos por añadir ningún evento o similares.
+          </li>
+          <li><a name="5">¿Qué tipo de eventos hay en el mapa?</a> 
+            <br>Este mapa ha sido realizado para que sean añadidos todos los eventos de deporte 
+              outdoor, sobre todo, aquellos que permiten la participación a cualquier aficionado al 
+              deporte outdoor. 
+          </li>
+          <li><a name="6">¿Cómo añado un evento?</a>
+            <br>Únicamente tendrás que pinchar en el botón añadir evento y completar un sencillo 
+              formulario con información del mismo. Ten en cuenta que el equipo de Sportyguest 
+              revisará el mismo y tardará un máximo de 48h en aprobarlo y que este aparezca en el mapa.
+          </li>
+          <li><a name="7">¿Cómo puedo modificar un evento existente?</a>
+            <br>Para hacer modificaciones de eventos ya publicados tienes que mandarnos un 
+              correo a info@sportyguest.es con la información correspondiente.
+          </li>
+          <li><a name="8">Mi evento no está situado bien en el mapa de Sportyguest Sports Map:</a>
+            <br>Sportyguest Sports Map se posiciona utilizando las funcionalidades de Google Maps, 
+              por lo tanto, comprueba antes de enviar la dirección que en Google Maps sale correctamente. 
+              Si no es así, ajústalo.
+          </li>
+          <li><a name="9">Me parece una idea muy interesante y me gustaría ayudar a promocionarlo:</a>
+            <br>Bienvenido amig@! Estaremos encantados de que nos ayudes a promocionar Sportyguest Sports Map. 
+              Si quieres ayudarnos a apoyar la promoción de este mapa de eventos deportivos puedes pinchar 
+              en el botón “Sobre este mapa” y allí encontrarás el código que puedes implementar en tu 
+              Web o blog. Gracias de antemano!
+          </li>
+        </ol>      
+      </div>
+      <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
+      </div>
+    </div>  
     
     <!-- add something modal -->
     <div class="modal hide" id="modal_add">

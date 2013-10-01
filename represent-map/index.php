@@ -471,7 +471,7 @@ require_once ("include/evento.php");
             </a>
           </div>
           <div class="buttons">
-            <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>About this Map</a>
+            <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>Sobre este mapa</a>
             <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Añade tu evento</a>
           </div>
           <div class="search">
@@ -565,49 +565,40 @@ require_once ("include/evento.php");
     <div class="modal hide" id="modal_info">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>About this Map</h3>
+        <h3>Sobre este mapa</h3>
       </div>
       <div class="modal-body">
         <p>
-          We built this map to connect and promote the tech startup community
-          in our beloved Los Angeles. We've seeded the map but we need
-          your help to keep it fresh. If you don't see your company, please 
-          <?php if($sg_enabled) { ?>
-            <a href="#modal_add_choose" data-toggle="modal" data-dismiss="modal">Añade tu evento</a>.
-          <?php } else { ?>
-            <a href="#modal_add" data-toggle="modal" data-dismiss="modal">Añade tu evento</a>.
-          <?php } ?>
-          Let's put LA on the map together!
-        </p>
-        <p>
-        Questions? Feedback? Connect with us: <a href="http://www.twitter.com/ <?php echo $twitter['username'] ?>" target="_blank">@<?php echo $twitter['username'] ?></a>
-        </p>
-        <p>
-          If you want to support the LA community by linking to this map from your website,
-          here are some badges you might like to use. You can also grab the <a href="./images/badges/LA-icon.ai">LA icon AI file</a>.
-        </p>
+        Hemos creado este mapa para promocionar los eventos deportivos outdoor 
+        que se realizan tanto a nivel español como internacional y para que así 
+        puedas planificarte tu calendario deportivo.<br>
+        Este mapa te permitirá encontrar los eventos deportivos y experiencias 
+        deportivas más cercanas al lugar donde quieras desplazarte o encontrar 
+        aquellos eventos y experiencias más cercanas a tu lugar de origen.<br>
+        Hemos incluido alguna información sobre algunos eventos pero necesitamos 
+        tu ayuda para hacerlo más completo. Si quieres añadir un evento deportivo 
+        que organizas o, simplemente, al que asistes, únicamente tienes que pulsar 
+        el botón: 
+          <a href="#modal_add" data-toggle="modal" data-dismiss="modal">añadir evento</a>
+        y completar un pequeño formulario con información al respecto. <br>
+        Si quieres ayudarnos a apoyar la promoción de este mapa de eventos puedes 
+        incorporar las siguientes imágenes en tu Web o blog enlazando el mapa:
         <ul class="badges">
           <li>
-            <img src="./images/badges/badge1.png" alt="">
+            <img src="./images/badges/badge1.png" alt="Logo Sportyguest map">
           </li>
           <li>
-            <img src="./images/badges/badge1_small.png" alt="">
-          </li>
-          <li>
-            <img src="./images/badges/badge2.png" alt="">
-          </li>
-          <li>
-            <img src="./images/badges/badge2_small.png" alt="">
+            <img src="./images/badges/badge2.png" alt="Logo secundario sportyguest map">
           </li>
         </ul>
-        <p>
-          This map was built with <a href="https://github.com/abenzer/represent-map">RepresentMap</a> - an open source project we started
-          to help startup communities around the world create their own maps. 
-          Check out some <a target="_blank" href="http://www.representmap.com">startup maps</a> built by other communities!
+        ¿Tienes preguntas? ¿Aportaciones? Contacta con nosotros en 
+        <a href="http://www.twitter.com/ <?php echo $twitter['username'] ?>" target="_blank">@<?php echo $twitter['username'] ?></a>
+        <br>
+        Creado por Sportyguest Spain S.L
         </p>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
+        <div class="modal-footer">
+          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
+        </div>
       </div>
     </div>
     
@@ -774,43 +765,6 @@ require_once ("include/evento.php");
           );
         });
         });
-    </script>
- 
-    <!-- startup genome modal -->
-    <div class="modal hide" id="modal_add_choose">
-      <form action="add.php" id="modal_addform_choose" class="form-horizontal">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-          <h3>Añade tu evento</h3>
-        </div>
-        <div class="modal-body">
-          <p>
-            Want to add your company to this map? There are two easy ways to do that.
-          </p>
-          <ul>
-            <li>
-              <em>Option #1: Add your company to Startup Genome</em>
-              <div>
-                Our map pulls its data from <a href="http://www.startupgenome.com">Startup Genome</a>.
-                When you add your company to Startup Genome, it will appear on this map after it has been approved.
-                You will be able to change your company's information anytime you want from the Startup Genome website.
-              </div>
-              <br />
-              <a href="http://www.startupgenome.com" target="_blank" class="btn btn-info">Sign in to Startup Genome</a>
-            </li>
-            <li>
-              <em>Option #2: Add your company manually</em>
-              <div>
-                If you don't want to sign up for Startup Genome, you can still add your company to this map.
-                We will review your submission as soon as possible.
-              </div>
-              <br />
-          <a href="#modal_add" target="_blank" class="btn btn-info" data-toggle="modal" data-dismiss="modal">Submit your company manually</a>
-            </li>
-          </ul>
-        </div>
-      </form>
-    </div>
-    
+    </script>    
   </body>
 </html>

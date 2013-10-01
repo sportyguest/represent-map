@@ -34,7 +34,7 @@ Class Evento {
 										"code" => "7"),
 		"motociclismo" => array("name" => "Motociclismo", 
 								"code" => "8"),
-		"otros" => array("name" => "Otros", 
+		"experiencia" => array("name" => "Experiencia", 
 						"code" => "9")
 	);
 	// Events subcategories
@@ -77,7 +77,7 @@ Class Evento {
 		                                    "kitesurf"                          => "Kitesurf",
 		                                    "surf"                              => "Surf",
 		                                    "otros"                             => "Otros"),
-		"otros" 				=> array(	"otros" 							=> "Otros")
+		"experiencia" 			=> array(	"experiencias" 						=> "Experiencias")
 	);
 
 	function Evento($nname,$ndescripcion, $nurl,$ndireccion,$nlat,$nlng,$ncategory, $nsubcategory,$nfecha){

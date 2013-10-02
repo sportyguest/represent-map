@@ -774,7 +774,7 @@ require_once ("include/evento.php");
             <div class="control-group">
               <label class="control-label" for="add_description">Descripción</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="150">
+                <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="300">
                 <p class="help-block">
                 <!-- Describe brevemente en que consiste el evento. -->
                 </p>

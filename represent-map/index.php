@@ -1,7 +1,8 @@
 <?php
 include_once "header.php";
 define('WP_USE_THEMES', false);
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php' );
+//require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
+require_once("/var/www/sportyguest/wp-blog-header.php");
 
 require_once ("include/evento.php");
 ?>
@@ -18,7 +19,14 @@ require_once ("include/evento.php");
     Create a map for your startup community!
     https://github.com/abenzer/represent-map
     -->
-    <title><?php echo $title_tag ?></title>
+    <title>Mapa de eventos deportivos Sportyguest</title>
+    <meta name="description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running.">
+    <link rel="publisher" href="https://plus.google.com/s/sportyguest"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="http://eventosdeportivos.sportyguest.es">
+    <meta name="twitter:title" content="Mapa de eventos deportivos">
+    <meta name="twitter:image" content="http://www.sportyguest.es/mapa/represent-map/represent-map/images/badges/badge2.png">
+    <meta name="twitter:description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -31,7 +39,6 @@ require_once ("include/evento.php");
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>
-    <script type="text/javascript" src="./scripts/cont.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     

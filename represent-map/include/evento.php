@@ -267,6 +267,12 @@ Class Evento {
 	public static function getTotalCount($wpdb) {
 		return $wpdb->get_var("SELECT COUNT(*) FROM wp_evento");
 	}
+	public static function getEventsNamesSortyByID($wpdb) {
+		return $wpdb->get_col("SELECT name, id FROM wp_evento ORDER BY id");
+	}
+	public static function getEventsIdsSortByID($wpdb) {
+		return $wpdb->get_col("SELECT id FROM wp_evento ORDER BY id");
+	}
 
 	function getEventoscategory($wpdb, $category){
 		return $wpdb->get_results("

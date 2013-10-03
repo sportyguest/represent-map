@@ -19,15 +19,17 @@ if($place == null) {
 
 // do place edit if requested
 if($task == "doedit") {
+  // Avoid backslash in front of quotes
+  $_POST = array_map('stripslashes_deep', $_POST);
   $owner_name = "";
   $owner_email = "";
-  $name = str_replace( "'", "\\'", str_replace( "\\", "\\\\", $_POST['name'] ) );
+  $name = utf8_encode($_POST['name']);
   $category = $_POST['category'];
   $subcategory = $_POST['subcategory_' . $category];
-  $address = str_replace( "'", "\\'", str_replace( "\\", "\\\\", $_POST['address'] ) );
+  $address = utf8_encode($_POST['address']);
   $url = $_POST['url'];
-  $description = str_replace( "'", "\\'", str_replace( "\\", "\\\\", $_POST['description'] ) );
-  $owner_name = str_replace( "'", "\\'", str_replace( "\\", "\\\\", $_POST['owner_name'] ) );
+  $description = utf8_encode($_POST['description']);
+  $owner_name = utf8_encode($_POST['owner_name']);
   $owner_email = $_POST['owner_email'];
   $lat = (float) $_POST['lat'];
   $lng = (float) $_POST['lng'];
@@ -65,7 +67,7 @@ if($task == "doedit") {
     <div class="control-group">
       <label class="control-label" for="">Owner email</label>
       <div class="controls">
-        <input type="text" class="input input-xlarge" name="owner_email" value="<?php echo $place->owner_email;?>" id="">
+        <input type="text" class="input input-xlarge" name="owner_email" value="<?php echo utf8_decode($place->owner_email);?>" id="">
       </div>
     </div>
     <div class="control-group">
@@ -118,7 +120,7 @@ if($task == "doedit") {
     <div class="control-group">
       <label class="control-label" for="">Address</label>
       <div class="controls">
-        <input type="text" class="input input-xlarge" name="address" value="<?php echo $place->address;?>" id="">
+        <input type="text" class="input input-xlarge" name="address" value="<?php echo utf8_decode($place->address);?>" id="">
       </div>
     </div>
     <div class="control-group">

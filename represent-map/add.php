@@ -1,12 +1,15 @@
 <?php
 include_once "header.php";
 define('WP_USE_THEMES', false);
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php' );
+//require_once( 'C:\/wamp\/www\/desarrollo\/wp-load.php' );
+require_once("/var/www/sportyguest/wp-load.php");
 require_once ("include/evento.php");
 
 
 // This is used to submit new markers for review.
 // Markers won't appear on the map until they are approved.
+  // Avoid backslash in front of quotes
+$_POST = array_map('stripslashes_deep', $_POST);
 $owner_name = $_POST['persona'];
 $owner_email = $_POST['email'];
 $name = $_POST['title'];

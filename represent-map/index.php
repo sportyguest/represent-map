@@ -1,7 +1,7 @@
 <?php
 include_once "header.php";
 define('WP_USE_THEMES', false);
-//require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
+//require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-load.php' );
 require_once("/var/www/sportyguest/wp-load.php");
 
 require_once ("include/evento.php");
@@ -33,12 +33,12 @@ require_once("include/db.php");
     <meta name="twitter:domain" content="http://eventosdeportivos.sportyguest.es/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link href="./bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="./bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="./bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="map.css?nocache=289671982568" type="text/css" />
     <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="mobile.css" type="text/css" />
     <script src="./scripts/jquery-1.7.1.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>

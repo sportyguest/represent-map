@@ -1,12 +1,17 @@
 <?php
 $page = "index";
 include "header.php";
-
+define('WP_USE_THEMES', false);
+//require_once( 'C:\/wamp\/www\/desarrollo\/wp-load.php' );
+require_once("/var/www/sportyguest/wp-load.php");
+require_once("../include/evento.php");
+require_once("../include/db.php");
+global $wpdb;
 
 // hide marker on map
 if($task == "hide") {
   $place_id = htmlspecialchars($_GET['place_id']);
-  mysql_query("UPDATE places SET approved=0 WHERE id='$place_id'") or die(mysql_error());
+  Evento::hide($wpdb, $place_id);
   header("Location: index.php?view=$view&search=$search&p=$p");
   exit;
 }
@@ -14,7 +19,7 @@ if($task == "hide") {
 // show marker on map
 if($task == "approve") {
   $place_id = htmlspecialchars($_GET['place_id']);
-  mysql_query("UPDATE places SET approved=1 WHERE id='$place_id'") or die(mysql_error());
+  Evento::approve($wpdb, $place_id);
   header("Location: index.php?view=$view&search=$search&p=$p");
   exit;
 }
@@ -22,7 +27,7 @@ if($task == "approve") {
 // completely delete marker from map
 if($task == "delete") {
   $place_id = htmlspecialchars($_GET['place_id']);
-  mysql_query("DELETE FROM places WHERE id='$place_id'") or die(mysql_error());
+  Evento::delete($wpdb, $place_id);
   header("Location: index.php?view=$view&search=$search&p=$p");
   exit;
 }
@@ -34,21 +39,21 @@ $page_end = $page_start + $items_per_page;
 
 // get results
 if($view == "approved") {
-  $places = mysql_query("SELECT * FROM places WHERE approved='1' ORDER BY title LIMIT $page_start, $items_per_page");
+  $places = Evento::getEventsApproved($wpdb, $page_start, $items_per_page);
   $total = $total_approved;
 } else if($view == "rejected") {
-  $places = mysql_query("SELECT * FROM places WHERE approved='0' ORDER BY title LIMIT $page_start, $items_per_page");
+  $places = Evento::getEventsRejected($wpdb, $page_start, $items_per_page);
   $total = $total_rejected;
 } else if($view == "pending") {
-  $places = mysql_query("SELECT * FROM places WHERE approved IS null ORDER BY id DESC LIMIT $page_start, $items_per_page");
+  $places = Evento::getEventsPending($wpdb, $page_start, $items_per_page);
   $total = $total_pending;
 } else if($view == "") {
-  $places = mysql_query("SELECT * FROM places ORDER BY title LIMIT $page_start, $items_per_page");
+  $places = Evento::getEventsSortByName($wpdb, $page_start, $items_per_page);
   $total = $total_all;
 }
 if($search != "") {
-  $places = mysql_query("SELECT * FROM places WHERE title LIKE '%$search%' ORDER BY title LIMIT $page_start, $items_per_page");
-  $total = mysql_num_rows(mysql_query("SELECT id FROM places WHERE title LIKE '%$search%'")); 
+  $places = Evento::getEventsByName($wpdb, $search, $page_start, $items_per_page);
+  $total = Evento::getCountByName($wpdb, $search); 
 }
 
 echo $admin_head;
@@ -57,48 +62,48 @@ echo $admin_head;
 
 <div id="admin">
   <h3>
-    <? if($total > $items_per_page) { ?>
-      <?=$page_start+1?>-<? if($page_end > $total) { echo $total; } else { echo $page_end; } ?>
-      of <?=$total?> markers
-    <? } else { ?>
-      <?=$total?> markers
-    <? } ?>
+    <?php if($total > $items_per_page) { ?>
+      <?php echo $page_start+1; ?>-<?php if($page_end > $total) { echo $total; } else { echo $page_end; } ?>
+      of <?php echo $total;?> markers
+    <?php } else { ?>
+      <?php echo $total;?> markers
+    <?php } ?>
   </h3>
   <ul>
-    <?
-      while($place = mysql_fetch_assoc($places)) {
-        $place[uri] = str_replace("http://", "", $place[uri]);
-        $place[uri] = str_replace("https://", "", $place[uri]);
-        $place[uri] = str_replace("www.", "", $place[uri]);
+    <?php
+      foreach($places as $place) {
+        $place->url = str_replace("http://", "", $place->url);
+        $place->url = str_replace("https://", "", $place->url);
+        $place->url = str_replace("www.", "", $place->url);
         echo "
           <li>
             <div class='options'>
-              <a class='btn btn-small' href='edit.php?place_id=$place[id]&view=$view&search=$search&p=$p'>Edit</a>
+              <a class='btn btn-small' href='edit.php?place_id=$place->id&view=$view&search=$search&p=$p'>Edit</a>
               ";
-              if($place[approved] == 1) {
+              if($place->approved == 1) {
                 echo "
                   <a class='btn btn-small btn-success disabled'>Approve</a>
-                  <a class='btn btn-small btn-inverse' href='index.php?task=hide&place_id=$place[id]&view=$view&search=$search&p=$p'>Reject</a>
+                  <a class='btn btn-small btn-inverse' href='index.php?task=hide&place_id=$place->id&view=$view&search=$search&p=$p'>Reject</a>
                 ";
-              } else if(is_null($place[approved])) {
+              } else if(is_null($place->approved)) {
                 echo "
-                  <a class='btn btn-small btn-success' href='index.php?task=approve&place_id=$place[id]&view=$view&search=$search&p=$p'>Approve</a>
-                  <a class='btn btn-small btn-inverse' href='index.php?task=hide&place_id=$place[id]&view=$view&search=$search&p=$p'>Reject</a>
+                  <a class='btn btn-small btn-success' href='index.php?task=approve&place_id=$place->id&view=$view&search=$search&p=$p'>Approve</a>
+                  <a class='btn btn-small btn-inverse' href='index.php?task=hide&place_id=$place->id&view=$view&search=$search&p=$p'>Reject</a>
                 ";
-              } else if($place[approved] == 0) {
+              } else if($place->approved == 0) {
                 echo "
-                  <a class='btn btn-small btn-success' href='index.php?task=approve&place_id=$place[id]&view=$view&search=$search&p=$p'>Approve</a>
+                  <a class='btn btn-small btn-success' href='index.php?task=approve&place_id=$place->id&view=$view&search=$search&p=$p'>Approve</a>
                   <a class='btn btn-small btn-inverse disabled'>Reject</a>
                 ";
               }
               echo "
-              <a class='btn btn-small btn-danger' href='index.php?task=delete&place_id=$place[id]&view=$view&search=$search&p=$p'>Delete</a>
+              <a class='btn btn-small btn-danger' href='index.php?task=delete&place_id=$place->id&view=$view&search=$search&p=$p'>Delete</a>
             </div>
             <div class='place_info'>
-              <a href='http://$place[uri]' target='_blank'>
-                $place[title]
+              <a href='http://$place->url' target='_blank'>
+                " . utf8_decode($place->name) . "
                 <span class='url'>
-                  $place[uri]
+                  $place->url
                 </span>
               </a>
             </div>
@@ -108,22 +113,22 @@ echo $admin_head;
     ?>
   </ul>
   
-  <? if($p > 1 || $total >= $items_per_page) { ?>
+  <?php if($p > 1 || $total >= $items_per_page) { ?>
     <ul class="pager">
-      <? if($p > 1) { ?>
+      <?php if($p > 1) { ?>
         <li class="previous">
-          <a href="index.php?view=<?=$view?>&search=<?=$search?>&p=<? echo $p-1; ?>">&larr; Previous</a>
+          <a href="index.php?view=<?php echo $view;?>&search=<?php echo $search;?>&p=<?php echo $p-1; ?>">&larr; Previous</a>
         </li>
-      <? } ?>
-      <? if($total >= $items_per_page * $p) { ?>
+      <?php } ?>
+      <?php if($total >= $items_per_page * $p) { ?>
         <li class="next">
-          <a href="index.php?view=<?=$view?>&search=<?=$search?>&p=<? echo $p+1; ?>">Next &rarr;</a>
+          <a href="index.php?view=<?php echo $view;?>&search=<?php echo $search;?>&p=<?php echo $p+1; ?>">Next &rarr;</a>
         </li>
-      <? } ?>
+      <?php } ?>
     </ul>
-  <? } ?>
+  <?php } ?>
 
 </div>
 
 
-<? echo $admin_foot ?>
+<?php echo $admin_foot ?>

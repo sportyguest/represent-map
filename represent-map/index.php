@@ -1,10 +1,11 @@
 <?php
 include_once "header.php";
 define('WP_USE_THEMES', false);
-//require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
-require_once("/var/www/sportyguest/wp-load.php");
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
+//require_once("/var/www/sportyguest/wp-load.php");
 
 require_once ("include/evento.php");
+require_once("include/db.php");
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ require_once ("include/evento.php");
     Create a map for your startup community!
     https://github.com/abenzer/represent-map
     -->
-    <title>Mapa de eventos deportivos Sportyguest</title>
+    <title><?php echo $title_tag;?></title>
     <meta charset="UTF-8">
     <meta name="description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running.">
     <link rel="publisher" href="https://plus.google.com/s/sportyguest"/>
@@ -28,8 +29,8 @@ require_once ("include/evento.php");
     <meta name="twitter:title" content="Mapa de eventos deportivos">
     <meta name="twitter:description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running.">
     <meta name="twitter:creator" content="@sportyguest">
-    <meta name="twitter:image:src" content="http://carreraspopulares.sportyguest.es/images/preview.png">
-    <meta name="twitter:domain" content="http://carreraspopulares.sportyguest.es/">
+    <meta name="twitter:image:src" content="http://eventosdeportivos.sportyguest.es/images/preview.png">
+    <meta name="twitter:domain" content="http://eventosdeportivos.sportyguest.es/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="./bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
@@ -188,7 +189,7 @@ require_once ("include/evento.php");
         <?php
           global $wpdb;
           $marker_id = 0;
-          $approved_events = Evento::getEventosAprobados($wpdb);
+          $approved_events = Evento::getEventsApproved($wpdb);
           usort($approved_events, function($evento1,$evento2) {
             return Evento::getCodeEvent($evento1->category) - Evento::getCodeEvent($evento2->category);
           });

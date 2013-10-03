@@ -1,5 +1,11 @@
 <?php
 include "../include/db.php";
+include "../include/evento.php";
+define('WP_USE_THEMES', false);
+//require_once('C:\/wamp\/www\/desarrollo\/wp-load.php' );
+require_once("/var/www/sportyguest/wp-load.php");
+global $wpdb;
+
 // get task
 if(isset($_GET['task'])) { $task = $_GET['task']; } 
 else if(isset($_POST['task'])) { $task = $_POST['task']; }
@@ -26,16 +32,11 @@ if($page != "login") {
     exit;
   }
 }
-
-// connect to db
-mysql_connect($db_host, $db_user, $db_pass) or die(mysql_error());
-mysql_select_db($db_name) or die(mysql_error());
-
 // get marker totals
-$total_approved = mysql_num_rows(mysql_query("SELECT id FROM places WHERE approved='1'"));
-$total_rejected = mysql_num_rows(mysql_query("SELECT id FROM places WHERE approved='0'"));
-$total_pending = mysql_num_rows(mysql_query("SELECT id FROM places WHERE approved IS null"));
-$total_all = mysql_num_rows(mysql_query("SELECT id FROM places"));
+$total_approved = Evento::getApprovedCount($wpdb);
+$total_rejected = Evento::getRejectedCount($wpdb);
+$total_pending = Evento::getPendingCount($wpdb);
+$total_all = Evento::getTotalCount($wpdb);
 
 // admin header
 $admin_head = "
@@ -48,6 +49,8 @@ $admin_head = "
     <script src='../bootstrap/js/bootstrap.js' type='text/javascript' charset='utf-8'></script>
     <script src='../scripts/jquery-1.7.1.js' type='text/javascript' charset='utf-8'></script>
     <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false' type='text/javascript' charset='utf-8'></script>
+    <script src='http://code.jquery.com/ui/1.10.3/jquery-ui.js'></script>
+    <link rel='stylesheet' href='http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css' />
   </head>
   <body>
 ";
@@ -96,22 +99,6 @@ if($page != "login") {
 $admin_head .= "
   <div id='content'>
 ";
-
-
-// if startup genome enabled, show message here
-if($sg_enabled) {
-  $admin_head .= "
-    <div class='alert alert-info'>
-      Note: You have Startup Genome integration enabled in your config file (/include/db.php).
-      If you want to make changes to the markers on your map, please do so from the 
-      <a href='http://www.startupgenome.com'>Startup Genome website</a>. Any changes
-      you make here may not persist on your map unless you turn off Startup Genome mode.
-    </div>
-  ";  
-}
-
-
-
 
 // admin footer 
 $admin_foot = "

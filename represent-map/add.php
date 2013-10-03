@@ -7,7 +7,8 @@ require_once ("include/evento.php");
 
 // This is used to submit new markers for review.
 // Markers won't appear on the map until they are approved.
-
+$owner_name = $_POST['persona'];
+$owner_email = $_POST['email'];
 $name = $_POST['title'];
 $category = $_POST['category'];
 $address = $_POST['address'];
@@ -32,8 +33,8 @@ if(empty($address) || empty($name) || empty($category) ||  empty($description)) 
   $lat = $result['results'][0]['geometry']['location']['lat'];
   $lng = $result['results'][0]['geometry']['location']['lng'];
 
-  $evento = new Evento($name, $description, $web, $address_and_city, $lat, $lng, $category, $subcategory, $date);
-  $evento->guardarDB($wpdb);
+  $evento = new Evento($owner_name, $owner_email, $name, $description, $web, $address_and_city, $lat, $lng, $category, $subcategory, $date);
+  $evento->saveDB($wpdb);
 
   $respuesta = array('code'=>'success');
   echo json_encode($respuesta);

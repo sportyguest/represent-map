@@ -3,6 +3,8 @@
 Class Evento {
 
 	var $id;
+	var $owner_name;
+	var $owner_email;
 	var $name;
 	var $direccion;
 	var $descripcion;
@@ -13,7 +15,7 @@ Class Evento {
 	var $subcategory;
 	var $fecha_creacion;
 	var $fecha;
-	var $aprobada;
+	var $approved;
 	// Events categories
 	static $events_categories = array(
 		"ciclismo" => array("name" => "Ciclismo", 
@@ -80,7 +82,9 @@ Class Evento {
 		"experiencia" 			=> array(	"experiencias" 						=> "Experiencias")
 	);
 
-	function Evento($nname,$ndescripcion, $nurl,$ndireccion,$nlat,$nlng,$ncategory, $nsubcategory,$nfecha){
+	function Evento($nowner_name, $nowner_email, $nname, $ndescripcion, $nurl,$ndireccion,$nlat,$nlng,$ncategory, $nsubcategory,$nfecha){
+		$this->owner_name = $nowner_name;
+		$this->owner_email = $nowner_email;
 		$this->name = $nname;
 		$this->descripcion = $ndescripcion;
 		$this->url = $nurl;
@@ -92,12 +96,14 @@ Class Evento {
 		$this->fecha = $nfecha;
 	}
 
-	function guardarDB($wpdb) {
+	function saveDB($wpdb) {
 		$fecha = new DateTime($this->fecha);
 		$fecha = $fecha->format('Y-m-d H:i:s');
 		return $wpdb->insert( 
 			'wp_evento', 
 			array( 
+				'owner_name'	=> $this->owner_name,
+				'owner_email'	=> $this->owner_email,
                 'name'          => $this->name,
                 'description'   => $this->descripcion,
                 'url'           => $this->url,
@@ -110,6 +116,78 @@ Class Evento {
 			)
 		);
 	}
+	public function updateDB($wpdb) {
+		$fecha_aux = new DateTime($this->fecha);
+		$fecha_aux = $fecha_aux->format('Y-m-d H:i:s');
+		return $wpdb->update( 
+			'wp_evento', 
+			array( 
+				'owner_name'	=> $this->owner_name,
+				'owner_email'	=> $this->owner_email,
+                'name'          => $this->name,
+                'description'   => $this->descripcion,
+                'url'           => $this->url,
+                'address'       => $this->direccion,
+                'lat'           => $this->lat,
+                'lng'           => $this->lng,
+                'category'      => $this->category,
+                'subcategory'   => $this->subcategory,
+                'date'          => $fecha_aux
+			),
+			array(
+				'id'			=> $this->id
+			),
+			array(
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%f',
+				'%f',
+				'%s',
+				'%s',
+				'%s'
+			),
+			array(
+				'%d'
+			)
+		);
+	}
+
+	public static function hide($wpdb, $id) {
+		return $wpdb->update( 
+				'wp_evento', 
+				array( 
+					'approved' => '0'
+				), 
+				array( 'id' => $id ), 
+				array( 
+					'%s'
+				), 
+				array( '%d' ) 
+			);
+	}
+	public static function approve($wpdb, $id) {
+		return $wpdb->update( 
+				'wp_evento', 
+				array( 
+					'approved' => '1'
+				), 
+				array( 'id' => $id ), 
+				array( 
+					'%s'
+				), 
+				array( '%d' ) 
+			);
+	}
+	public static function delete($wpdb, $id) {
+		return $wpdb->delete( 
+				'wp_evento',
+				array( 'id' => $id )
+			);
+	}
 
 	function getEventos($wpdb){
 		return $wpdb->get_results("
@@ -118,12 +196,76 @@ Class Evento {
 			");
 	}
 
-	function getEventosAprobados($wpdb){
-		return $wpdb->get_results("
-			SELECT *
-			FROM wp_evento
-			where approved='1'
-			");
+	public static function getEvent($wpdb, $id) {
+		return $wpdb->get_row(
+					$wpdb->prepare("
+						SELECT *
+						FROM wp_evento
+						WHERE id = %d
+						",
+						$id)
+				);
+	}
+
+	public static function getEventsApproved($wpdb, $page = null, $items_per_page = null){
+		$query = "SELECT *
+				FROM wp_evento
+				where approved='1'";
+		if ($page != null) {
+			$query .= " LIMIT " . $page . ", " . $items_per_page;
+		}
+		return $wpdb->get_results($query);
+	}
+	public static function getEventsRejected($wpdb, $page = null, $items_per_page = null){
+		$query = "SELECT *
+				FROM wp_evento
+				where approved='0'";
+		if ($page != null) {
+			$query .= " LIMIT " . $page . ", " . $items_per_page;
+		}
+		return $wpdb->get_results($query);
+	}
+	public static function getEventsPending($wpdb, $page = null, $items_per_page = null){
+		$query = "SELECT *
+				FROM wp_evento
+				where approved IS null";
+		if ($page != null) {
+			$query .= " LIMIT " . $page . ", " . $items_per_page;
+		}
+		return $wpdb->get_results($query);
+	}
+	public static function getEventsSortByName($wpdb, $page = null, $items_per_page = null){
+		$query = "SELECT *
+				FROM wp_evento
+				ORDER BY name";
+		if ($page != null) {
+			$query .= " LIMIT " . $page . ", " . $items_per_page;
+		}
+		return $wpdb->get_results($query);
+	}
+	public static function getEventsByName($wpdb, $search, $page = null, $items_per_page = null){
+		$query = "SELECT *
+				FROM wp_evento
+				WHERE name LIKE '%$search%' ORDER BY name";
+		if ($page != null) {
+			$query .= " LIMIT " . $page . ", " . $items_per_page;
+		}
+		return $wpdb->get_results($query);
+	}
+	public static function getCountByName($wpdb, $search) {
+		return $wpdb->get_var("SELECT COUNT(*) FROM wp_evento WHERE name LIKE '%$search%'");
+	}
+	public static function getApprovedCount($wpdb) {
+		return $wpdb->get_var("SELECT COUNT(*) FROM wp_evento WHERE approved='1'");
+	}
+	public static function getRejectedCount($wpdb) {
+		return $wpdb->get_var("SELECT COUNT(*) FROM wp_evento WHERE approved='0'");
+	}
+	public static function getPendingCount($wpdb) {
+		return $wpdb->get_var("SELECT COUNT(*) FROM wp_evento WHERE approved IS null");
+	}
+	public static function getTotalCount($wpdb) {
+		return $wpdb->get_var("SELECT COUNT(*) FROM wp_evento");
 	}
 
 	function getEventoscategory($wpdb, $category){

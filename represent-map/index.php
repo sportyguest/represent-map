@@ -1,8 +1,8 @@
 <?php
 include_once "header.php";
 define('WP_USE_THEMES', false);
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
-//require_once("/var/www/sportyguest/wp-load.php");
+//require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-blog-header.php' );
+require_once("/var/www/sportyguest/wp-load.php");
 
 require_once ("include/evento.php");
 require_once("include/db.php");

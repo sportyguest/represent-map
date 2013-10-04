@@ -5,6 +5,7 @@ define('WP_USE_THEMES', false);
 require_once("/var/www/sportyguest/wp-load.php");
 
 require_once ("include/evento.php");
+require_once ("include/experiencia.php");
 require_once("include/db.php");
 ?>
 
@@ -190,6 +191,33 @@ require_once("include/db.php");
           global $wpdb;
           $marker_id = 0;
           $approved_events = Evento::getEventsApproved($wpdb);
+          $experiences = Experiencia::getExperiencias($wpdb);
+          $experiences_events = array();
+          foreach ($experiences as $experience) {
+            $owner_name = "";
+            $owner_email = "";
+            $title = $experience->titulo;
+            $description = trim(preg_replace('/\s+/', ' ', nl2br(Experiencia::getDescripcion($wpdb, $experience->experiencia_id))));
+            $url = "http://www.sportyguest.es/" . Experiencia::getURL($wpdb, $experience->experiencia_id, $experience->titulo);
+            $address = trim(preg_replace('/\s+/', ' ', $experience->direccion));
+            $lat = $experience->lat;
+            $lng = $experience->lng;
+            $date = "";
+            $category = "experiencia";
+            $subcategory = "experiencia";
+            array_push($experiences_events, new Evento($owner_name, 
+                                                $owner_email, 
+                                                $title, 
+                                                $description, 
+                                                $url,
+                                                $address,
+                                                $lat,
+                                                $lng,
+                                                $category, 
+                                                $subcategory,
+                                                $date));
+          }
+          $approved_events = array_merge($approved_events, $experiences_events);
           usort($approved_events, function($evento1,$evento2) {
             return Evento::getCodeEvent($evento1->category) - Evento::getCodeEvent($evento2->category);
           });
@@ -199,17 +227,20 @@ require_once("include/db.php");
             $evento->address = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->address)));
             $evento->category = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->category)));
             $evento->url = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->url)));
-
+            $date = "";
+            if ($evento->date != "") {
+              $date = (strtotime($evento->date) * 1000);
+            }
             echo "
                 markers.push(['" . $evento->name . "', '" . 
                                   $evento->category . "', '" . 
                                   $evento->subcategory . "', '" . 
                                   $evento->lat . "', '" . 
-                                  $evento->lng . "', '" . 
-                                  $evento->description . "', '" . 
+                                  $evento->lng . "', \"" . 
+                                  $evento->description . "\", '" . 
                                   $evento->url . "', '" . 
                                   $evento->address . "', " .
-                                  (strtotime($evento->date) * 1000) . "]); 
+                                  $date . "]); 
                  markerTitles[" . $marker_id . "] = '" . $evento->name . "';
                "; 
             $count[$evento->category]++;
@@ -253,7 +284,9 @@ require_once("include/db.php");
           });
           marker.category = val[1];
           marker.subcategory = val[2];
-          marker.date = new Date(val[8]);
+          if (val[8] != undefined) {
+            marker.date = new Date(val[8]);
+          }
           gmarkers.push(marker);
 
           // add marker hover events (if not viewing on mobile)
@@ -277,19 +310,22 @@ require_once("include/db.php");
           if(markerURI.substr(0,7) != "http://") {
             markerURI = "http://" + markerURI; 
           }
-          var markerURI_short = markerURI.replace("http://", "");
-          var markerURI_short = markerURI_short.replace("www.", "");
-          var date = new Date(val[8]);
-
+          var markerURI_short = markerURI.replace("http://", "").replace("www.", "");
+          if (markerURI_short.length > 40) {
+            markerURI_short = markerURI_short.substring(0, 40) + "...";
+          }
+          var date = "";
+          if (marker.date != undefined) {
+            date = marker.date.toLocaleDateString();
+          }
+          var titulo = "<div class='marker_title'>" + val[0] + "</div>";
+          var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div>";
+          var date = "<div class='marker_date'>"+date+"</div>";
+          var description = "<div class='marker_desc'>"+val[5]+"</div>";
+          var address = "<div class='marker_address'>"+val[7]+"</div>";
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(
-              "<div class='marker_title'>"+val[0]+"</div>"
-              + "<div class='marker_date'>"+date.toLocaleDateString()+"</div>"
-              + "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div>"
-              + "<div class='marker_desc'>"+val[5]+"</div>"
-              + "<div class='marker_address'>"+val[7]+"</div>"
-            );
+            infowindow.setContent(titulo + date + url + description + address);
             infowindow.open(map, this);
 
           });
@@ -360,9 +396,12 @@ require_once("include/db.php");
       // The month is a number 0-11
       function hide(query) {
         for (var i=0; i<gmarkers.length; i++) {
-          if ((query.hasOwnProperty("category") && gmarkers[i].category == query.category) ||
+          if (gmarkers[i].category != "experiencia" && 
+              (
+              (query.hasOwnProperty("category") && gmarkers[i].category == query.category) ||
               (query.hasOwnProperty("subcategory") && gmarkers[i].subcategory == query.subcategory) ||
               (query.hasOwnProperty("month") && gmarkers[i].date.getMonth() == query.month)
+              )
             ) {
             gmarkers[i].setVisible(false);
           }
@@ -385,6 +424,7 @@ require_once("include/db.php");
                 gmarkers[i].subcategory == query.subcategory &&
                 !$("#filter_"+gmarkers[i].category).hasClass("inactive") ) ||
               (query.hasOwnProperty("month") && 
+                gmarkers[i].date != undefined && 
                 gmarkers[i].date.getMonth() == query.month &&
                 !$("#filter_"+gmarkers[i].category).hasClass("inactive") && 
                 !$("#filter_sub_"+gmarkers[i].subcategory).hasClass("inactive"))

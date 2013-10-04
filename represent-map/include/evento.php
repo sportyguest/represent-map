@@ -6,15 +6,15 @@ Class Evento {
 	var $owner_name;
 	var $owner_email;
 	var $name;
-	var $direccion;
-	var $descripcion;
+	var $address;
+	var $description;
 	var $url;
 	var $lat;
 	var $lng;
 	var $category;
 	var $subcategory;
-	var $fecha_creacion;
-	var $fecha;
+	var $date_creacion;
+	var $date;
 	var $approved;
 	// Events categories
 	static $events_categories = array(
@@ -102,57 +102,57 @@ Class Evento {
 		"experiencia" 			=> array(	"experiencias" 						=> "Experiencias")
 	);
 
-	function Evento($nowner_name, $nowner_email, $nname, $ndescripcion, $nurl,$ndireccion,$nlat,$nlng,$ncategory, $nsubcategory,$nfecha){
+	function Evento($nowner_name, $nowner_email, $nname, $ndescription, $nurl,$naddress,$nlat,$nlng,$ncategory, $nsubcategory,$ndate){
 		$this->owner_name = $nowner_name;
 		$this->owner_email = $nowner_email;
 		$this->name = $nname;
-		$this->descripcion = $ndescripcion;
+		$this->description = $ndescription;
 		$this->url = $nurl;
-		$this->direccion = $ndireccion;
+		$this->address = $naddress;
 		$this->lat = $nlat;
 		$this->lng = $nlng;
 		$this->category = $ncategory;	
 		$this->subcategory = $nsubcategory;	
-		$this->fecha = $nfecha;
+		$this->date = $ndate;
 	}
 
 	function saveDB($wpdb) {
-		$fecha = new DateTime($this->fecha);
-		$fecha = $fecha->format('Y-m-d H:i:s');
+		$date_aux = new DateTime($this->date);
+		$date_aux = $date_aux->format('Y-m-d H:i:s');
 		return $wpdb->insert( 
 			'wp_evento', 
 			array( 
 				'owner_name'	=> $this->owner_name,
 				'owner_email'	=> $this->owner_email,
                 'name'          => $this->name,
-                'description'   => $this->descripcion,
+                'description'   => $this->description,
                 'url'           => $this->url,
-                'address'       => $this->direccion,
+                'address'       => $this->address,
                 'lat'           => $this->lat,
                 'lng'           => $this->lng,
                 'category'      => $this->category,
                 'subcategory'   => $this->subcategory,
-                'date'          => $fecha
+                'date'          => $date_aux
 			)
 		);
 	}
 	public function updateDB($wpdb) {
-		$fecha_aux = new DateTime($this->fecha);
-		$fecha_aux = $fecha_aux->format('Y-m-d H:i:s');
+		$date_aux = new DateTime($this->date);
+		$date_aux = $date_aux->format('Y-m-d H:i:s');
 		return $wpdb->update( 
 			'wp_evento', 
 			array( 
 				'owner_name'	=> $this->owner_name,
 				'owner_email'	=> $this->owner_email,
                 'name'          => $this->name,
-                'description'   => $this->descripcion,
+                'description'   => $this->description,
                 'url'           => $this->url,
-                'address'       => $this->direccion,
+                'address'       => $this->address,
                 'lat'           => $this->lat,
                 'lng'           => $this->lng,
                 'category'      => $this->category,
                 'subcategory'   => $this->subcategory,
-                'date'          => $fecha_aux
+                'date'          => $date_aux
 			),
 			array(
 				'id'			=> $this->id

@@ -279,11 +279,13 @@ require_once("include/db.php");
           }
           var markerURI_short = markerURI.replace("http://", "");
           var markerURI_short = markerURI_short.replace("www.", "");
+          var date = new Date(val[8]);
 
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(
               "<div class='marker_title'>"+val[0]+"</div>"
+              + "<div class='marker_date'>"+date.toLocaleDateString()+"</div>"
               + "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div>"
               + "<div class='marker_desc'>"+val[5]+"</div>"
               + "<div class='marker_address'>"+val[7]+"</div>"

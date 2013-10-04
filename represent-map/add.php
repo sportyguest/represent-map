@@ -10,8 +10,8 @@ require_once ("include/evento.php");
 // Markers won't appear on the map until they are approved.
   // Avoid backslash in front of quotes
 $_POST = array_map('stripslashes_deep', $_POST);
-$owner_name = $_POST['persona'];
-$owner_email = $_POST['email'];
+$owner_name = $_POST['owner_name'];
+$owner_email = $_POST['owner_email'];
 $name = $_POST['title'];
 $category = $_POST['category'];
 $address = $_POST['address'];

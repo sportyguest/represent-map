@@ -151,7 +151,7 @@ require_once("include/db.php");
 
         // set map options
         var myOptions = {
-          zoom: 7,
+          zoom: 6,
           //minZoom: 10,
           center: new google.maps.LatLng(latm,lonm), // HE escrito a mano, porque no me dejaba pasar el $latm como parametro
           mapTypeId: google.maps.MapTypeId.HYBRID,
@@ -465,7 +465,7 @@ require_once("include/db.php");
     
     <!-- google map -->
     <div id="map_canvas"></div>
-    
+
     <!-- topbar -->
     <div class="topbar" id="topbar">
       <div class="wrapper">
@@ -527,7 +527,12 @@ require_once("include/db.php");
             echo "
               <li class='category'>
                 <div class='category_item'>
-                  <div class='category_toggle' onClick=\"toggle({'category' : '$key'})\" id='filter_$key'></div>
+                  <div class='category_toggle'";
+            // If it can be hidden it adds the toggle call
+            if ($value["can_hide"]) {
+              echo " onClick=\"toggle({'category' : '$key'})\"";
+            }
+            echo " id='filter_$key'></div>
                   <a href='#' onClick=\"toggleList('$key');\" class='category_info'>
                     <img id='bombilla' src='./images/icons/$key.png' alt='' />" . $value["name"] . 
                     "<span class='total'> ($markers_total)</span>
@@ -543,7 +548,12 @@ require_once("include/db.php");
               echo "
               <li class='category'>
                 <div class='category_item'>
-                  <div class='category_toggle' onClick=\"toggle({'subcategory' : '$subcat_key'})\" id='filter_sub_$subcat_key'></div>
+                  <div class='category_toggle'";
+              // If it can be hidden it adds the toggle call
+              if ($value["can_hide"]) {
+                echo " onClick=\"toggle({'subcategory' : '$subcat_key'})\"";
+              }
+              echo " id='filter_sub_$subcat_key'></div>
                   <!--<a href='#' onClick=\"toggleList('$subcat_key');\" class='category_info'>-->
                     $subcat_value
                     <span class='total'> (" . count($markers_subcat) . ")</span>
@@ -703,18 +713,27 @@ require_once("include/db.php");
               <label class="control-label" for="add_owner_name">Tu nombre</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="persona" id="add_owner_name" maxlength="100">
+                <p class="help-block">
+                No se muestra en la información del evento.
+                </p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="add_owner_email">Tu email</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="email" id="add_owner_email" maxlength="100">
+                <p class="help-block">
+                No se muestra en la información del evento, para resolver dudas.
+                </p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="add_title">Nombre del evento</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="nombre" id="add_title" maxlength="100" autocomplete="off">
+                <p class="help-block">
+                Nombre descriptivo del evento.
+                </p>
               </div>
             </div>
             <div class="control-group">
@@ -725,10 +744,15 @@ require_once("include/db.php");
                   <?php
                   // Shows the categories
                   foreach(Evento::$events_categories as $key => $value) {
-                    echo "<option value='$key'>" . $value["name"] . "</option>";
+                    if ($value["can_add_new"]) {
+                      echo "<option value='$key'>" . $value["name"] . "</option>";
+                    }
                   }
                   ?>
                 </select>
+                <p class="help-block">
+                La categoría deportiva de la competición.
+                </p>
               </div>
             </div>
             <div class="control-group">
@@ -737,13 +761,18 @@ require_once("include/db.php");
                 <?php
                 // Shows the subcategories
                 foreach(Evento::$events_subcategories as $key => $value) {
-                  echo "<select name='categoria' id='add_subcategory_$key' class='input-xlarge' style='display: none'>";
-                    foreach($value as $subcat_key => $subcat_value) {
-                      echo "<option value='$subcat_key'>" . $subcat_value . "</option>";
-                    }
-                  echo "</select>";
+                  if (Evento::$events_categories[$key]["can_add_new"]) {
+                    echo "<select name='categoria' id='add_subcategory_$key' class='input-xlarge' style='display: none'>";
+                      foreach($value as $subcat_key => $subcat_value) {
+                        echo "<option value='$subcat_key'>" . $subcat_value . "</option>";
+                      }
+                    echo "</select>";
+                  }
                 }
                 ?>
+                <p class="help-block">
+                Deporte específico de la competición.
+                </p>
               </div>
             </div> 
 
@@ -752,7 +781,7 @@ require_once("include/db.php");
               <div class="controls">
                 <input type="text" class="input-xlarge" name="direccion" id="add_address">
                 <p class="help-block">
-                <!--  Direccion en la que se va a realizar el evento -->
+                Dirección en la que se va a realizar el evento.
                 </p>
               </div>
             </div>
@@ -761,7 +790,7 @@ require_once("include/db.php");
               <div class="controls">
                 <input type="text" class="input-xlarge" name="city" id="add_city">
                 <p class="help-block">
-                  <!-- Localidad en la que se realizará el evento -->
+                  Localidad en la que se realiza el evento.
                 </p>
               </div>
               </div>
@@ -770,7 +799,7 @@ require_once("include/db.php");
               <div class="controls">
                 <input type="text" class="input-xlarge" name="fecha" id="datepicker">
                 <p class="help-block">
-                 <!-- Fecha en la que tiene lugar el evento -->
+                 Fecha en la que tiene lugar el evento
                 </p>
               </div>
             </div> 
@@ -779,7 +808,7 @@ require_once("include/db.php");
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_uri" name="uri" placeholder="http://">
                 <p class="help-block">
-                <!-- URL del evento en caso de que lo conozcas. -->
+                URL del evento en caso de que la conozcas.
                 </p>
               </div>
             </div>
@@ -788,7 +817,7 @@ require_once("include/db.php");
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="300">
                 <p class="help-block">
-                <!-- Describe brevemente en que consiste el evento. -->
+                Describe brevemente en que consiste el evento.
                 </p>
               </div>
             </div>

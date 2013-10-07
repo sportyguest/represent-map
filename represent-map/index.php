@@ -323,9 +323,13 @@ require_once("include/db.php");
           var date = "<div class='marker_date'>"+date+"</div>";
           var description = "<div class='marker_desc'>"+val[5]+"</div>";
           var address = "<div class='marker_address'>"+val[7]+"</div>";
+          var crear_experiencia = "";
+          if (marker.category != "experiencia") {
+            crear_experiencia = "<div class='marker_uri'><a target='_blank' href='http://www.sportyguest.es/crear-experiencia/'>Crea una experiencia cerca de " + val[0] + "</a></div>";
+          }
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(titulo + date + url + description + address);
+            infowindow.setContent(titulo + date + url + description + address + crear_experiencia);
             infowindow.open(map, this);
 
           });
@@ -547,6 +551,11 @@ require_once("include/db.php");
               <option value="11">Diciembre</option>
             </select>
           </div>
+          <div class="logo">
+            <a href="http://www.sportyguest.es">
+              <img src="images/logo-sportyguest.png" alt="" />
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -595,6 +604,7 @@ require_once("include/db.php");
               }
               echo " id='filter_sub_$subcat_key'></div>
                   <!--<a href='#' onClick=\"toggleList('$subcat_key');\" class='category_info'>-->
+                    <img id='bombilla' src='./images/icons/no-image.png' alt='' />
                     $subcat_value
                     <span class='total'> (" . count($markers_subcat) . ")</span>
                   <!--</a>-->
@@ -632,7 +642,8 @@ require_once("include/db.php");
       </div>
       <div class="modal-body">
         <p>
-        Hemos creado este mapa para promocionar los eventos deportivos outdoor 
+        <a href="http://www.sportyguest.es">Sportyguest</a> ha creado este mapa 
+        para que la comunidad online pueda promocionar los eventos deportivos outdoor 
         que se realizan tanto a nivel español como internacional y para que así 
         puedas planificarte tu calendario deportivo.<br>
         Este mapa te permitirá encontrar los eventos deportivos y experiencias 
@@ -657,7 +668,7 @@ require_once("include/db.php");
         ¿Tienes preguntas? ¿Aportaciones? Contacta con nosotros en 
         <a href="http://www.twitter.com/ <?php echo $twitter['username'] ?>" target="_blank">@<?php echo $twitter['username'] ?></a>
         <br>
-        Creado por Sportyguest Spain S.L
+        Creado por <a href="http://www.sportyguest.es">Sportyguest Spain S.L</a>
         </p>
       </div>
       <div class="modal-footer">
@@ -855,7 +866,7 @@ require_once("include/db.php");
             <div class="control-group">
               <label class="control-label" for="add_description">Descripción</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="300">
+                <textarea class="input input-xlarge" id="add_description" name="description" maxlength="300" rows="4"></textarea>
                 <p class="help-block">
                 Describe brevemente en que consiste el evento.
                 </p>

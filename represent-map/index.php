@@ -197,7 +197,7 @@ require_once("include/db.php");
             $owner_name = "";
             $owner_email = "";
             $title = $experience->titulo;
-            $description = Experiencia::getDescripcion($wpdb, $experience->experiencia_id;
+            $description = Experiencia::getDescripcion($wpdb, $experience->experiencia_id);
             $url = "http://www.sportyguest.es/" . Experiencia::getURL($wpdb, $experience->experiencia_id, $experience->titulo);
             $address = trim(preg_replace('/\s+/', ' ', $experience->direccion));
             $lat = $experience->lat;

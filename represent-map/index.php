@@ -197,7 +197,7 @@ require_once("include/db.php");
             $owner_name = "";
             $owner_email = "";
             $title = $experience->titulo;
-            $description = trim(preg_replace('/\s+/', ' ', nl2br(Experiencia::getDescripcion($wpdb, $experience->experiencia_id))));
+            $description = Experiencia::getDescripcion($wpdb, $experience->experiencia_id;
             $url = "http://www.sportyguest.es/" . Experiencia::getURL($wpdb, $experience->experiencia_id, $experience->titulo);
             $address = trim(preg_replace('/\s+/', ' ', $experience->direccion));
             $lat = $experience->lat;
@@ -223,7 +223,11 @@ require_once("include/db.php");
           });
           foreach($approved_events as $evento){
             $evento->name = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->name)));
-            $evento->description= htmlspecialchars_decode(addslashes(htmlspecialchars($evento->description)));
+            $evento->description= htmlspecialchars_decode(
+                                    addslashes(
+                                      htmlspecialchars(
+                                        trim(
+                                          preg_replace('/\s+/', ' ', nl2br($evento->description))))));
             $evento->address = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->address)));
             $evento->category = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->category)));
             $evento->url = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->url)));

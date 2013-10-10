@@ -226,8 +226,7 @@ require_once("include/db.php");
             $evento->description= htmlspecialchars_decode(
                                     addslashes(
                                       htmlspecialchars(
-                                        trim(
-                                          preg_replace('/\s+/', ' ', nl2br($evento->description))))));
+                                            preg_replace('/\s+/', ' ', nl2br($evento->description)))));
             $evento->address = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->address)));
             $evento->category = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->category)));
             $evento->url = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->url)));
@@ -240,8 +239,8 @@ require_once("include/db.php");
                                   $evento->category . "', '" . 
                                   $evento->subcategory . "', '" . 
                                   $evento->lat . "', '" . 
-                                  $evento->lng . "', \"" . 
-                                  $evento->description . "\", '" . 
+                                  $evento->lng . "', '" . 
+                                  $evento->description . "', '" . 
                                   $evento->url . "', '" . 
                                   $evento->address . "', " .
                                   $date . "]); 

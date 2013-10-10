@@ -62,7 +62,7 @@ Class Evento {
 	// Events subcategories
 	static $events_subcategories = array(
 	    "ciclismo"              => array(	"mtb_btt"                         	=> "MTB/BTT",
-					                        "cicloturismo"                     	=> "Ciclocolturismo",
+					                        "cicloturismo"                     	=> "Cicloturismo",
 					                        "trial"                            	=> "Trial",
 					                        "bmx"                              	=> "BMX",
 					                        "carretera"                        	=> "Carretera",

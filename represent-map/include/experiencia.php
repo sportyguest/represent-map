@@ -4,6 +4,10 @@ class Experiencia {
 	var $experiencia_id;
 	var $user_id;
 	var $titulo;
+	var $descripcion;
+	var $precio_persona_dia;
+	var $incluye_material;
+	var $duracion;
 	var $provincia;
 	var $localidad;
 	var $direccion;
@@ -19,115 +23,24 @@ class Experiencia {
 	var $lat;
 	var $lng;
 	
-	function Experiencia($nuser_id, $ntitulo, $nprovincia, $nlocalidad, $ndireccion, $nsiempre, $nfin_de_semana, $nacepta_politica, $nacepta_cookies) {
-		$this->user_id = $nuser_id;
-		$this->titulo = $ntitulo;
-		$this->plazas = $nplazas;
-		$this->provincia = $nprovincia;
-		$this->localidad = $nlocalidad;
-		$this->direccion = $ndireccion;
-		$this->siempre = $nsiempre;
-		$this->fin_de_semana = $nfin_de_semana;
-		$this->acepta_politica = $nacepta_politica;
-		$this->acepta_cookies = $nacepta_cookies;
-	}
-	
-	/**
-	 * Actualiza los datos de un experiencia, solamente los datos que se le pasen
-	 * @param  [type] $wpdb [description]
-	 * @param  [type] $map  [description]
-	 * @return [type]       [description]
-	 */
-	public static function updateDBMap($wpdb, $map) {
-		$experiencia_id = $map["experiencia_id"];
-		unset($map["experiencia_id"]);
-		$where = array(
-				'experiencia_id' => $experiencia_id
-			);
-		$wpdb->update(
-			'wp_experiencias',
-			$map,
-			$where
-			);
-	}
-
-	function updateDB($wpdb) {
-		$datos = array( 
-                'user_id'               => $this->user_id,
-                'titulo'                => $this->titulo,
-                'provincia'             => $this->provincia,
-                'localidad'             => $this->localidad,
-                'direccion'             => $this->direccion,
-                'siempre'               => $this->siempre,
-                'fin_de_semana'         => $this->fin_de_semana,
-                'dificultad'            => $this->dificultad,
-                'otros'					=> $this->otros,
-                'acepta_politica'       => $this->acepta_politica,
-                'acepta_cookies'        => $this->acepta_cookies,
-                'fecha_modificacion'    => date('Y-m-d H:i:s')
-			);
-		$where = array(
-				'experiencia_id' => $this->experiencia_id
-			);
-		$wpdb->update(
-			'wp_experiencias',
-			$datos,
-			$where,
-			array(
-				'%d',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%d',
-				'%d',
-				'%d',
-				'%s',
-				'%d',
-				'%d',
-				'%s'
-			),
-			array(
-				'%d'
-			)
-		);
-	}
-	
-	// TODO: Escapear entrada del usuario
-	function guardarDB($wpdb) {
-		$datos = array( 
-                'user_id'           => $this->user_id,
-                'titulo'            => $this->titulo,
-                'provincia'         => $this->provincia,
-                'localidad'         => $this->localidad,
-                'direccion'         => $this->direccion,
-                'siempre'           => $this->siempre,
-                'fin_de_semana'     => $this->fin_de_semana,
-                'dificultad'        => $this->dificultad,
-                'otros'				=> $this->otros,
-                'acepta_politica'   => $this->acepta_politica,
-                'acepta_cookies'    => $this->acepta_cookies,
-                'fecha_creacion'    => date('Y-m-d H:i:s')
-			);
-		$wpdb->insert( 
-			'wp_experiencias', 
-			$datos,
-			array(
-				'%d',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%d',
-				'%d',
-				'%d',
-				'%s',
-				'%d',
-				'%d',
-				'%s'
-			)
-		);
-		return $wpdb->insert_id;
+	function Experiencia($datos) {
+		$this->user_id = $datos["user_id"];
+		$this->titulo = $datos["titulo"];
+		$this->descripcion = $datos["descripcion"];
+		$this->precio_persona_dia = $datos["precio_persona_dia"];
+		$this->incluye_material = $datos["incluye_material"];
+		$this->duracion = $datos["duracion"];
+		$this->provincia = $datos["provincia"];
+		$this->localidad = $datos["localidad"];
+		$this->direccion = $datos["direccion"];
+		$this->siempre = $datos["siempre"];
+		$this->fin_de_semana = $datos["fin_de_semana"];
+		$this->dificultad = $datos["dificultad"];
+		$this->otros = $datos["otros"];
+		$this->acepta_politica = $datos["acepta_politica"];
+		$this->acepta_cookies = $datos["acepta_cookies"];
+		$this->lat = $datos["lat"];
+		$this->lng = $datos["lng"];
 	}
 	
 	public static function getExperiencia($wpdb, $id) {
@@ -137,7 +50,7 @@ class Experiencia {
 			WHERE experiencia_id = {$id}
 			");
 	}
-	
+
 	public static function getExperiencias($wpdb, $user_id = -1) {
 		$query = "SELECT *
 				FROM wp_experiencias
@@ -149,15 +62,25 @@ class Experiencia {
 		return $wpdb->get_results($query);
 	}
 
-	public static function getDescripcion($wpdb, $id) {
-		return $wpdb->get_var(
-				$wpdb->prepare("
-					SELECT descripcion
-					FROM wp_experiencias_servicios
-					WHERE experiencia_id = %d AND principal = 1
-					",
-					$id)
+	public static function getTodasExperiencias($wpdb) {
+		return $wpdb->get_results(
+				"SELECT *
+				FROM wp_experiencias"
 			);
+	}
+
+	/**
+	 * Devuelve la cantidad de experiencias que hay en la base de datos.
+	 * @param  [type] $wpdb Objeto de la base de datos.
+	 * @return [type]       Cantidad de experiencias que hay en la base de datos.
+	 */
+	public static function getCantidad($wpdb) {
+		return $wpdb->get_var("
+			SELECT COUNT(*)
+			FROM wp_experiencias
+			WHERE aprobada = 1
+			AND eliminada = 0
+			");
 	}
 
 	/**
@@ -175,7 +98,7 @@ class Experiencia {
 								WHERE experiencia_id = {$experiencia_id}
 							");
 		}
-		return "experiencia/?experiencia_titulo=" . Experiencia::codificarTitulo($experiencia_titulo);
+		return "experiencia/" . Experiencia::codificarTitulo($experiencia_titulo);
 	}
 
 	private static function codificarTitulo($experiencia_titulo) {

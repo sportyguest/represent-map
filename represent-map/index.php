@@ -1,6 +1,6 @@
 <?php
 include_once "header.php";
-define('WP_USE_THEMES', false);
+define( 'SHORTINIT', true );
 //require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-load.php' );
 require_once("/var/www/sportyguest/wp-load.php");
 
@@ -197,7 +197,7 @@ require_once("include/db.php");
             $owner_name = "";
             $owner_email = "";
             $title = $experience->titulo;
-            $description = Experiencia::getDescripcion($wpdb, $experience->experiencia_id);
+            $description = $experience->descripcion;
             $url = "http://www.sportyguest.es/" . Experiencia::getURL($wpdb, $experience->experiencia_id, $experience->titulo);
             $address = trim(preg_replace('/\s+/', ' ', $experience->direccion));
             $lat = $experience->lat;

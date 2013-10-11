@@ -39,13 +39,13 @@ if($task == "dologin") {
 
 
 
-<? echo $admin_head; ?>
+<?php echo $admin_head; ?>
 
 <form class="well form-inline" action="login.php" id="login" method="post">
   <h1>
     RepresentMap Admin
   </h1>
-  <?
+  <?php
     if($alert != "") {
       echo "
         <div class='alert alert-danger'>
@@ -60,4 +60,4 @@ if($task == "dologin") {
   <input type="hidden" name="task" value="dologin" />
 </form>
 
-<? echo $admin_foot; ?>
+<?php echo $admin_foot; ?>

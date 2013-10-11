@@ -1,7 +1,7 @@
 <?php
 include "../include/db.php";
 include "../include/evento.php";
-define('WP_USE_THEMES', false);
+define( 'SHORTINIT', true );
 //require_once('C:\/wamp\/www\/desarrollo\/wp-load.php' );
 require_once("/var/www/sportyguest/wp-load.php");
 global $wpdb;

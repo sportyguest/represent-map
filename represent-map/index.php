@@ -415,12 +415,10 @@ require_once("include/db.php");
       // The month is a number 0-11
       function hide(query) {
         for (var i=0; i<gmarkers.length; i++) {
-          if (gmarkers[i].category != "experiencia" && 
-              (
+          if (
               (query.hasOwnProperty("category") && gmarkers[i].category == query.category) ||
               (query.hasOwnProperty("subcategory") && gmarkers[i].subcategory == query.subcategory) ||
               (query.hasOwnProperty("month") && gmarkers[i].date.getMonth() == query.month)
-              )
             ) {
             gmarkers[i].setVisible(false);
           }

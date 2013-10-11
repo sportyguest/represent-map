@@ -57,7 +57,7 @@ Class Evento {
 		"experiencia" => array("name" => "Experiencia", 
 								"code" => "9",
 								"can_add_new" => false,
-								"can_hide" => false)
+								"can_hide" => true)
 	);
 	// Events subcategories
 	static $events_subcategories = array(

@@ -524,3 +524,15 @@ background:#FFF;
   border-radius: 7px;
   border: 2px dashed rgba(255,0,0,.6);
 }
+.sprite {display:inline-block; overflow:hidden; background-repeat: no-repeat;background-image:url(images/sprite-deportes.png);}
+
+.ciclismo {width:31px; height:42px; background-position: -96px -0px}
+.deportes_de_invierno {width:30px; height:41px; background-position: -31px -87px}
+.deportes_nauticos {width:30px; height:43px; background-position: -0px -44px}
+.escalada {width:30px; height:42px; background-position: -94px -43px}
+.experiencia {width:30px; height:42px; background-position: -63px -86px}
+.motociclismo {width:31px; height:43px; background-position: -0px -0px}
+.piraguismo {width:31px; height:42px; background-position: -64px -0px}
+.running {width:30px; height:42px; background-position: -63px -43px}
+.senderismo {width:31px; height:42px; background-position: -32px -0px}
+.triatlon {width:31px; height:42px; background-position: -31px -44px}

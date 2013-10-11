@@ -38,12 +38,12 @@ require_once("include/db.php");
     <link href="./bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="map.css?nocache=289671982568" type="text/css" />
     <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="mobile.css" type="text/css" />
-    <script src="./scripts/jquery-1.7.1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
     
@@ -250,6 +250,17 @@ require_once("include/db.php");
             $marker_id++;
           }  
         ?>
+        // Properties of the sprite icons
+        var icon_ciclismo = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(96, 0)};
+        var icon_deportes_de_invierno = {"size" : new google.maps.Size(30, 41, "px", "px"), "origin": new google.maps.Point(31, 87)};
+        var icon_deportes_nauticos = {"size" : new google.maps.Size(30, 43, "px", "px"), "origin": new google.maps.Point(0, 44)};
+        var icon_escalada = {"size" : new google.maps.Size(30, 42, "px", "px"), "origin": new google.maps.Point(94, 43)};
+        var icon_experiencia = {"size" : new google.maps.Size(30, 42, "px", "px"), "origin": new google.maps.Point(63, 86)};
+        var icon_motociclismo = {"size" : new google.maps.Size(31, 43, "px", "px"), "origin": new google.maps.Point(0, 0)};
+        var icon_piraguismo = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(64, 0)};
+        var icon_running = {"size" : new google.maps.Size(30, 42, "px", "px"), "origin": new google.maps.Point(63, 43)};
+        var icon_senderesimo = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(32, 0)};
+        var icon_triatlon = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(31, 44)};
 
         // add markers
         jQuery.each(markers, function(i, val) {
@@ -273,8 +284,9 @@ require_once("include/db.php");
           }
 
           // build this marker
-          var markerImage = new google.maps.MarkerImage("./images/icons/"+val[1]+".png", null, null, null, iconSize);
-          prueba=markerImage;
+          var size = eval("icon_"+val[1])["size"];
+          var origin = eval("icon_"+val[1])["origin"];
+          var markerImage = new google.maps.MarkerImage("images/sprite-deportes.png", size, origin, null, iconSize);
 
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(val[3],val[4]),
@@ -586,7 +598,7 @@ require_once("include/db.php");
             }
             echo " id='filter_$key'></div>
                   <a href='#' onClick=\"toggleList('$key');\" class='category_info'>
-                    <img id='bombilla' src='./images/icons/$key.png' alt='' />" . $value["name"] . 
+                    <span class='$key sprite' style='opacity: 1;'></span>" . $value["name"] .
                     "<span class='total'> ($markers_total)</span>
                   </a>
                 </div>

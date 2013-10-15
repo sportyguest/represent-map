@@ -41,11 +41,26 @@ require_once("include/db.php");
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    
+    <!-- Code to show the list of addresses -->
+    <style>
+      .pac-container {
+          background-color: #FFF;
+          z-index: 20;
+          position: fixed;
+          display: inline-block;
+          float: left;
+      }
+      .modal{
+          z-index: 20;   
+      }
+      .modal-backdrop{
+          z-index: 10;        
+      }​
+    </style>
     
     <script type="text/javascript">
       var map;
@@ -169,6 +184,13 @@ require_once("include/db.php");
         prueba2=myOptions;
         map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
         zoomLevel = map.getZoom();
+
+        var input = /** @type {HTMLInputElement} */(document.getElementById('add_address'));
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            jQuery("#add_city").val(place.address_components[1].short_name);
+        });
 
         // prepare infowindow
         infowindow = new google.maps.InfoWindow({
@@ -499,6 +521,12 @@ require_once("include/db.php");
 
      <script>
   $(function() {
+    $.datepicker.setDefaults(
+      $.extend(
+        {'dateFormat':'dd-mm-yy'},
+        $.datepicker.regional['es']
+      )
+    );
     $( "#datepicker" ).datepicker();
     
     });
@@ -843,21 +871,13 @@ require_once("include/db.php");
             <div class="control-group">
               <label class="control-label" for="add_address">Dirección</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="direccion" id="add_address">
+                <input type="text" class="input-xlarge" name="direccion" id="add_address" autocomplete="off">
                 <p class="help-block">
                 Dirección en la que se va a realizar el evento.
                 </p>
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label" for="add_address">Localidad</label>
-              <div class="controls">
-                <input type="text" class="input-xlarge" name="city" id="add_city">
-                <p class="help-block">
-                  Localidad en la que se realiza el evento.
-                </p>
-              </div>
-              </div>
+            <input type="hidden"name="city" id="add_city">
             <div class="control-group">
               <label class="control-label" for="add_date">Fecha</label>
               <div class="controls">

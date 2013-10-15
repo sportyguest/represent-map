@@ -28,7 +28,7 @@ if(empty($address) || empty($name) || empty($category) ||  empty($description)) 
   echo json_encode($respuesta);
   exit;
 } else {
-  $address_and_city = $address . ", " . $city;
+  $address_and_city = $address;
   $url = "http://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($address_and_city)."&sensor=false";
   $result_string = file_get_contents($url);
   $result = json_decode($result_string, true);

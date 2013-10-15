@@ -202,6 +202,12 @@ if($task == "doedit") {
         }
       }
     });
+    jQuery.datepicker.setDefaults(
+      jQuery.extend(
+        {'dateFormat':'dd-mm-yy'},
+        jQuery.datepicker.regional['es']
+      )
+    );
     jQuery("#datepicker").datepicker();    
     jQuery("#datepicker").change(function() {
       jQuery("#date").val(jQuery("#datepicker").val());
@@ -209,7 +215,7 @@ if($task == "doedit") {
     <?php
       $timestamp = strtotime($place->date);
     ?>
-    jQuery("#datepicker").datepicker("setDate", "<?php echo date('m', $timestamp) . '/' . date('d', $timestamp) . '/' . date('Y', $timestamp);?>");
+    jQuery("#datepicker").datepicker("setDate", "<?php echo date('d', $timestamp) . '-' . date('m', $timestamp) . '-' . date('Y', $timestamp);?>");
     jQuery("#date").val(jQuery("#datepicker").val());
   });
 </script>

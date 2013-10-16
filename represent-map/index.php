@@ -567,8 +567,8 @@ require_once("include/db.php");
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : '167652430078861', // App ID localhost
-          //appId      : '167839766714035', // App ID de producción
+          //appId      : '167652430078861', // App ID localhost
+          appId      : '167839766714035', // App ID de producción
           channelUrl : '//www.sportyguest.es/channel.html', // Channel File
           status     : true, // check login status
           cookie     : true, // enable cookies to allow the server to access the session

@@ -729,7 +729,7 @@ require_once("include/db.php");
           </p>
         </div>
         <div class="modal-footer">
-          <a href="#" id="btn-cerrar-modal-me-gusta" data-dismiss="modal" class="btn">Cerrar</a>
+          <button id="btn-cerrar-modal-me-gusta" type="button" class="close" data-dismiss="modal">×</button>
         </div>
       </div>
     </div>

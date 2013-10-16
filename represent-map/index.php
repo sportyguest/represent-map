@@ -68,6 +68,23 @@ require_once("include/db.php");
           z-index: 10;        
       }​
     </style>
+
+    <!-- Código de analytics -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-41031859-1']);
+      _gaq.push(['_setDomainName', 'sportyguest.es']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    <!-- Fin analytics -->
     
     <script type="text/javascript">
       var map;
@@ -550,26 +567,12 @@ require_once("include/db.php");
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          //appId      : '167652430078861', // App ID localhost
-          appId      : '167839766714035', // App ID de producción
+          appId      : '167652430078861', // App ID localhost
+          //appId      : '167839766714035', // App ID de producción
           channelUrl : '//www.sportyguest.es/channel.html', // Channel File
           status     : true, // check login status
           cookie     : true, // enable cookies to allow the server to access the session
           xfbml      : true  // parse XFBML
-        });
-        FB.Event.subscribe('edge.create', function(response) {
-          jQuery("#modal-me-gusta").hide();
-        });
-        FB.Event.subscribe('auth.authResponseChange', function(response) {
-          FB.api('/me/likes/273130059485562',
-            function(response) {
-              if(response.data[0]) {
-                jQuery("#modal-me-gusta").hide();
-              } else {
-                jQuery("#modal-me-gusta").show();
-              }
-            }
-          );
         });
       };
 
@@ -711,21 +714,31 @@ require_once("include/db.php");
       </ul>
     </div>
 
-    <div id="modal-me-gusta" class="modal-backdrop hide" 
+    <div id="modal-me-gusta" class="modal-backdrop" 
           style="opacity: 1!important; filter: alpha(opacity=1)!important; background-color: rgba(0,0,0,0.5);">
-      <div class="modal" data-keyboard="false" data-backdrop="static">
+      <div class="modal fade in">
+        <div class="modal-header">
+          <h3>Mapa de eventos deportivos</h3>
+        </div>
         <div class="modal-body" style="max-height: 600px!important;">
-          <h2>Mapa de eventos deportivos</h2>
           <img src="images/preview.jpg" alt="Vista previa de la página" style="width:95%;"/>
           <p class="lead">Indica que te gusta Sportyguest para ver nuestro mapa al completo
-            <div class="fb-like-box" data-href="http://www.facebook.com/Sportyguest" data-show-faces="false" data-colorscheme="light" data-layout="box_count" data-action="like" data-send="false"></div>
+            <div class="fb-like" data-href="https://www.facebook.com/Sportyguest" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="true" data-send="false"></div>
           </p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" id="btn-cerrar-modal-me-gusta" data-dismiss="modal" class="btn">Cerrar</a>
         </div>
       </div>
     </div>
+    <script>
+      jQuery("#btn-cerrar-modal-me-gusta").click(function() {
+        jQuery("#modal-me-gusta").hide();
+      })
+    </script>
     
     <!-- more info modal -->
-    <div class="modal hide in" id="modal_info">
+    <div class="modal hide in" id="modal_info" style="margin-top: -310px!important;">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h3>Sobre este mapa</h3>
@@ -735,18 +748,19 @@ require_once("include/db.php");
         <a href="http://www.sportyguest.es">Sportyguest</a> ha creado este mapa 
         para que la comunidad online pueda promocionar los eventos deportivos outdoor 
         que se realizan tanto a nivel español como internacional y para que así 
-        puedas planificarte tu calendario deportivo.<br>
+        puedas planificarte tu calendario deportivo.<br><br>
         Este mapa te permitirá encontrar los eventos deportivos y experiencias 
         deportivas más cercanas al lugar donde quieras desplazarte o encontrar 
-        aquellos eventos y experiencias más cercanas a tu lugar de origen.<br>
+        aquellos eventos y experiencias más cercanas a tu lugar de origen.<br><br>
         Hemos incluido alguna información sobre algunos eventos pero necesitamos 
         tu ayuda para hacerlo más completo. Si quieres añadir un evento deportivo 
         que organizas o, simplemente, al que asistes, únicamente tienes que pulsar 
         el botón: 
           <a href="#modal_add" data-toggle="modal" data-dismiss="modal">añadir evento</a>
-        y completar un pequeño formulario con información al respecto. <br>
-        Si quieres ayudarnos a apoyar la promoción de este mapa de eventos puedes 
-        incorporar las siguientes imágenes en tu Web o blog enlazando el mapa:
+        y completar un pequeño formulario con información al respecto. <br><br>
+        <strong>Si quieres ayudarnos a apoyar la promoción de este mapa de eventos puedes 
+        incorporar las siguientes imágenes (click derecho > guardar imagen como...) en tu 
+        Web o blog enlazando el mapa:</strong>
         <ul class="badges">
           <li>
             <img src="./images/badges/badge1.png" alt="Logo Sportyguest map">

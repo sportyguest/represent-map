@@ -54,7 +54,7 @@ Class Evento {
 								"code" => "8",
 								"can_add_new" => true,
 								"can_hide" => true),
-		"experiencia" => array("name" => "Experiencia", 
+		"experiencia" => array("name" => "Experiencia Sportyguest", 
 								"code" => "9",
 								"can_add_new" => false,
 								"can_hide" => true)

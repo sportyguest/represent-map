@@ -561,7 +561,19 @@ require_once("include/db.php");
           console.log("Has hecho click en me gusta");
           jQuery("#modal-me-gusta").hide();
         });
+        FB.Event.subscribe('auth.authResponseChange', function(response) {
+          FB.api('/me/likes/273130059485562',
+            function(response) {
+              console.log("Ya te gusta!");
+              console.log(response);
+              if(response.data[0]) {
+                jQuery("#modal-me-gusta").hide();
+              }
+            }
+          );
+        });
       };
+
       FB.Event.subscribe('auth.authResponseChange', function(response) {
         FB.api('/me/likes/273130059485562',
           function(response) {

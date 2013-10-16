@@ -565,6 +565,8 @@ require_once("include/db.php");
             function(response) {
               if(response.data[0]) {
                 jQuery("#modal-me-gusta").hide();
+              } else {
+                jQuery("#modal-me-gusta").show();
               }
             }
           );
@@ -709,9 +711,9 @@ require_once("include/db.php");
       </ul>
     </div>
 
-    <div id="modal-me-gusta" class="modal-backdrop" 
+    <div id="modal-me-gusta" class="modal-backdrop hide" 
           style="opacity: 1!important; filter: alpha(opacity=1)!important; background-color: rgba(0,0,0,0.5);">
-      <div class="modal" data-keyboard="false" data-backdrop="static" data-show="true">
+      <div class="modal" data-keyboard="false" data-backdrop="static">
         <div class="modal-body" style="max-height: 600px!important;">
           <h2>Mapa de eventos deportivos</h2>
           <img src="images/preview.jpg" alt="Vista previa de la página" style="width:95%;"/>

@@ -25,6 +25,7 @@ require_once("include/db.php");
     <meta charset="UTF-8">
     <meta name="description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running.">
     <link rel="publisher" href="https://plus.google.com/s/sportyguest"/>
+    <!-- Twitter card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@sportyguest">
     <meta name="twitter:title" content="Mapa de eventos deportivos">
@@ -32,6 +33,12 @@ require_once("include/db.php");
     <meta name="twitter:creator" content="@sportyguest">
     <meta name="twitter:image:src" content="http://eventosdeportivos.sportyguest.es/images/preview.png">
     <meta name="twitter:domain" content="http://eventosdeportivos.sportyguest.es/">
+    <!-- End twitter card -->
+    <!-- Facebook -->
+    <meta property="og:image" content="http://eventosdeportivos.sportyguest.es/images/preview.png" />
+    <meta property="og:title" content="Mapa de eventos deportivos" />
+    <meta property="og:description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running." />
+    <!-- End Facebook -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -555,6 +562,17 @@ require_once("include/db.php");
           jQuery("#modal-me-gusta").hide();
         });
       };
+      FB.Event.subscribe('auth.authResponseChange', function(response) {
+        FB.api('/me/likes/273130059485562',
+          function(response) {
+            console.log("Ya te gusta!");
+            console.log(response);
+            if(response.data[0]) {
+              jQuery("#modal-me-gusta").hide();
+            }
+          }
+        );
+      });
 
       // Load the SDK Asynchronously
       (function(d){
@@ -693,13 +711,14 @@ require_once("include/db.php");
       </ul>
     </div>
 
-    <div id="modal-me-gusta" class="modal-backdrop" style="opacity: 0.9; filter: alpha(opacity=80);">
+    <div id="modal-me-gusta" class="modal-backdrop" 
+          style="opacity: 1!important; filter: alpha(opacity=1)!important; background-color: rgba(0,0,0,0.5);">
       <div class="modal" data-keyboard="false" data-backdrop="static" data-show="true">
         <div class="modal-body">
           <h2>Mapa de eventos deportivos</h2>
           <img src="images/preview.png" alt="Vista previa de la página" style="width:95%;"/>
           <p class="lead">Indica que te gusta nuestro mapa para verlo al completo
-            <div class="fb-like" data-href="https://eventosdeportivos.sportyguest.es" data-colorscheme="light" data-layout="box_count" data-action="like" data-show-faces="true" data-send="false"></div>
+            <div class="fb-like" data-href="http://eventosdeportivos.sportyguest.es" data-colorscheme="light" data-layout="box_count" data-action="like" data-show-faces="true" data-send="false"></div>
           </p>
         </div>
       </div>

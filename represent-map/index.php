@@ -540,13 +540,31 @@ require_once("include/db.php");
     
     <!-- facebook like button code -->
     <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=167839766714035";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          //appId      : '167652430078861', // App ID localhost
+          appId      : '167839766714035', // App ID de producción
+          channelUrl : '//www.sportyguest.es/channel.html', // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true  // parse XFBML
+        });
+        FB.Event.subscribe('edge.create', function(response) {
+          console.log("Has hecho click en me gusta");
+          jQuery("#modal-me-gusta").hide();
+        });
+      };
+
+      // Load the SDK Asynchronously
+      (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+       }(document));
+    </script>
     
     <!-- google map -->
     <div id="map_canvas"></div>
@@ -558,7 +576,7 @@ require_once("include/db.php");
           <div class="share">
           <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $domain ?>" data-text="<?php echo $twitter['share_text'] ?>" data-via="<?php echo $twitter['username'] ?>" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            <div class="fb-like" data-href="http://www.sportyguest.es/mapa/represent-map/represent-map" data-width="100" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+            <div class="fb-like" data-href="http://eventosdeportivos.sportyguest.es" data-width="100" data-layout="button_count" data-show-faces="false" data-send="true"></div>
           </div>
         </div>
         <div class="left">
@@ -673,6 +691,18 @@ require_once("include/db.php");
           <?php echo $attribution?>
         </li>
       </ul>
+    </div>
+
+    <div id="modal-me-gusta" class="modal-backdrop" style="opacity: 0.9; filter: alpha(opacity=80);">
+      <div class="modal" data-keyboard="false" data-backdrop="static" data-show="true">
+        <div class="modal-body">
+          <h2>Mapa de eventos deportivos</h2>
+          <img src="images/preview.png" alt="Vista previa de la página" style="width:95%;"/>
+          <p class="lead">Indica que te gusta nuestro mapa para verlo al completo
+            <div class="fb-like" data-href="https://eventosdeportivos.sportyguest.es" data-colorscheme="light" data-layout="box_count" data-action="like" data-show-faces="true" data-send="false"></div>
+          </p>
+        </div>
+      </div>
     </div>
     
     <!-- more info modal -->

@@ -31,11 +31,11 @@ require_once("include/db.php");
     <meta name="twitter:title" content="Mapa de eventos deportivos">
     <meta name="twitter:description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running.">
     <meta name="twitter:creator" content="@sportyguest">
-    <meta name="twitter:image:src" content="http://eventosdeportivos.sportyguest.es/images/preview.png">
+    <meta name="twitter:image:src" content="http://eventosdeportivos.sportyguest.es/images/preview.jpg">
     <meta name="twitter:domain" content="http://eventosdeportivos.sportyguest.es/">
     <!-- End twitter card -->
     <!-- Facebook -->
-    <meta property="og:image" content="http://eventosdeportivos.sportyguest.es/images/preview.png" />
+    <meta property="og:image" content="http://eventosdeportivos.sportyguest.es/images/preview.jpg" />
     <meta property="og:title" content="Mapa de eventos deportivos" />
     <meta property="og:description" content="Mapa de eventos deportivos con el que podrás planificar tu calendario deportivo con deportes como maratón, ciclismo, esquí, carreras populares, zonas de escalada o running." />
     <!-- End Facebook -->
@@ -558,14 +558,11 @@ require_once("include/db.php");
           xfbml      : true  // parse XFBML
         });
         FB.Event.subscribe('edge.create', function(response) {
-          console.log("Has hecho click en me gusta");
           jQuery("#modal-me-gusta").hide();
         });
         FB.Event.subscribe('auth.authResponseChange', function(response) {
           FB.api('/me/likes/273130059485562',
             function(response) {
-              console.log("Ya te gusta!");
-              console.log(response);
               if(response.data[0]) {
                 jQuery("#modal-me-gusta").hide();
               }
@@ -594,7 +591,8 @@ require_once("include/db.php");
           <div class="share">
           <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $domain ?>" data-text="<?php echo $twitter['share_text'] ?>" data-via="<?php echo $twitter['username'] ?>" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            <div class="fb-like" data-href="http://eventosdeportivos.sportyguest.es" data-width="100" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+            <div class="fb-like" data-href="http://www.facebook.com/Sportyguest" data-width="100"
+                 data-layout="button_count" data-show-faces="false" data-send="true"></div>
           </div>
         </div>
         <div class="left">
@@ -714,11 +712,11 @@ require_once("include/db.php");
     <div id="modal-me-gusta" class="modal-backdrop" 
           style="opacity: 1!important; filter: alpha(opacity=1)!important; background-color: rgba(0,0,0,0.5);">
       <div class="modal" data-keyboard="false" data-backdrop="static" data-show="true">
-        <div class="modal-body">
+        <div class="modal-body" style="max-height: 600px!important;">
           <h2>Mapa de eventos deportivos</h2>
-          <img src="images/preview.png" alt="Vista previa de la página" style="width:95%;"/>
-          <p class="lead">Indica que te gusta nuestro mapa para verlo al completo
-            <div class="fb-like" data-href="http://eventosdeportivos.sportyguest.es" data-colorscheme="light" data-layout="box_count" data-action="like" data-show-faces="true" data-send="false"></div>
+          <img src="images/preview.jpg" alt="Vista previa de la página" style="width:95%;"/>
+          <p class="lead">Indica que te gusta Sportyguest para ver nuestro mapa al completo
+            <div class="fb-like-box" data-href="http://www.facebook.com/Sportyguest" data-show-faces="false" data-colorscheme="light" data-layout="box_count" data-action="like" data-send="false"></div>
           </p>
         </div>
       </div>

@@ -574,8 +574,10 @@ require_once("include/db.php");
           cookie     : true, // enable cookies to allow the server to access the session
           xfbml      : true  // parse XFBML
         });
+        FB.Event.subscribe('edge.create', function(response) {
+          jQuery("#modal-me-gusta").hide();
+        });
       };
-
       // Load the SDK Asynchronously
       (function(d){
          var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];

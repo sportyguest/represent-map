@@ -574,18 +574,6 @@ require_once("include/db.php");
         });
       };
 
-      FB.Event.subscribe('auth.authResponseChange', function(response) {
-        FB.api('/me/likes/273130059485562',
-          function(response) {
-            console.log("Ya te gusta!");
-            console.log(response);
-            if(response.data[0]) {
-              jQuery("#modal-me-gusta").hide();
-            }
-          }
-        );
-      });
-
       // Load the SDK Asynchronously
       (function(d){
          var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];

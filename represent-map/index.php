@@ -236,7 +236,7 @@ require_once("include/db.php");
         <?php
           global $wpdb;
           $marker_id = 0;
-          $approved_events = Evento::getEventsApproved($wpdb);
+          $approved_events = Evento::getAllEventsApproved($wpdb);
           $experiences = Experiencia::getExperiencias($wpdb);
           $experiences_events = array();
           foreach ($experiences as $experience) {

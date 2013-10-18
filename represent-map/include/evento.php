@@ -233,6 +233,14 @@ Class Evento {
 				);
 	}
 
+
+	public static function getAllEventsApproved($wpdb){
+		$query = "SELECT *
+				FROM wp_evento
+				where approved='1'";
+		return $wpdb->get_results($query);
+	}
+
 	public static function getEventsApproved($wpdb, $start = 0, $items_per_page = 15){
 		$query = "SELECT *
 				FROM wp_evento

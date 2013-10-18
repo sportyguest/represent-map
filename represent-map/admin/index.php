@@ -6,6 +6,7 @@ define( 'SHORTINIT', true );
 require_once("/var/www/sportyguest/wp-load.php");
 require_once("../include/evento.php");
 require_once("../include/db.php");
+require_once("../include/email.php");
 global $wpdb;
 
 // hide marker on map
@@ -20,6 +21,8 @@ if($task == "hide") {
 if($task == "approve") {
   $place_id = htmlspecialchars($_GET['place_id']);
   Evento::approve($wpdb, $place_id);
+  // Notify
+  Email::notifyEventApproved(Evento::getEvent($wpdb, $pace_id));
   header("Location: index.php?view=$view&search=$search&p=$p");
   exit;
 }

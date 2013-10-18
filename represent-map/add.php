@@ -4,6 +4,7 @@ include_once "header.php";
 //require_once( 'C:\/wamp\/www\/desarrollo\/wp-load.php' );
 require_once("/var/www/sportyguest/wp-load.php");
 require_once ("include/evento.php");
+require_once("include/email.php");
 
 
 // This is used to submit new markers for review.
@@ -66,6 +67,7 @@ if (isset($_FILES["image"]) && isset($_FILES["image"]["name"])) {
 
 $evento = new Evento($owner_name, $owner_email, $title, $image_url, $description, $web, $address, $lat, $lng, $category, $subcategory, $date);
 $evento->saveDB($wpdb);
+Email::notifyEventCreated($evento);
 
 $respuesta = array('code'=>'success');
 echo json_encode($respuesta);

@@ -34,8 +34,9 @@ if($task == "doedit") {
   $lat = (float) $_POST['lat'];
   $lng = (float) $_POST['lng'];
   $date = $_POST['date'];
+  $image_url = "";
   
-  $event = new Evento($owner_name, $owner_email, $name, $description, $url, $address, $lat, $lng, $category, $subcategory, $date);
+  $event = new Evento($owner_name, $owner_email, $name, $image_url, $description, $url, $address, $lat, $lng, $category, $subcategory, $date);
   $event->id = $place_id;
   $event->updateDB($wpdb);
   

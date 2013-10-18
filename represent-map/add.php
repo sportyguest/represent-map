@@ -10,37 +10,57 @@ require_once ("include/evento.php");
 // Markers won't appear on the map until they are approved.
   // Avoid backslash in front of quotes
 $_POST = array_map('stripslashes_deep', $_POST);
+$image_name = Evento::createImageName($_FILES["image"]["name"]);
+move_uploaded_file($_FILES["image"]["tmp_name"], Evento::IMAGES_PATH . $image_name);
 $owner_name = $_POST['owner_name'];
 $owner_email = $_POST['owner_email'];
-$name = $_POST['title'];
+$title = $_POST['title'];
 $category = $_POST['category'];
 $address = $_POST['address'];
-$city = $_POST['city'];
 $description = $_POST['description'];
 $date = $_POST['datepicker'];
 $web = $_POST['uri'];
 $subcategory = $_POST['subcategory'];
 
-
+$errors = array();
 // validate fields
-if(empty($address) || empty($name) || empty($category) ||  empty($description)) {
-  $respuesta = array('code'=> 1, 'mensaje'=> "Te has dejado un campo vacío, inténtalo de nuevo");
-  echo json_encode($respuesta);
-  exit;
-} else {
-  $address_and_city = $address;
-  $url = "http://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($address_and_city)."&sensor=false";
-  $result_string = file_get_contents($url);
-  $result = json_decode($result_string, true);
-  list($lat, $long) = $result['geometry']['location'];
-  $lat = $result['results'][0]['geometry']['location']['lat'];
-  $lng = $result['results'][0]['geometry']['location']['lng'];
-
-  $evento = new Evento($owner_name, $owner_email, $name, $description, $web, $address_and_city, $lat, $lng, $category, $subcategory, $date);
-  $evento->saveDB($wpdb);
-
-  $respuesta = array('code'=>'success');
-  echo json_encode($respuesta);
+if (empty($owner_name)) {
+  $errors["owner_name"] = 1;
+}
+if (empty($owner_email)) {
+  $errors["owner_email"] = 1;
+}
+if(empty($address)) {
+  $errors["address"] = 1;
+}
+if (empty($title)) {
+  $errors["title"] = 1;
+}
+if (empty($category)) {
+  $errors["category"] = 1;
+}
+if (empty($description)) {
+  $errors["description"] = 1;
+}
+if (!empty($errors)) {
+  echo json_encode(array( "code" => "fail", 
+                          "msg" => "Te has dejado algún campo vacío, inténtalo de nuevo.", 
+                          "errors" => $errors));
   exit;
 }
+
+// If there aren't missing parameters data is stored
+$url = "http://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($address)."&sensor=false";
+$result_string = file_get_contents($url);
+$result = json_decode($result_string, true);
+list($lat, $long) = $result['geometry']['location'];
+$lat = $result['results'][0]['geometry']['location']['lat'];
+$lng = $result['results'][0]['geometry']['location']['lng'];
+$image_url = Evento::createImageURL("http://eventosdeportivos.sportyguest.es/", $image_name);
+
+$evento = new Evento($owner_name, $owner_email, $title, $image_url, $description, $web, $address, $lat, $lng, $category, $subcategory, $date);
+$evento->saveDB($wpdb);
+
+$respuesta = array('code'=>'success');
+echo json_encode($respuesta);
 ?>

@@ -1,12 +1,14 @@
 <?php
 
 Class Evento {
-
+	const IMAGES_URL = "represent-map/uploads/images/";
+	const IMAGES_PATH = "/var/www/sportyguest/mapa/represent-map/represent-map/uploads/images/";
 	var $id;
 	var $owner_name;
 	var $owner_email;
 	var $name;
 	var $address;
+	var $image_url;
 	var $description;
 	var $url;
 	var $lat;
@@ -102,10 +104,11 @@ Class Evento {
 		"experiencia" 			=> array(	"experiencias" 						=> "Experiencias")
 	);
 
-	function Evento($nowner_name, $nowner_email, $nname, $ndescription, $nurl,$naddress,$nlat,$nlng,$ncategory, $nsubcategory,$ndate){
+	function Evento($nowner_name, $nowner_email, $nname, $nimage_url, $ndescription, $nurl,$naddress,$nlat,$nlng,$ncategory, $nsubcategory,$ndate){
 		$this->owner_name = $nowner_name;
 		$this->owner_email = $nowner_email;
 		$this->name = $nname;
+		$this->image_url = $nimage_url;
 		$this->description = $ndescription;
 		$this->url = $nurl;
 		$this->address = $naddress;
@@ -125,6 +128,7 @@ Class Evento {
 				'owner_name'	=> $this->owner_name,
 				'owner_email'	=> $this->owner_email,
                 'name'          => $this->name,
+                'image_url'		=> $this->image_url,
                 'description'   => $this->description,
                 'url'           => $this->url,
                 'address'       => $this->address,
@@ -145,6 +149,7 @@ Class Evento {
 				'owner_name'	=> $this->owner_name,
 				'owner_email'	=> $this->owner_email,
                 'name'          => $this->name,
+                'image_url'	=> $this->image_url,
                 'description'   => $this->description,
                 'url'           => $this->url,
                 'address'       => $this->address,
@@ -158,6 +163,7 @@ Class Evento {
 				'id'			=> $this->id
 			),
 			array(
+				'%s',
 				'%s',
 				'%s',
 				'%s',
@@ -227,49 +233,39 @@ Class Evento {
 				);
 	}
 
-	public static function getEventsApproved($wpdb, $page = null, $items_per_page = null){
+	public static function getEventsApproved($wpdb, $start = 0, $items_per_page = 15){
 		$query = "SELECT *
 				FROM wp_evento
-				where approved='1'";
-		if ($page != null) {
-			$query .= " LIMIT " . $page . ", " . $items_per_page;
-		}
+				where approved='1'
+				LIMIT " . $start . ", " . $items_per_page;
 		return $wpdb->get_results($query);
 	}
-	public static function getEventsRejected($wpdb, $page = null, $items_per_page = null){
+	public static function getEventsRejected($wpdb, $start = 0, $items_per_page = 15){
 		$query = "SELECT *
 				FROM wp_evento
-				where approved='0'";
-		if ($page != null) {
-			$query .= " LIMIT " . $page . ", " . $items_per_page;
-		}
+				where approved='0'
+				LIMIT " . $start . ", " . $items_per_page;
 		return $wpdb->get_results($query);
 	}
-	public static function getEventsPending($wpdb, $page = null, $items_per_page = null){
+	public static function getEventsPending($wpdb, $start = 0, $items_per_page = 15){
 		$query = "SELECT *
 				FROM wp_evento
-				where approved IS null";
-		if ($page != null) {
-			$query .= " LIMIT " . $page . ", " . $items_per_page;
-		}
+				where approved IS null
+				LIMIT " . $start . ", " . $items_per_page;
 		return $wpdb->get_results($query);
 	}
-	public static function getEventsSortByName($wpdb, $page = null, $items_per_page = null){
+	public static function getEventsSortByName($wpdb, $start = 0, $items_per_page = 15){
 		$query = "SELECT *
 				FROM wp_evento
-				ORDER BY name";
-		if ($page != null) {
-			$query .= " LIMIT " . $page . ", " . $items_per_page;
-		}
+				ORDER BY name
+				LIMIT " . $start . ", " . $items_per_page;
 		return $wpdb->get_results($query);
 	}
-	public static function getEventsByName($wpdb, $search, $page = null, $items_per_page = null){
+	public static function getEventsByName($wpdb, $search, $start = 0, $items_per_page = 15){
 		$query = "SELECT *
 				FROM wp_evento
-				WHERE name LIKE '%$search%' ORDER BY name";
-		if ($page != null) {
-			$query .= " LIMIT " . $page . ", " . $items_per_page;
-		}
+				WHERE name LIKE '%$search%' ORDER BY name
+				 LIMIT " . $start . ", " . $items_per_page;
 		return $wpdb->get_results($query);
 	}
 	public static function getCountByName($wpdb, $search) {
@@ -307,5 +303,14 @@ Class Evento {
 			return Evento::$events_categories[$keys[0]]->code;
 		}
 		return -1;
+	}
+
+	public static function createImageURL($site_url, $image_name) {
+		return $site_url . Evento::IMAGES_URL . $image_name;
+	}
+
+	public static function createImageName($image_name) {
+		$end = end(explode(".", $image_name));
+		return time() . "_" . rand(1000,1000000) . "." . $end;
 	}
 }

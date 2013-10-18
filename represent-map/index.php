@@ -52,6 +52,9 @@ require_once("include/db.php");
     <script type="text/javascript" src="./scripts/label.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap-fileupload.min.css" />
+    <script src="./bootstrap/js/bootstrap-fileupload.min.js" type="text/javascript" charset="utf-8"></script>
+    
     <!-- Code to show the list of addresses -->
     <style>
       .pac-container {
@@ -211,10 +214,6 @@ require_once("include/db.php");
 
         var input = /** @type {HTMLInputElement} */(document.getElementById('add_address'));
         var autocomplete = new google.maps.places.Autocomplete(input);
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-            var place = autocomplete.getPlace();
-            jQuery("#add_city").val(place.address_components[1].short_name);
-        });
 
         // prepare infowindow
         infowindow = new google.maps.InfoWindow({
@@ -248,12 +247,14 @@ require_once("include/db.php");
             $address = trim(preg_replace('/\s+/', ' ', $experience->direccion));
             $lat = $experience->lat;
             $lng = $experience->lng;
+            $image_url = "";
             $date = "";
             $category = "experiencia";
             $subcategory = "experiencia";
             array_push($experiences_events, new Evento($owner_name, 
                                                 $owner_email, 
                                                 $title, 
+                                                $image_url,
                                                 $description, 
                                                 $url,
                                                 $address,
@@ -516,27 +517,6 @@ require_once("include/db.php");
       function markerListMouseOut(marker_id) {
         $("#marker"+marker_id).css("display", "none");
       }
-
-
-
-      function mostrar_categoria(lista) {
-        var deportes= new Array(
-          <?php 
-            $keys = array_keys(Evento::$events_categories);
-            echo "'" . implode("','", $keys) . "'";
-          ?>
-          );
-        for(var i=0; i<deportes.length; i++){
-          var subtipo = "#add_subcategory_" + deportes[i];
-          if (lista[lista.selectedIndex].value==deportes[i])
-          {  
-          $(subtipo).attr('style','display:block;');
-          } 
-          else {
-            $(subtipo).attr('style','display:none;');
-          }
-        }
-      } // mostrar categoria
 
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
@@ -858,7 +838,7 @@ require_once("include/db.php");
     
     <!-- add something modal -->
     <div class="modal hide" id="modal_add">
-      <form method="POST" action="add.php" id="modal_addform" class="form-horizontal">
+      <form method="POST" action="add.php" id="modal_addform" class="form-horizontal" enctype="multipart/form-data">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">x</button>
           <h3>Añade tu evento</h3>
@@ -866,37 +846,37 @@ require_once("include/db.php");
         <div class="modal-body">
           <div id="result"></div>
           <fieldset>
-            <div class="control-group">
+            <div class="control-group" id="control_group_owner_name">
               <label class="control-label" for="add_owner_name">Tu nombre</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="persona" id="add_owner_name" maxlength="100">
+                <input type="text" class="input-xlarge" name="owner_name" id="add_owner_name" maxlength="100">
                 <p class="help-block">
                 No se muestra en la información del evento.
                 </p>
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group" id="control_group_owner_email">
               <label class="control-label" for="add_owner_email">Tu email</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="email" id="add_owner_email" maxlength="100">
+                <input type="text" class="input-xlarge" name="owner_email" id="add_owner_email" maxlength="100">
                 <p class="help-block">
                 No se muestra en la información del evento, para resolver dudas.
                 </p>
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group" id="control_group_title">
               <label class="control-label" for="add_title">Nombre del evento</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="nombre" id="add_title" maxlength="100" autocomplete="off">
+                <input type="text" class="input-xlarge" name="title" id="add_title" maxlength="100" autocomplete="off">
                 <p class="help-block">
                 Nombre descriptivo del evento.
                 </p>
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group" id="control_group_category">
               <label class="control-label" for="input01">Tipo de deporte</label>
               <div class="controls">
-                <select name="tipo" id="add_category" class="input-xlarge" onchange="mostrar_categoria(this)">
+                <select name="category" id="add_category" class="input-xlarge">
                   <option value=""></option>
                   <?php
                   // Shows the categories
@@ -914,29 +894,18 @@ require_once("include/db.php");
             </div>
             <div class="control-group">
               <label class="control-label" for="input01">Categoría</label>
-              <div class="controls" id="add_categoria">
-                <?php
-                // Shows the subcategories
-                foreach(Evento::$events_subcategories as $key => $value) {
-                  if (Evento::$events_categories[$key]["can_add_new"]) {
-                    echo "<select name='categoria' id='add_subcategory_$key' class='input-xlarge' style='display: none'>";
-                      foreach($value as $subcat_key => $subcat_value) {
-                        echo "<option value='$subcat_key'>" . $subcat_value . "</option>";
-                      }
-                    echo "</select>";
-                  }
-                }
-                ?>
+              <div class="controls"  id="add_subcategory_container">
+                <select id="add_subcategory"></select>
                 <p class="help-block">
                 Deporte específico de la competición.
                 </p>
               </div>
             </div> 
 
-            <div class="control-group">
+            <div class="control-group" id="control_group_address">
               <label class="control-label" for="add_address">Dirección</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="direccion" id="add_address" autocomplete="off">
+                <input type="text" class="input-xlarge" name="address" id="add_address" autocomplete="off">
                 <p class="help-block">
                 Dirección en la que se va a realizar el evento.
                 </p>
@@ -946,7 +915,7 @@ require_once("include/db.php");
             <div class="control-group">
               <label class="control-label" for="add_date">Fecha</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="fecha" id="datepicker">
+                <input type="text" class="input-xlarge" name="datepicker" id="datepicker">
                 <p class="help-block">
                  Fecha en la que tiene lugar el evento
                 </p>
@@ -962,6 +931,23 @@ require_once("include/db.php");
               </div>
             </div>
             <div class="control-group">
+              <label class="control-label" for="add_uri">Imagen</label>
+              <div class="controls">
+                <div class="fileupload fileupload-new" data-provides="fileupload">
+                  <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">
+                    <img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" />
+                  </div>
+                  <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
+                  <span class="btn btn-file">
+                    <span class="fileupload-new">Selecciona imagen</span>
+                    <span class="fileupload-exists">Cambiar</span>
+                    <input type="file" id="image" name="image"/>
+                  </span>
+                  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Eliminiar</a>
+                </div>
+              </div>
+            </div>
+            <div class="control-group" id="control_group_description">
               <label class="control-label" for="add_description">Descripción</label>
               <div class="controls">
                 <textarea class="input input-xlarge" id="add_description" name="description" maxlength="300" rows="4"></textarea>
@@ -981,52 +967,67 @@ require_once("include/db.php");
     <script>
       $(document).ready(function(){ 
 
+        $("#add_category").change(function() {
+          var subcategory = [];
+          <?php
+          // Shows the subcategories
+          foreach(Evento::$events_subcategories as $key => $value) {
+            if (Evento::$events_categories[$key]["can_add_new"]) {
+              echo "subcategory[\"" . $key . "\"] = [];";
+                foreach($value as $subcat_key => $subcat_value) {
+                  echo "subcategory[\"" . $key . "\"][\"" . $subcat_key . "\"] = '" . $subcat_value . "';";
+                }
+            }
+          }
+          ?>
+          var category = $("#add_category").val();
+          var select = $("<select name='subcategory' id='add_subcategory' class='input-xlarge'></select>");
+          for (subcat_key in subcategory[category]) {
+            select.append($("<option value='" + subcat_key + "'>" + subcategory[category][subcat_key] + "</option>"));
+          }
+          $(select).replaceAll("#add_subcategory");
+          //$("#add_subcategory_container").append(select);
+        });
+
         // add modal form submit
         $("#modal_addform").submit(function(event) {
           event.preventDefault(); 
-          // get values
-          var $form = $( this ),
-              owner_name = $form.find( '#add_owner_name' ).val(),
-              owner_email = $form.find( '#add_owner_email' ).val(),
-              title = $form.find( '#add_title' ).val(),
-              category = $form.find( '#add_category' ).val(),
-              subcategory = $form.find( '#add_subcategory_'+category).val(),
-              address = $form.find( '#add_address' ).val(),
-              uri = $form.find( '#add_uri' ).val(),
-              description = $form.find( '#add_description' ).val(),
-              city = $form.find( '#add_city' ).val(),
-              datepicker = $form.find( '#datepicker' ).val(),
-              url = $form.attr( 'action' );
+          var formData = new FormData(document.getElementById('modal_addform'));
+            var url = jQuery("#modal_addform").attr( 'action' );
               $.ajax({
                 type: "POST",
-                dataType: "json",
+                processData: false,
+                contentType: false,
                 url: url,
-                data: { owner_name: owner_name, 
-                        owner_email: owner_email, 
-                        title: title, 
-                        category: category, 
-                        subcategory: subcategory, 
-                        address: address, 
-                        datepicker: datepicker,
-                        uri: uri , 
-                        description: description, 
-                        city: city }
+                data: formData,
+                dataType: "json"
               }).done(function( data ) {
-              // if submission was successful, show info alert
-              if(data.code == "success") {
-                $("#modal_addform #result").html("Hemos recibido tu propuesta, la procesaremos lo más pronto posible. Gracias!"); 
-                $("#modal_addform #result").addClass("alert alert-info");
-                $("#modal_addform p").css("display", "none");
-                $("#modal_addform fieldset").css("display", "none");
-                $("#modal_addform .btn-primary").css("display", "none");
-                
-              // if submission failed, show error
-              } else {
-                $("#modal_addform #result").html(data); 
-                $("#modal_addform #result").addClass("alert alert-danger");
-              }
-            }
-          );
+                // if submission was successful, show info alert
+                if(data.code == "success") {
+                  $("#modal_addform #result").html("Hemos recibido tu propuesta, la procesaremos lo más pronto posible. Gracias!"); 
+                  $("#modal_addform #result").addClass("alert alert-info");
+                  $("#modal_addform p").css("display", "none");
+                  $("#modal_addform fieldset").css("display", "none");
+                  $("#modal_addform .btn-primary").css("display", "none");
+                  
+                // if submission failed, show error
+                } else {
+                  $("#modal_addform #result").html(data.msg);
+                  $("#modal_addform #result").addClass("alert alert-danger");
+                  var mandatory_fields = ["owner_name", "owner_email", "title", "category", "address", "description"];
+                  // All the fields are cleared
+                  for (var i = 0; i < mandatory_fields.length; i++) {
+                    var name = "#control_group_" + mandatory_fields[i];
+                    if ($(name).hasClass("error")) {
+                      $(name).removeClass("error");
+                    }
+                  }
+                  for (error in data.errors) {
+                    var name = "#control_group_" + error;
+                    $(name).addClass("error");
+                  }
+                }
+              });
         });
         });
     </script>    

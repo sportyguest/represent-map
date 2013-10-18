@@ -508,22 +508,6 @@ background:#FFF;
 }
 
 
-
-/* error overlay */
-.error
-{
-  position: absolute;
-  color: #ff0000;
-  font-weight: bold;
-  background-color: rgba(255,255,255,.7);
-  font-size: 11pt;
-  z-index: 9999999999;
-  top: 80px;
-  left: 20px;
-  padding: .7em 1em;
-  border-radius: 7px;
-  border: 2px dashed rgba(255,0,0,.6);
-}
 .sprite {display:inline-block; overflow:hidden; background-repeat: no-repeat;background-image:url(images/sprite-deportes.png);}
 
 .ciclismo {width:31px; height:42px; background-position: -96px -0px}

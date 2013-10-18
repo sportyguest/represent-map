@@ -54,6 +54,7 @@ require_once("include/db.php");
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" href="./bootstrap/css/bootstrap-fileupload.min.css" />
     <script src="./bootstrap/js/bootstrap-fileupload.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./scripts/jquery.cookie.min.js" type="text/javascript" charset="utf-8"></script>
     
     <!-- Code to show the list of addresses -->
     <style>
@@ -556,6 +557,7 @@ require_once("include/db.php");
         });
         FB.Event.subscribe('edge.create', function(response) {
           jQuery("#modal-me-gusta").hide();
+          $.cookie("facebook_liked", true, {expires: 3650});
         });
       };
       // Load the SDK Asynchronously
@@ -716,7 +718,10 @@ require_once("include/db.php");
     <script>
       jQuery("#btn-cerrar-modal-me-gusta").click(function() {
         jQuery("#modal-me-gusta").hide();
-      })
+      });
+      if ($.cookie("facebook_liked") != undefined) {
+        jQuery("#modal-me-gusta").hide();
+      }
     </script>
     
     <!-- more info modal -->

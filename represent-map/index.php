@@ -390,11 +390,29 @@ require_once("include/db.php");
           if (marker.category != "experiencia") {
             crear_experiencia = "<div class='marker_uri'><a target='_blank' href='http://www.sportyguest.es/crear-experiencia/'>Crea una experiencia cerca de " + val[0] + "</a></div>";
           }
+          var rate = "<div><form action='rate.php' id='form_rating' method='POST'><input type='hidden' id='event_id' value='" + i + "'><select id='rate'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><input type='submit' value='Valorar'></form></div>";
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(titulo + date + url + description + address + crear_experiencia);
+            infowindow.setContent(titulo + date + url + description + address + crear_experiencia + rate);
             infowindow.open(map, this);
 
+          });
+          // add marker rating code
+          google.maps.event.addListener(infowindow, 'domready', function() {
+            $("#form_rating").submit(function(event) {
+              event.preventDefault();
+              var event_id = $(this).find('#event_id').val();
+              var rate = $(this).find('#rate').val();
+              $.ajax({
+                url: "rate.php",
+                type: "POST",
+                data: {
+                  event_id: event_id,
+                  rate: rate
+                }
+              });
+              $(this).replaceWith("<strong>Gracias por valorar!!</strong>");
+            });
           });
 
           // add marker label
@@ -993,7 +1011,6 @@ require_once("include/db.php");
           $(select).replaceAll("#add_subcategory");
           //$("#add_subcategory_container").append(select);
         });
-
         // add modal form submit
         $("#modal_addform").submit(function(event) {
           event.preventDefault(); 

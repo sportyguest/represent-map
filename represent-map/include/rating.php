@@ -1,10 +1,10 @@
 <?php
 class Rating {
 
-	$id;
-	$event_id;
-	$rate;
-	$ip,
+	var $id;
+	var $event_id;
+	var $rate;
+	var $ip;
 
 	public Rating($nevent_id, $nrate, $nip) {
 		$this->event_id = $nevent_id;

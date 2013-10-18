@@ -22,7 +22,7 @@ if($task == "approve") {
   $place_id = htmlspecialchars($_GET['place_id']);
   Evento::approve($wpdb, $place_id);
   // Notify
-  Email::notifyEventApproved(Evento::getEvent($wpdb, $pace_id));
+  Email::notifyEventApproved(Evento::getEvent($wpdb, $place_id));
   header("Location: index.php?view=$view&search=$search&p=$p");
   exit;
 }

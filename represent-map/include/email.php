@@ -29,7 +29,7 @@ class Email {
 	}
 
 	public static function notifyEventCreated($evento) {
-		$html = file_get_contents(Email::EMAIL_APPROVED);
+		$html = file_get_contents(Email::EMAIL_CREATED);
 		$subject = "Se ha creado un nuevo evento";
 		Email::sendEmail(Email::OFFICIAL_MAIL, Email::ADMIN_MAIL, $subject, $html);
 	}

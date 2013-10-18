@@ -4,9 +4,8 @@ class Email {
 	const ADMIN_MAIL = "info.sportyguest@gmail.com";
 	const OFFICIAL_MAIL = "sportyguest@sportyguest.es";
 	const MAP_URL = "http://eventosdeportivos.sportyguest.es";
-	const PATH_EMAILS = "/var/www/sportyguest/mapa/represent-map/represent-map/email/";
-	const EMAIL_APPROVED = Email::PATH_EMAILS . "email-approved-event.html";
-	const EMAIL_CREATED = Email::PATH_EMAILS . "email-created-event.html";
+	const EMAIL_APPROVED = "/var/www/sportyguest/mapa/represent-map/represent-map/email/email-approved-event.html";
+	const EMAIL_CREATED = "/var/www/sportyguest/mapa/represent-map/represent-map/email/email-created-event.html";
 
 	public static function sendEmail($from, $to, $subject, $message) {
 		$header  = 'MIME-Version: 1.0' . "\r\n";

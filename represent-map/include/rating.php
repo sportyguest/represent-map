@@ -19,7 +19,7 @@ class Rating {
 				'event_id' => $this->event_id,
 				'rate'	=> $this->rate,
 				'ip'	=> $this->ip
-			);
+			)
 		);
 	}
 

@@ -1,7 +1,7 @@
 <?php
 
 Class Evento {
-	const IMAGES_URL = "represent-map/uploads/images/";
+	const IMAGES_URL = "uploads/images/";
 	const IMAGES_PATH = "/var/www/sportyguest/mapa/represent-map/represent-map/uploads/images/";
 	var $id;
 	var $owner_name;

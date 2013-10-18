@@ -10,8 +10,11 @@ require_once ("include/evento.php");
 // Markers won't appear on the map until they are approved.
   // Avoid backslash in front of quotes
 $_POST = array_map('stripslashes_deep', $_POST);
-$image_name = Evento::createImageName($_FILES["image"]["name"]);
-move_uploaded_file($_FILES["image"]["tmp_name"], Evento::IMAGES_PATH . $image_name);
+$image_name = "";
+if (isset($_FILES["image"]) && isset($_FILES["image"]["name"])) {
+  $image_name = Evento::createImageName($_FILES["image"]["name"]);
+  move_uploaded_file($_FILES["image"]["tmp_name"], Evento::IMAGES_PATH . $image_name);
+}
 $owner_name = $_POST['owner_name'];
 $owner_email = $_POST['owner_email'];
 $title = $_POST['title'];
@@ -56,7 +59,10 @@ $result = json_decode($result_string, true);
 list($lat, $long) = $result['geometry']['location'];
 $lat = $result['results'][0]['geometry']['location']['lat'];
 $lng = $result['results'][0]['geometry']['location']['lng'];
-$image_url = Evento::createImageURL("http://eventosdeportivos.sportyguest.es/", $image_name);
+$image_url = "";
+if (isset($_FILES["image"]) && isset($_FILES["image"]["name"])) {
+  $image_url = Evento::createImageURL("http://eventosdeportivos.sportyguest.es/", $image_name);
+}
 
 $evento = new Evento($owner_name, $owner_email, $title, $image_url, $description, $web, $address, $lat, $lng, $category, $subcategory, $date);
 $evento->saveDB($wpdb);

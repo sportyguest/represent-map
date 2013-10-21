@@ -31,10 +31,10 @@ $twitter = array(
 //$blurb = "This map was made to connect and promote the Los Angeles tech startup community.  Let's put LA on the map!";
 
 // attribution (must leave link intact, per our license)
-/*$attribution = "
+$attribution = "
   <span>
     Based on <a href='http://www.represent.la' target='_blank'>RepresentLA</a>
   </span>
-";*/
+";
 
 ?>

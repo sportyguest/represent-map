@@ -80,6 +80,7 @@ require_once("include/db.php");
       _gaq.push(['_setAccount', 'UA-41031859-1']);
       _gaq.push(['_setDomainName', 'sportyguest.es']);
       _gaq.push(['_trackPageview']);
+      setTimeout("_gaq.push(['_trackEvent', '25_seconds', 'read'])",25000);
 
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -393,6 +394,7 @@ require_once("include/db.php");
           var rate = "<div><form action='rate.php' id='form_rating' method='POST'><input type='hidden' id='event_id' value='" + i + "'><select id='rate'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><input type='submit' value='Valorar'></form></div>";
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
+            _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(titulo + date + url + description + address + crear_experiencia + rate);
             infowindow.open(map, this);
 

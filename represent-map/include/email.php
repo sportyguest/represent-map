@@ -2,7 +2,7 @@
 
 class Email {
 	const ADMIN_MAIL = "info.sportyguest@gmail.com";
-	const OFFICIAL_MAIL = "sportyguest@sportyguest.es";
+	const OFFICIAL_MAIL = "info@sportyguest.es";
 	const MAP_URL = "http://eventosdeportivos.sportyguest.es";
 	const EMAIL_APPROVED = "/var/www/sportyguest/mapa/represent-map/represent-map/email/email-approved-event.html";
 	const EMAIL_CREATED = "/var/www/sportyguest/mapa/represent-map/represent-map/email/email-created-event.html";

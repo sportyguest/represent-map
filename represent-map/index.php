@@ -796,7 +796,7 @@ require_once("include/db.php");
           <li><a href="#1">¿Qué es Sportyguest Sports Map?</a> </li>
           <li><a href="#2">¿Por qué lo hemos creado?</a> </li>
           <li><a href="#3">¿Qué beneficios tiene añadir mi evento en este mapa?</a> </li>
-          <li><a href="#4">¿Vamos a vender estos datos?¿Cómo monetizamos esto?</a> </li>
+          <li><a href="#4">¿Cuál es el objetivo de este mapa?</a> </li>
           <li><a href="#5">¿Qué tipo de eventos hay en el mapa?</a> </li>
           <li><a href="#6">¿Cómo añado un evento?</a> </li>
           <li><a href="#7">¿Cómo puedo modificar un evento existente?</a> </li>
@@ -822,10 +822,9 @@ require_once("include/db.php");
                 mas visitantes en la web/blog y probables participantes y visitantes a la ciudad del evento.
           </li>
           <li><a name="4">¿Vamos a vender estos datos?¿Cómo monetizamos esto?</a>
-            <br>Absolutamente NO. El objetivo de este mapa es el de darle un valor añadido y una
+            <br>El objetivo de este mapa es el de darle un valor añadido y una
                herramienta de fácil acceso y usabilidad a cualquier aficionado al deporte que busque 
-               eventos a los que asistir o nuevas experiencias deportivas que vivir. En ningún momento 
-               cobramos por añadir ningún evento o similares.
+               eventos a los que asistir o nuevas experiencias deportivas que vivir.
           </li>
           <li><a name="5">¿Qué tipo de eventos hay en el mapa?</a> 
             <br>Este mapa ha sido realizado para que sean añadidos todos los eventos de deporte 

@@ -575,10 +575,6 @@ require_once("include/db.php");
           cookie     : true, // enable cookies to allow the server to access the session
           xfbml      : true  // parse XFBML
         });
-        FB.Event.subscribe('edge.create', function(response) {
-          jQuery("#modal-me-gusta").hide();
-          $.cookie("facebook_liked", true, {expires: 3650});
-        });
       };
       // Load the SDK Asynchronously
       (function(d){
@@ -717,32 +713,6 @@ require_once("include/db.php");
         </li>
       </ul>
     </div>
-
-    <div id="modal-me-gusta" class="modal-backdrop" 
-          style="opacity: 1!important; filter: alpha(opacity=1)!important; background-color: rgba(0,0,0,0.5);">
-      <div class="modal fade in">
-        <div class="modal-header">
-          <h3>Mapa de eventos deportivos</h3>
-        </div>
-        <div class="modal-body" style="max-height: 600px!important;">
-          <img src="images/preview.jpg" alt="Vista previa de la página" style="width:95%;"/>
-          <p class="lead">Indica que te gusta Sportyguest para ver nuestro mapa al completo
-            <div class="fb-like" data-href="https://www.facebook.com/Sportyguest" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="true" data-send="false"></div>
-          </p>
-        </div>
-        <div class="modal-footer">
-          <button id="btn-cerrar-modal-me-gusta" type="button" class="close" data-dismiss="modal">×</button>
-        </div>
-      </div>
-    </div>
-    <script>
-      jQuery("#btn-cerrar-modal-me-gusta").click(function() {
-        jQuery("#modal-me-gusta").hide();
-      });
-      if ($.cookie("facebook_liked") != undefined) {
-        jQuery("#modal-me-gusta").hide();
-      }
-    </script>
     
     <!-- more info modal -->
     <div class="modal hide in" id="modal_info" style="margin-top: -310px!important;">

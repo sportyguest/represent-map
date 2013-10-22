@@ -12,7 +12,7 @@ require_once("include/email.php");
   // Avoid backslash in front of quotes
 $_POST = array_map('stripslashes_deep', $_POST);
 $image_name = "";
-if (isset($_FILES["image"]) && isset($_FILES["image"]["name"])) {
+if (isset($_FILES["image"]) && isset($_FILES["image"]["name"]) && !empty($_FILES["image"]["name"])) {
   $image_name = Evento::createImageName($_FILES["image"]["name"]);
   move_uploaded_file($_FILES["image"]["tmp_name"], Evento::IMAGES_PATH . $image_name);
 }
@@ -45,6 +45,18 @@ if (empty($category)) {
 }
 if (empty($description)) {
   $errors["description"] = 1;
+}
+if (empty($subcategory)) {
+  $errors["subcategory"] = 1;
+}
+if (empty($date)) {
+  $errors["datepicker"] = 1;
+}
+if (empty($web)) {
+  $errors["uri"] = 1;
+}
+if (empty($image_name)) {
+  $errors["image"] = 1;
 }
 if (!empty($errors)) {
   echo json_encode(array( "code" => "fail", 

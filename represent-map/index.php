@@ -886,7 +886,7 @@ require_once("include/db.php");
                 </p>
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group" id="control_group_subcategory">
               <label class="control-label" for="input01">Categoría</label>
               <div class="controls"  id="add_subcategory_container">
                 <select id="add_subcategory"></select>
@@ -906,7 +906,7 @@ require_once("include/db.php");
               </div>
             </div>
             <input type="hidden"name="city" id="add_city">
-            <div class="control-group">
+            <div class="control-group" id="control_group_datepicker">
               <label class="control-label" for="add_date">Fecha</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="datepicker" id="datepicker">
@@ -915,7 +915,7 @@ require_once("include/db.php");
                 </p>
               </div>
             </div> 
-            <div class="control-group">
+            <div class="control-group" id="control_group_uri">
               <label class="control-label" for="add_uri">URL del evento</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_uri" name="uri" placeholder="http://">
@@ -924,7 +924,7 @@ require_once("include/db.php");
                 </p>
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group" id="control_group_image">
               <label class="control-label" for="add_uri">Imagen</label>
               <div class="controls">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -944,9 +944,9 @@ require_once("include/db.php");
             <div class="control-group" id="control_group_description">
               <label class="control-label" for="add_description">Descripción</label>
               <div class="controls">
-                <textarea class="input input-xlarge" id="add_description" name="description" maxlength="300" rows="4"></textarea>
+                <textarea class="input input-xlarge" id="add_description" name="description" maxlength="300" rows="8"></textarea>
                 <p class="help-block">
-                Describe brevemente en que consiste el evento.
+                Describe brevemente en que consiste el evento. Incluye datos importantes como: precio, duración, distancia, que distingue este evento de otros de su categoría...
                 </p>
               </div>
             </div>

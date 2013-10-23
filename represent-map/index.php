@@ -602,8 +602,8 @@ require_once("include/db.php");
         </div>
         <div class="left">
           <div class="logo">
-            <a href="./">
-              <img src="images/logo.png" alt="" />
+            <a href="<?php echo $domain_sportyguest;?>" target="_blank">
+              <img src="images/logo.png" alt="Logo de Sports Maps" />
             </a>
           </div>
           <div class="buttons">
@@ -630,11 +630,6 @@ require_once("include/db.php");
               <option value="10">Noviembre</option>
               <option value="11">Diciembre</option>
             </select>
-          </div>
-          <div class="logo">
-            <a href="http://www.sportyguest.es">
-              <img src="images/logo-sportyguest.png" alt="" />
-            </a>
           </div>
         </div>
       </div>
@@ -1007,7 +1002,7 @@ require_once("include/db.php");
                 } else {
                   $("#modal_addform #result").html(data.msg);
                   $("#modal_addform #result").addClass("alert alert-danger");
-                  var mandatory_fields = ["owner_name", "owner_email", "title", "category", "address", "description"];
+                  var mandatory_fields = ["owner_name", "owner_email", "title", "category", "subcategory", "address", "datepicker", "uri", "image", "description"];
                   // All the fields are cleared
                   for (var i = 0; i < mandatory_fields.length; i++) {
                     var name = "#control_group_" + mandatory_fields[i];

@@ -21,6 +21,8 @@ $lat_lng = "34.034453,-118.341293";
 // Domain to use for various links
 $domain = "http://eventosdeportivos.sportyguest.es";
 
+$domain_sportyguest = "http://www.sportyguest.es";
+
 // Twitter username and default share text
 $twitter = array(
   "share_text" => "Mapa de competiciones deportivas",

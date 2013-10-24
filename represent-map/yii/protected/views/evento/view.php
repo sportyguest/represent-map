@@ -56,24 +56,24 @@ jQuery("#particiado").click(function() {
 	if (response.authResponse) {
 		console.log('Welcome!  Fetching your information.... ');
 		FB.api('/me', function(response) {
-		console.log('Good to see you, ' + response.name + '.');
+			console.log('Good to see you, ' + response.name + '.');
 
-		FB.api(
-			'me/t_sportyguest:participar',
-			'post',
-			{
-				'carrera': '<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>'
-			},
-			function(response) {
-				console.log(response);
-		}
-	});
+			FB.api(
+				'me/t_sportyguest:participar',
+				'post',
+				{
+					'carrera': '<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>'
+				},
+				function(response) {
+					console.log(response);
+				}
+			);
+		});
 	} else {
 		console.log('User cancelled login or did not fully authorize.');
 	}
 	}, {scope: 'publish_actions'});
-);
-})
+});
 </script>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

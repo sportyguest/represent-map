@@ -48,6 +48,33 @@ Yii::app()->clientScript->registerMetaTag($model->image_url, null, null, array('
    }(document, 'script', 'facebook-jssdk'));
 </script>
 <div class="fb-like" data-href="<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="true" data-send="false"></div>
+
+<div><input type="button" id="participado" value="Participado"></div>
+<script>
+jQuery("#particiado").click(function() {
+	FB.login(function(response) {
+	if (response.authResponse) {
+		console.log('Welcome!  Fetching your information.... ');
+		FB.api('/me', function(response) {
+		console.log('Good to see you, ' + response.name + '.');
+
+		FB.api(
+			'me/t_sportyguest:participar',
+			'post',
+			{
+				'carrera': '<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>'
+			},
+			function(response) {
+				console.log(response);
+		}
+	});
+	} else {
+		console.log('User cancelled login or did not fully authorize.');
+	}
+	}, {scope: 'publish_actions'});
+);
+})
+</script>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(

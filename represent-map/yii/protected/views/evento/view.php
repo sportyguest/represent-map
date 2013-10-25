@@ -47,34 +47,84 @@ Yii::app()->clientScript->registerMetaTag($model->image_url, null, null, array('
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-<div class="fb-like" data-href="<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="true" data-send="false"></div>
+
+<div class="fb-comments" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/<?php echo $model->id;?>" data-colorscheme="light" data-numposts="5" data-width="400"></div>
 
 <div><input type="button" id="participado" value="Participado"></div>
-<script>
-jQuery("#particiado").click(function() {
-	FB.login(function(response) {
-	if (response.authResponse) {
-		console.log('Welcome!  Fetching your information.... ');
-		FB.api('/me', function(response) {
-			console.log('Good to see you, ' + response.name + '.');
+<div><input type="button" id="like" value="Like"></div>
 
-			FB.api(
-				'me/t_sportyguest:participar',
-				'post',
-				{
-					'carrera': '<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>'
-				},
-				function(response) {
-					console.log(response);
+<script>
+jQuery("#participado").click(function() {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			var uid = response.authResponse.userID;
+			var accessToken = response.authResponse.accessToken;
+			participarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>');
+		} else if (response.status === 'not_authorized') {
+			// the user is logged in to Facebook, 
+			// but has not authenticated your app
+		} else {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					FB.api('/me', function(response) {
+						participarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>')
+					});
+				} else {
+					console.log('User cancelled login or did not fully authorize.');
 				}
-			);
-		});
-	} else {
-		console.log('User cancelled login or did not fully authorize.');
-	}
-	}, {scope: 'publish_actions'});
+			}, {scope: 'publish_actions'});
+		}
+	});
 });
+jQuery("#like").click(function() {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			var uid = response.authResponse.userID;
+			var accessToken = response.authResponse.accessToken;
+			likeFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>');
+		} else if (response.status === 'not_authorized') {
+			// the user is logged in to Facebook, 
+			// but has not authenticated your app
+		} else {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					FB.api('/me', function(response) {
+						likeFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>')
+					});
+				} else {
+					console.log('User cancelled login or did not fully authorize.');
+				}
+			}, {scope: 'publish_actions'});
+		}
+	});
+});
+
+function participarFB(url) {
+	FB.api(
+		'me/t_sportyguest:participar',
+		'post',
+		{
+			'carrera': url
+		},
+		function(response) {
+			console.log(response);
+		}
+	);
+}
+function likeFB(url) {
+	FB.api(
+		'me/og.likes',
+		'post',
+		{
+			object: url
+		},
+		function(response) {
+			// handle the response
+		}
+	);
+}
 </script>
+
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(

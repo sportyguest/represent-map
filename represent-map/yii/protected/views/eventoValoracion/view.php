@@ -30,6 +30,89 @@ Yii::app()->clientScript->registerMetaTag($model->valoracion_precio, null, null,
 Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_PRECIO_ESCALA, null, null, array('property'=> 't_sportyguest:rating_price_scale'), null);
 ?>
 
+<div class="form">
+	<?php $form=$this->beginWidget('CActiveForm', array(
+		'id'=>'valoracion-form',
+		'enableAjaxValidation'=>false,
+		'htmlOptions'=>array(
+			'onkeypress'=>" if(event.keyCode == 13){ send(); } " /* Do ajax call when user presses enter key */
+		),
+	));
+	?>
+    <?php echo $form->errorSummary($model); ?>
+ 
+	<div class="row">
+		<?php echo $form->labelEx($model,'evento_id'); ?>
+		<?php echo $form->textField($model,'evento_id'); ?>
+		<?php echo $form->error($model,'evento_id'); ?>
+	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'facebook_id'); ?>
+		<?php echo $form->textField($model,'facebook_id'); ?>
+		<?php echo $form->error($model,'facebook_id'); ?>
+	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'valoracion'); ?>
+		<?php echo $form->textField($model,'valoracion'); ?>
+		<?php echo $form->error($model,'valoracion'); ?>
+	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'valoracion_organizacion'); ?>
+		<?php echo $form->textField($model,'valoracion_organizacion'); ?>
+		<?php echo $form->error($model,'valoracion_organizacion'); ?>
+	</div>
+		<div class="row">
+		<?php echo $form->labelEx($model,'valoracion_recorrido'); ?>
+		<?php echo $form->textField($model,'valoracion_recorrido'); ?>
+		<?php echo $form->error($model,'valoracion_recorrido'); ?>
+	</div>
+		<div class="row">
+		<?php echo $form->labelEx($model,'valoracion_precio'); ?>
+		<?php echo $form->textField($model,'valoracion_precio'); ?>
+		<?php echo $form->error($model,'valoracion_precio'); ?>
+	</div>
+		<div class="row">
+		<?php echo $form->labelEx($model,'valoracion_dificultad'); ?>
+		<?php echo $form->textField($model,'valoracion_dificultad'); ?>
+		<?php echo $form->error($model,'valoracion_dificultad'); ?>
+	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'valoracion_actividad_complementaria'); ?>
+		<?php echo $form->textField($model,'valoracion_actividad_complementaria'); ?>
+		<?php echo $form->error($model,'valoracion_actividad_complementaria'); ?>
+	</div>
+    <div class="row buttons">
+        <?php echo CHtml::Button('SUBMIT',array('onclick'=>'send();')); ?> 
+    </div>
+ 
+<?php $this->endWidget(); ?>
+ 
+</div><!-- form -->
+<script type="text/javascript">
+function send()
+ {
+
+	var data = $("#valoracion-form").serialize();
+
+
+	$.ajax({
+		type: 'POST',
+		url: '<?php echo Yii::app()->createAbsoluteUrl("eventoValoracion/ajax"); ?>',
+		data:data,
+		success:function(data){
+			alert(data); 
+		},
+		error: function(data) { // if error occured
+			alert("Error occured.please try again");
+			alert(data);
+		},
+		dataType:'html'
+	});
+ 
+}
+ 
+</script>
+
 <h1>View EventoValoracion #<?php echo $model->id; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(

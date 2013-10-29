@@ -1,6 +1,6 @@
 <?php
 
-class EventoValoracionController extends Controller
+class EventoParticipacionController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -62,14 +62,14 @@ class EventoValoracionController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new EventoValoracion;
+		$model=new EventoParticipacion;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['EventoValoracion']))
+		if(isset($_POST['EventoParticipacion']))
 		{
-			$model->attributes=$_POST['EventoValoracion'];
+			$model->attributes=$_POST['EventoParticipacion'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -91,9 +91,9 @@ class EventoValoracionController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['EventoValoracion']))
+		if(isset($_POST['EventoParticipacion']))
 		{
-			$model->attributes=$_POST['EventoValoracion'];
+			$model->attributes=$_POST['EventoParticipacion'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -122,7 +122,7 @@ class EventoValoracionController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('EventoValoracion');
+		$dataProvider=new CActiveDataProvider('EventoParticipacion');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -133,10 +133,10 @@ class EventoValoracionController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new EventoValoracion('search');
+		$model=new EventoParticipacion('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['EventoValoracion']))
-			$model->attributes=$_GET['EventoValoracion'];
+		if(isset($_GET['EventoParticipacion']))
+			$model->attributes=$_GET['EventoParticipacion'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -145,9 +145,9 @@ class EventoValoracionController extends Controller
 
 	public function actionAjax()
 	{
-		$model = new EventoValoracion;
-		if(isset($_POST['EventoValoracion'])) {
-			$model->attributes = $_POST['EventoValoracion'];
+		$model = new EventoParticipacion;
+		if(isset($_POST['EventoParticipacion'])) {
+			$model->attributes = $_POST['EventoParticipacion'];
 			if($model->validate()) {
 				// form inputs are valid, do something here
 				$model->save();
@@ -159,17 +159,17 @@ class EventoValoracionController extends Controller
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return EventoValoracion the loaded model
+	 * @return EventoParticipacion the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=EventoValoracion::model()->findByPk($id);
+		$model=EventoParticipacion::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -177,11 +177,11 @@ class EventoValoracionController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param EventoValoracion $model the model to be validated
+	 * @param EventoParticipacion $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='evento-valoracion-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='evento-participacion-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

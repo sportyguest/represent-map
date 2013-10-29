@@ -9,6 +9,7 @@ Class Evento {
 	var $name;
 	var $address;
 	var $image_url;
+	var $price;
 	var $description;
 	var $url;
 	var $lat;
@@ -106,11 +107,12 @@ Class Evento {
 		"experiencia" 			=> array(	"experiencias" 						=> "Experiencias")
 	);
 
-	function Evento($nowner_name, $nowner_email, $nname, $nimage_url, $ndescription, $nurl,$naddress,$nlat,$nlng,$ncategory, $nsubcategory,$ndate){
+	function Evento($nowner_name, $nowner_email, $nname, $nimage_url, $nprice, $ndescription, $nurl,$naddress,$nlat,$nlng,$ncategory, $nsubcategory,$ndate){
 		$this->owner_name = $nowner_name;
 		$this->owner_email = $nowner_email;
 		$this->name = $nname;
 		$this->image_url = $nimage_url;
+		$this->price = $nprice;
 		$this->description = $ndescription;
 		$this->url = $nurl;
 		$this->address = $naddress;
@@ -131,6 +133,7 @@ Class Evento {
 				'owner_email'	=> $this->owner_email,
                 'name'          => $this->name,
                 'image_url'		=> $this->image_url,
+                'price'			=> $this->price,
                 'description'   => $this->description,
                 'url'           => $this->url,
                 'address'       => $this->address,
@@ -151,7 +154,8 @@ Class Evento {
 				'owner_name'	=> $this->owner_name,
 				'owner_email'	=> $this->owner_email,
                 'name'          => $this->name,
-                'image_url'	=> $this->image_url,
+                'image_url'		=> $this->image_url,
+                'price'			=> $this->price,
                 'description'   => $this->description,
                 'url'           => $this->url,
                 'address'       => $this->address,
@@ -165,6 +169,7 @@ Class Evento {
 				'id'			=> $this->id
 			),
 			array(
+				'%s',
 				'%s',
 				'%s',
 				'%s',

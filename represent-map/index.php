@@ -257,6 +257,7 @@ require_once("include/db.php");
                                                 $owner_email, 
                                                 $title, 
                                                 $image_url,
+                                                $price,
                                                 $description, 
                                                 $url,
                                                 $address,
@@ -308,7 +309,7 @@ require_once("include/db.php");
         var icon_motociclismo = {"size" : new google.maps.Size(31, 43, "px", "px"), "origin": new google.maps.Point(0, 0)};
         var icon_piraguismo = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(64, 0)};
         var icon_running = {"size" : new google.maps.Size(30, 42, "px", "px"), "origin": new google.maps.Point(63, 43)};
-        var icon_senderesimo = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(32, 0)};
+        var icon_senderismo = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(32, 0)};
         var icon_triatlon = {"size" : new google.maps.Size(31, 42, "px", "px"), "origin": new google.maps.Point(31, 44)};
 
         // add markers
@@ -936,10 +937,19 @@ require_once("include/db.php");
                 </div>
               </div>
             </div>
+            <div class="control-group" id="control_group_price">
+              <label class="control-label" for="add_price">Precio del evento</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" id="add_price" name="price" placeholder="10€">
+                <p class="help-block">
+                Precio de la inscripción en el evento.
+                </p>
+              </div>
+            </div>
             <div class="control-group" id="control_group_description">
               <label class="control-label" for="add_description">Descripción</label>
               <div class="controls">
-                <textarea class="input input-xlarge" id="add_description" name="description" maxlength="300" rows="8"></textarea>
+                <textarea class="input input-xlarge" id="add_description" name="description" maxlength="600" rows="8"></textarea>
                 <p class="help-block">
                 Describe brevemente en que consiste el evento. Incluye datos importantes como: precio, duración, distancia, que distingue este evento de otros de su categoría...
                 </p>
@@ -1002,7 +1012,7 @@ require_once("include/db.php");
                 } else {
                   $("#modal_addform #result").html(data.msg);
                   $("#modal_addform #result").addClass("alert alert-danger");
-                  var mandatory_fields = ["owner_name", "owner_email", "title", "category", "subcategory", "address", "datepicker", "uri", "image", "description"];
+                  var mandatory_fields = ["owner_name", "owner_email", "title", "category", "subcategory", "address", "datepicker", "uri", "image", "price", "description"];
                   // All the fields are cleared
                   for (var i = 0; i < mandatory_fields.length; i++) {
                     var name = "#control_group_" + mandatory_fields[i];

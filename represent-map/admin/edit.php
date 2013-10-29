@@ -28,6 +28,7 @@ if($task == "doedit") {
   $subcategory = $_POST['subcategory_' . $category];
   $address = utf8_encode($_POST['address']);
   $url = $_POST['url'];
+  $price = $_POST['price'];
   $description = utf8_encode($_POST['description']);
   $owner_name = utf8_encode($_POST['owner_name']);
   $owner_email = $_POST['owner_email'];
@@ -36,7 +37,7 @@ if($task == "doedit") {
   $date = $_POST['date'];
   $image_url = "";
   
-  $event = new Evento($owner_name, $owner_email, $name, $image_url, $description, $url, $address, $lat, $lng, $category, $subcategory, $date);
+  $event = new Evento($owner_name, $owner_email, $name, $image_url, $price, $description, $url, $address, $lat, $lng, $category, $subcategory, $date);
   $event->id = $place_id;
   $event->updateDB($wpdb);
   
@@ -136,6 +137,12 @@ if($task == "doedit") {
       <label class="control-label" for="">URL</label>
       <div class="controls">
         <input type="text" class="input input-xlarge" name="url" value="<?php echo $place->url;?>" id="">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="">Price</label>
+      <div class="controls">
+        <input type="text" class="input input-xlarge" name="price" value="<?php echo $place->price;?>" id="">
       </div>
     </div>
     <div class="control-group">

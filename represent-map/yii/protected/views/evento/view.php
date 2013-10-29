@@ -99,12 +99,26 @@ jQuery("#like").click(function() {
 	});
 });
 
-function participarFB(url) {
+function participarFB(url, years) {
 	FB.api(
-		'me/t_sportyguest:participar',
+		'me/t_sportyguest:participate',
 		'post',
 		{
-			'carrera': url
+			'sport_event': url,
+			'years': years
+		},
+		function(response) {
+			console.log(response);
+		}
+	);
+}
+function valorarFB(rating_url, evento_url) {
+	FB.api(
+		'me/t_sportyguest:rate',
+		'post',
+		{
+			'rating': rating_url,
+			'evento': evento_url
 		},
 		function(response) {
 			console.log(response);
@@ -119,7 +133,7 @@ function likeFB(url) {
 			object: url
 		},
 		function(response) {
-			// handle the response
+			console.log(response);
 		}
 	);
 }

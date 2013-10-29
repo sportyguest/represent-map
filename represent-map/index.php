@@ -2,7 +2,7 @@
 include_once "header.php";
 define( 'SHORTINIT', true );
 //require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-load.php' );
-require_once("/var/www/sportyguest/wp-load.php");
+require_once("c:/wamp/www/sportyguest/wp-load.php");
 
 require_once ("include/evento.php");
 require_once ("include/experiencia.php");
@@ -55,6 +55,13 @@ require_once("include/db.php");
     <link rel="stylesheet" href="./bootstrap/css/bootstrap-fileupload.min.css" />
     <script src="./bootstrap/js/bootstrap-fileupload.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./scripts/jquery.cookie.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="popupmap.css" />
+
+    <!-- estrellitas -->
+    <link href="src/rateit.css" rel="stylesheet" type="text/css">
+    <!-- alternative styles -->
+    <link href="content/bigstars.css" rel="stylesheet" type="text/css">
+
     
     <!-- Code to show the list of addresses -->
     <style>
@@ -134,6 +141,10 @@ require_once("include/db.php");
 
 
       // initialize map
+
+    var pestanyaActiva = 1;
+
+
       function initialize() {
         // set map styles
         var mapStyles = [
@@ -382,25 +393,65 @@ require_once("include/db.php");
           if (marker.date != undefined) {
             date = marker.date.toLocaleDateString();
           }
-          var titulo = "<div class='marker_title'>" + val[0] + "</div>";
-          var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div>";
-          var date = "<div class='marker_date'>"+date+"</div>";
-          var description = "<div class='marker_desc'>"+val[5]+"</div>";
+          var menu ="<div id='menu_superior'><div id='menu_sup_pestanya1'><a href='#' onclick='cambiaPestanya(1)'>Información</a></div><div id='menu_sup_pestanya2'><a href='#' onclick='cambiaPestanya(2)'>Valoraciones</a></div><div id='menu_sup_pestanya3'><a href='#' onclick='cambiaPestanya(3)'>Comentarios</a></div><div id='menu_sup_pestanya4'><a href='#' onclick='cambiaPestanya(4)'>Fotos</a></div></div>"; 
+
+          // CAPA 1: INFORMACIÓN
+          var titulo = "<div id='capa1'><div id='contenedor_superior'><div id='contenedor_sup_izq'><div class='marker_title'>" + val[0] + "</div>";
           var address = "<div class='marker_address'>"+val[7]+"</div>";
+          var date = "<div class='marker_date'>"+date+"</div>";
+          var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div></div>";
+          var asistire = "<div id='contenedor_sup_der'><div id='asistire'>Asistiré</div>";
+          var megustaria = "<div id='megustaria'>Me gustaría asistir</div></div></div>";
+          var valoracionActual ="<div id='valoracionActual'>Estrellitas</div>";
+          //var separador ="<div id='contenedor_inferior'><hr>";
+          var description = "<div class='marker_desc'><span>Descripción</span><br>"+val[5]+"</div>";
           var crear_experiencia = "";
           if (marker.category != "experiencia") {
-            crear_experiencia = "<div class='marker_uri'><a target='_blank' href='http://www.sportyguest.es/crear-experiencia/'>Crea una experiencia cerca de " + val[0] + "</a></div>";
+            crear_experiencia = "<div id='crear_exp'class='marker_uri'><span>Crea una experiencia cerca de " + val[0] + "</span><br><a href='http://www.sportyguest.es/crear-experiencia/'><img src='images/boton_crear.png' alt='crear'></a></div></div></div></div>"; 
           }
-          var rate = "<div><form action='rate.php' id='form_rating' method='POST'><input type='hidden' id='event_id' value='" + i + "'><select id='rate'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><input type='submit' value='Valorar'></form></div>";
+
+          var capa1 = titulo + address  + date + url + asistire + megustaria + valoracionActual + description + crear_experiencia;
+
+          // CAPA 2: VALORACIONES
+
+          var valoracionGeneral = "<div id='capa2' style='display: none;'><div id='valoracionGeneral'>Valoración general</div>";
+          var valoracionPorCriterios = "<div id='valoracionPorCriterios'>Valoración por criterios</div>";
+          var dificultad ="<div id='dificultad'><div>Dificultad</div><div>nota (6,3)</div></div>";
+          var estrellas = "<div class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div>";
+          var organizacion ="<div id='organizacion'>Organización</div>";
+          var atractivo = "<div id='atractivo'>Atractivo</div>";
+          var precio = "<div id='precio'>Precio</div>";
+          var actComplementarias = "<div id='actComplementarias'>Actividades complementarias</div>";
+
+          var recomienda ="<div id='recomienda'>Recomienda</div>";
+          var comentario ="<div id='comentario'>Comentario</div></div>";
+
+
+          var capa2 = valoracionGeneral + valoracionPorCriterios + dificultad + estrellas + organizacion + atractivo + precio + actComplementarias + recomienda + comentario;
+
+          // CAPA 3: COMENTARIOS
+
+          var capa3 ="<div id='capa3' style='display: none;'>capa 3</div>";
+
+          // CAPA 4: FOTOS
+          var capa4 ="<div id='capa4' style='display: none;'>capa 4</div>";
+
+          var fotos ="<div id='fotos'>aquí van las fotos</div>";
+
+          
+          var rate = "<div id='rate'><form action='rate.php' id='form_rating' method='POST'><input type='hidden' id='event_id' value='" + i + "'><select id='rate'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><input type='submit' value='Valorar'></form></div></div></div>";
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
-            infowindow.setContent(titulo + date + url + description + address + crear_experiencia + rate);
+            infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
             infowindow.open(map, this);
 
           });
           // add marker rating code
           google.maps.event.addListener(infowindow, 'domready', function() {
+          	// fix de las estrellitas
+          	$('.rateit').rateit();
+
             $("#form_rating").submit(function(event) {
               event.preventDefault();
               var event_id = $(this).find('#event_id').val();
@@ -460,6 +511,36 @@ require_once("include/db.php");
         });
       });
 
+      //cambiar el contenido de contenedor_sup_der cuando se hace click en asistiré o me gustaria asistir de FB
+      //la activación está pendiente de implementar
+      function muestraOcultaContenedorSupDer(){
+      	if(document.getElementById('asistire').display!='none'){
+      		document.getElementById('asistire').style.display='none';
+      		document.getElementById('megustaria').style.display='none';
+      		document.getElementById('rate').style.display='none';
+      	}
+      	else{
+      		document.getElementById('asistire').style.display='block';
+      		document.getElementById('megustaria').style.display='block';
+      		document.getElementById('rate').style.display='block';
+      	}      	
+      }
+
+      function cambiaPestanya(activa){
+      		var pestanya = 'capa' + activa;
+      		var imagenPestanya = 'menu_sup_pestanya' + activa;
+      		document.getElementById('capa1').style.display = 'none';
+      		document.getElementById('menu_sup_pestanya1').style.backgroundImage="url('images/pestanya_off.png')";
+      		document.getElementById('capa2').style.display = 'none';
+      		document.getElementById('menu_sup_pestanya2').style.backgroundImage="url('images/pestanya_off.png')";
+      		document.getElementById('capa3').style.display = 'none';
+      		document.getElementById('menu_sup_pestanya3').style.backgroundImage="url('images/pestanya_off.png')";
+      		document.getElementById('capa4').style.display = 'none';
+      		document.getElementById('menu_sup_pestanya4').style.backgroundImage="url('images/pestanya_off.png')";
+      		document.getElementById(pestanya).style.display = 'block';
+      		document.getElementById(imagenPestanya).style.backgroundImage="url('images/pestanya_on.png')";
+      }
+  
       // zoom to specific marker
       function goToMarker(marker_id) {
         if(marker_id) {
@@ -1018,6 +1099,82 @@ require_once("include/db.php");
               });
         });
         });
-    </script>    
+    </script>
+
+
+    <!-- SCRIPTS ESTRELLITAS -->
+
+
+<script type="text/javascript">
+                //we bind only to the rateit controls within the products div
+                $('#products .rateit').bind('rated reset', function (e) {
+                    var ri = $(this);
+
+                    //if the use pressed reset, it will get value: 0 (to be compatible with the HTML range control), we could check if e.type == 'reset', and then set the value to  null .
+                    var value = ri.rateit('value');
+                    var productID = ri.data('productid'); // if the product id was in some hidden field: ri.closest('li').find('input[name="productid"]').val()
+
+                    //maybe we want to disable voting?
+                    ri.rateit('readonly', true);
+
+                    $.ajax({
+                        url: 'rateit.aspx', //your server side script
+                        data: { id: productID, value: value }, //our data
+                        type: 'POST',
+                        success: function (data) {
+                            $('#response').append('<li>' + data + '</li>');
+
+                        },
+                        error: function (jxhr, msg, err) {
+                            $('#response').append('<li style="color:red">' + msg + '</li>');
+                        }
+                    });
+                });
+            </script>
+
+            
+
+    <script src="src/jquery.rateit.js" type="text/javascript"></script>
+
+    <script>
+        //build toc
+        var toc = [];
+        $('#examples > li').each(function (i, e) {
+
+
+            if (i > 0)
+                toc.push(', ');
+            toc.push('<a href="#')
+            toc.push(e.id)
+            toc.push('">')
+            var title = $(e).find('h3:first').text();
+            title = title.substring(title.indexOf(')') + 2);
+            toc.push(title);
+            toc.push('</a>');
+
+        });
+
+        $('#toc').html(toc.join(''));
+
+    </script>
+
+    <!-- syntax highlighter -->
+
+    <script src="sh/shCore.js" type="text/javascript"></script>
+
+    <script src="sh/shBrushJScript.js" type="text/javascript"></script>
+
+    <script src="sh/shBrushXml.js" type="text/javascript"></script>
+
+    <script src="sh/shBrushCss.js" type="text/javascript"></script>
+
+    <script src="sh/shBrushCSharp.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        SyntaxHighlighter.all()
+    </script>
+
+
+
   </body>
 </html>

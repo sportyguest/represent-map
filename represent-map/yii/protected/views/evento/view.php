@@ -214,8 +214,8 @@ function valorarFB(evento_url, uid) {
 	var rating_price = $("#EventoValoracion_valoracion_precio").val();
 	var rating_extra = $("#EventoValoracion_valoracion_actividad_complementaria").val();
 	var data = {
-					evento_id: <?php echo $model->id;?>, 
-					facebook_id: uid, 
+					'EventoValoracion[evento_id]': <?php echo $model->id;?>, 
+					'EventoValoracion[facebook_id]': uid, 
 					'EventoValoracion[valoracion]': rating,
 					'EventoValoracion[valoracion_organizacion]': rating_org,
 					'EventoValoracion[valoracion_dificultad]': rating_diff,

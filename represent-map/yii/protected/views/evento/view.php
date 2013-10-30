@@ -207,12 +207,12 @@ function participarFB(url, uid) {
 	);
 }
 function valorarFB(evento_url, uid) {
-	var rating = $("#valoracion").val();
-	var rating_org = $("#valoracion_organizacion").val();
-	var rating_diff = $("#valoracion_dificultad").val();
-	var rating_route = $("#valoracion_recorrido").val();
-	var rating_price = $("#valoracion_precio").val();
-	var rating_extra = $("#valoracion_actividad_complementaria").val();
+	var rating = $("#EventoValoracion_valoracion").val();
+	var rating_org = $("#EventoValoracion_valoracion_organizacion").val();
+	var rating_diff = $("#EventoValoracion_valoracion_dificultad").val();
+	var rating_route = $("#EventoValoracion_valoracion_recorrido").val();
+	var rating_price = $("#EventoValoracion_valoracion_precio").val();
+	var rating_extra = $("#EventoValoracion_valoracion_actividad_complementaria").val();
 	var data = {
 					evento_id: <?php echo $model->id;?>, 
 					facebook_id: uid, 

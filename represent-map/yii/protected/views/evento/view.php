@@ -109,9 +109,6 @@ jQuery("#participado").click(function() {
 			uid = response.authResponse.userID;
 			var accessToken = response.authResponse.accessToken;
 			participarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>', uid);
-		} else if (response.status === 'not_authorized') {
-			// the user is logged in to Facebook, 
-			// but has not authenticated your app
 		} else {
 			FB.login(function(response) {
 				if (response.authResponse) {
@@ -132,9 +129,6 @@ jQuery("#like").click(function() {
 			uid = response.authResponse.userID;
 			var accessToken = response.authResponse.accessToken;
 			likeFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>');
-		} else if (response.status === 'not_authorized') {
-			// the user is logged in to Facebook, 
-			// but has not authenticated your app
 		} else {
 			FB.login(function(response) {
 				if (response.authResponse) {
@@ -154,9 +148,6 @@ jQuery("#valorar").click(function() {
 			uid = response.authResponse.userID;
 			var accessToken = response.authResponse.accessToken;
 			valorarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>', uid);
-		} else if (response.status === 'not_authorized') {
-			// the user is logged in to Facebook, 
-			// but has not authenticated your app
 		} else {
 			FB.login(function(response) {
 				if (response.authResponse) {

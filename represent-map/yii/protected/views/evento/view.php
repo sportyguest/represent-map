@@ -52,6 +52,7 @@ Yii::app()->clientScript->registerMetaTag($model->image_url, null, null, array('
 
 <div><input type="button" id="participado" value="Participado"></div>
 <div><input type="button" id="like" value="Like"></div>
+<div><input type="button" id="valorar" value="Valorar"></div>
 
 <script>
 jQuery("#participado").click(function() {
@@ -98,6 +99,28 @@ jQuery("#like").click(function() {
 		}
 	});
 });
+jQuery("#valorar").click(function() {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			var uid = response.authResponse.userID;
+			var accessToken = response.authResponse.accessToken;
+			valorarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>','http://eventosdeportivos.sportyguest.es/yii/eventoValoracion/view/id/1');
+		} else if (response.status === 'not_authorized') {
+			// the user is logged in to Facebook, 
+			// but has not authenticated your app
+		} else {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					FB.api('/me', function(response) {
+						valorarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>', 'http://eventosdeportivos.sportyguest.es/yii/eventoValoracion/view/id/1');
+					});
+				} else {
+					console.log('User cancelled login or did not fully authorize.');
+				}
+			}, {scope: 'publish_actions'});
+		}
+	});
+});
 
 function participarFB(url, years) {
 	FB.api(
@@ -118,7 +141,7 @@ function valorarFB(rating_url, evento_url) {
 		'post',
 		{
 			'rating': rating_url,
-			'evento': evento_url
+			'sport_event': evento_url
 		},
 		function(response) {
 			console.log(response);

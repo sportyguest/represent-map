@@ -18,14 +18,14 @@ Yii::app()->clientScript->registerMetaTag("309591845843765", null, null, array('
 Yii::app()->clientScript->registerMetaTag("t_sportyguest:rating", null, null, array('property'=> 'og:type'), null);
 Yii::app()->clientScript->registerMetaTag($model->valoracion, null, null, array('property'=> 't_sportyguest:rating_value'), null);
 Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_ESCALA, null, null, array('property'=> 't_sportyguest:rating_scale'), null);
-Yii::app()->clientScript->registerMetaTag($model->valoracion_organizacion, null, null, array('property'=> 't_sportyguest:rating_organization_value'), null);
-Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_ORGANIZACION_ESCALA, null, null, array('property'=> 't_sportyguest:rating_organization_scale'), null);
-Yii::app()->clientScript->registerMetaTag($model->valoracion_dificultad, null, null, array('property'=> 't_sportyguest:rating_difficulty_value'), null);
-Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_DIFICULTAD_ESCALA, null, null, array('property'=> 't_sportyguest:rating_difficulty_scale'), null);
+Yii::app()->clientScript->registerMetaTag($model->valoracion_organizacion, null, null, array('property'=> 't_sportyguest:rating_org_value'), null);
+Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_ORGANIZACION_ESCALA, null, null, array('property'=> 't_sportyguest:rating_org_scale'), null);
+Yii::app()->clientScript->registerMetaTag($model->valoracion_dificultad, null, null, array('property'=> 't_sportyguest:rating_diff_value'), null);
+Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_DIFICULTAD_ESCALA, null, null, array('property'=> 't_sportyguest:rating_diff_scale'), null);
 Yii::app()->clientScript->registerMetaTag($model->valoracion_recorrido, null, null, array('property'=> 't_sportyguest:rating_route_value'), null);
 Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_RECORRIDO_ESCALA, null, null, array('property'=> 't_sportyguest:rating_route_scale'), null);
-Yii::app()->clientScript->registerMetaTag($model->valoracion_actividad_complementaria, null, null, array('property'=> 't_sportyguest:rating_extra_activities_value'), null);
-Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_ACTIVIDAD_COMPLEMENTARIA_ESCALA, null, null, array('property'=> 't_sportyguest:rating_extra_activities_scale'), null);
+Yii::app()->clientScript->registerMetaTag($model->valoracion_actividad_complementaria, null, null, array('property'=> 't_sportyguest:rating_extra_value'), null);
+Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_ACTIVIDAD_COMPLEMENTARIA_ESCALA, null, null, array('property'=> 't_sportyguest:rating_extra_scale'), null);
 Yii::app()->clientScript->registerMetaTag($model->valoracion_precio, null, null, array('property'=> 't_sportyguest:rating_price_value'), null);
 Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_PRECIO_ESCALA, null, null, array('property'=> 't_sportyguest:rating_price_scale'), null);
 ?>

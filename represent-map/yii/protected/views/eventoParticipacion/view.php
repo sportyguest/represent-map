@@ -15,7 +15,7 @@ $this->menu=array(
 	array('label'=>'Manage EventoParticipacion', 'url'=>array('admin')),
 );
 Yii::app()->clientScript->registerMetaTag("309591845843765", null, null, array('property'=>'og:app_id'), null);
-Yii::app()->clientScript->registerMetaTag("t_sportyguest:participation", null, null, array('property'=> 'og:type'), null);
+Yii::app()->clientScript->registerMetaTag("t_sportyguest:participate", null, null, array('property'=> 'og:type'), null);
 
 ?>
 <div class="form">

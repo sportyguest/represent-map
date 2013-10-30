@@ -17,6 +17,10 @@
 	<?php echo CHtml::encode($data->facebook_id); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('facebook_participacion_id')); ?>:</b>
+	<?php echo CHtml::encode($data->facebook_participacion_id); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('year')); ?>:</b>
 	<?php echo CHtml::encode($data->year); ?>
 	<br />

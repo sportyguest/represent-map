@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $evento_id
  * @property string $facebook_id
+ * @property string $facebook_valoracion_id
  * @property integer $valoracion
  * @property integer $valoracion_organizacion
  * @property integer $valoracion_dificultad
@@ -43,10 +44,10 @@ class EventoValoracion extends CActiveRecord
 		return array(
 			array('evento_id, facebook_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'required'),
 			array('evento_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'numerical', 'integerOnly'=>true),
-			array('facebook_id', 'length', 'max'=>20),
+			array('facebook_id, facebook_valoracion_id', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, evento_id, facebook_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'safe', 'on'=>'search'),
+			array('id, evento_id, facebook_id, facebook_valoracion_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,6 +72,7 @@ class EventoValoracion extends CActiveRecord
 			'id' => 'ID',
 			'evento_id' => 'Evento',
 			'facebook_id' => 'Facebook',
+			'facebook_valoracion_id' => 'Facebook Valoracion',
 			'valoracion' => 'Valoracion',
 			'valoracion_organizacion' => 'Valoracion Organizacion',
 			'valoracion_dificultad' => 'Valoracion Dificultad',
@@ -101,6 +103,7 @@ class EventoValoracion extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('evento_id',$this->evento_id);
 		$criteria->compare('facebook_id',$this->facebook_id,true);
+		$criteria->compare('facebook_valoracion_id',$this->facebook_valoracion_id,true);
 		$criteria->compare('valoracion',$this->valoracion);
 		$criteria->compare('valoracion_organizacion',$this->valoracion_organizacion);
 		$criteria->compare('valoracion_dificultad',$this->valoracion_dificultad);

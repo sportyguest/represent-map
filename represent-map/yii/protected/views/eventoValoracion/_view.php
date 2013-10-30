@@ -17,6 +17,10 @@
 	<?php echo CHtml::encode($data->facebook_id); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('facebook_valoracion_id')); ?>:</b>
+	<?php echo CHtml::encode($data->facebook_valoracion_id); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('valoracion')); ?>:</b>
 	<?php echo CHtml::encode($data->valoracion); ?>
 	<br />
@@ -29,11 +33,11 @@
 	<?php echo CHtml::encode($data->valoracion_dificultad); ?>
 	<br />
 
+	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('valoracion_recorrido')); ?>:</b>
 	<?php echo CHtml::encode($data->valoracion_recorrido); ?>
 	<br />
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('valoracion_actividad_complementaria')); ?>:</b>
 	<?php echo CHtml::encode($data->valoracion_actividad_complementaria); ?>
 	<br />

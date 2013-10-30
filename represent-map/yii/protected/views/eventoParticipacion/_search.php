@@ -27,6 +27,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'facebook_participacion_id'); ?>
+		<?php echo $form->textField($model,'facebook_participacion_id',array('size'=>20,'maxlength'=>20)); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'year'); ?>
 		<?php echo $form->textField($model,'year'); ?>
 	</div>

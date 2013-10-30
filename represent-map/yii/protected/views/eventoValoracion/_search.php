@@ -27,6 +27,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'facebook_valoracion_id'); ?>
+		<?php echo $form->textField($model,'facebook_valoracion_id',array('size'=>20,'maxlength'=>20)); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'valoracion'); ?>
 		<?php echo $form->textField($model,'valoracion'); ?>
 	</div>

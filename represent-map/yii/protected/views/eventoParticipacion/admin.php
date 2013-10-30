@@ -48,6 +48,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'id',
 		'evento_id',
 		'facebook_id',
+		'facebook_participacion_id',
 		'year',
 		array(
 			'class'=>'CButtonColumn',

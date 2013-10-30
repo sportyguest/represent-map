@@ -150,11 +150,19 @@ class EventoValoracionController extends Controller
 			$model->attributes = $_POST['EventoValoracion'];
 			if($model->validate()) {
 				// form inputs are valid, do something here
-				$model->save();
-				echo "success";
+				if (isset($_POST['EventoValoracion']['id']) && 
+					EventoValoracion::model()->exists('id=:id', 
+						array(':id'=>$_POST['EventoValoracion']['id'])
+						)
+					) {
+					$model->update();
+				} else {
+					$model->save();
+				}
+				echo json_encode(array("id" => $model->getPrimaryKey(), "code" => "success"));
 				return;
 			} else {
-				echo "error";
+				echo json_encode(array("code" => "error"));
 				return;
 			}
 		}

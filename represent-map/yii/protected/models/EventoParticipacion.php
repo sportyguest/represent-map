@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $evento_id
  * @property string $facebook_id
+ * @property string $facebook_participacion_id
  * @property integer $year
  *
  * The followings are the available model relations:
@@ -32,10 +33,10 @@ class EventoParticipacion extends CActiveRecord
 		return array(
 			array('evento_id, facebook_id', 'required'),
 			array('evento_id, year', 'numerical', 'integerOnly'=>true),
-			array('facebook_id', 'length', 'max'=>20),
+			array('facebook_id, facebook_participacion_id', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, evento_id, facebook_id, year', 'safe', 'on'=>'search'),
+			array('id, evento_id, facebook_id, facebook_participacion_id, year', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +61,7 @@ class EventoParticipacion extends CActiveRecord
 			'id' => 'ID',
 			'evento_id' => 'Evento',
 			'facebook_id' => 'Facebook',
+			'facebook_participacion_id' => 'Facebook Participacion',
 			'year' => 'Year',
 		);
 	}
@@ -85,6 +87,7 @@ class EventoParticipacion extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('evento_id',$this->evento_id);
 		$criteria->compare('facebook_id',$this->facebook_id,true);
+		$criteria->compare('facebook_participacion_id',$this->facebook_participacion_id,true);
 		$criteria->compare('year',$this->year);
 
 		return new CActiveDataProvider($this, array(

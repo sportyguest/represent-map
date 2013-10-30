@@ -32,6 +32,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'facebook_participacion_id'); ?>
+		<?php echo $form->textField($model,'facebook_participacion_id',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->error($model,'facebook_participacion_id'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'year'); ?>
 		<?php echo $form->textField($model,'year'); ?>
 		<?php echo $form->error($model,'year'); ?>

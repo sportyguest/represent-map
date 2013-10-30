@@ -233,7 +233,7 @@ function valorarFB(evento_url, uid) {
 			if (data.code == "success") {
 				var rating_url = 'http://eventosdeportivos.sportyguest.es/yii/eventoValoracion/view/id/' + data.id;
 				FB.api(
-					'me/sportyguest_eventos:rate',
+					'me/sportyguest_eventos:rating',
 					'post',
 					{
 						'rating': rating_url,

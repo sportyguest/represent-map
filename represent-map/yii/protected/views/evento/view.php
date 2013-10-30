@@ -15,11 +15,13 @@ $this->menu=array(
 	array('label'=>'Manage Evento', 'url'=>array('admin')),
 );
 Yii::app()->clientScript->registerMetaTag("309591845843765", null, null, array('property'=>'og:app_id'), null);
-Yii::app()->clientScript->registerMetaTag("t_sportyguest:carrera", null, null, array('property'=> 'og:type'), null);
+Yii::app()->clientScript->registerMetaTag("t_sportyguest:sport_event", null, null, array('property'=> 'og:type'), null);
 Yii::app()->clientScript->registerMetaTag($model->url, null, null, array('property'=> 'og:see_also'), null);
 Yii::app()->clientScript->registerMetaTag($model->name, null, null, array('property'=>'og:title'), null);
 Yii::app()->clientScript->registerMetaTag($model->description, null, null, array('property'=> 'og:description'), null);
-Yii::app()->clientScript->registerMetaTag($model->image_url, null, null, array('property'=> 'og:image'), null);
+if (!empty($model->image_url)) {
+	Yii::app()->clientScript->registerMetaTag($model->image_url, null, null, array('property'=> 'og:image'), null);
+}
 ?>
 
 <h1>View Evento #<?php echo $model->id; ?></h1>

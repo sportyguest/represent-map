@@ -249,7 +249,7 @@ function valorarFB(evento_url, uid) {
 			alert("Error occured.please try again");
 			alert(data);
 		},
-		dataType:'html'
+		dataType:'json'
 	});
 }
 function likeFB(url) {

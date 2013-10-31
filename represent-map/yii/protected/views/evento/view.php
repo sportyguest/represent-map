@@ -121,7 +121,7 @@ jQuery("#participado").click(function() {
 				} else {
 					console.log('User cancelled login or did not fully authorize.');
 				}
-			}, {scope: 'publish_actions, email, friends'});
+			}, {scope: 'publish_actions, email, user_friends'});
 		}
 	});
 });
@@ -140,7 +140,7 @@ jQuery("#like").click(function() {
 				} else {
 					console.log('User cancelled login or did not fully authorize.');
 				}
-			}, {scope: 'publish_actions, email, friends'});
+			}, {scope: 'publish_actions, email, user_friends'});
 		}
 	});
 });
@@ -160,7 +160,7 @@ jQuery("#valorar").click(function() {
 				} else {
 					console.log('User cancelled login or did not fully authorize.');
 				}
-			}, {scope: 'publish_actions, email, friends'});
+			}, {scope: 'publish_actions, email, user_friends'});
 		}
 	});
 });

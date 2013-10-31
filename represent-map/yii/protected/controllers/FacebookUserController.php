@@ -1,5 +1,5 @@
 <?php
-require_once('../extensions/facebook/facebook.php');
+require_once('facebook.php');
 class FacebookUserController extends Controller
 {
 	/**

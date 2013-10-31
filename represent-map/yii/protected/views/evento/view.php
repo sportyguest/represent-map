@@ -106,12 +106,14 @@ var uid;
 jQuery("#participado").click(function() {
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
+			saveFBData();
 			uid = response.authResponse.userID;
 			var accessToken = response.authResponse.accessToken;
 			participarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>', uid);
 		} else {
 			FB.login(function(response) {
 				if (response.authResponse) {
+					saveFBData();
 					uid = response.authResponse.userID;
 					FB.api('/me', function(response) {
 						participarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>',  uid);
@@ -119,7 +121,7 @@ jQuery("#participado").click(function() {
 				} else {
 					console.log('User cancelled login or did not fully authorize.');
 				}
-			}, {scope: 'publish_actions'});
+			}, {scope: 'publish_actions, email, friends'});
 		}
 	});
 });
@@ -138,7 +140,7 @@ jQuery("#like").click(function() {
 				} else {
 					console.log('User cancelled login or did not fully authorize.');
 				}
-			}, {scope: 'publish_actions'});
+			}, {scope: 'publish_actions, email, friends'});
 		}
 	});
 });
@@ -158,10 +160,25 @@ jQuery("#valorar").click(function() {
 				} else {
 					console.log('User cancelled login or did not fully authorize.');
 				}
-			}, {scope: 'publish_actions'});
+			}, {scope: 'publish_actions, email, friends'});
 		}
 	});
 });
+
+function saveFBData() {
+	$.ajax({
+		type: 'POST',
+		url: '<?php echo Yii::app()->createAbsoluteUrl("facebookUser/ajax"); ?>',
+		success:function(data){
+			alert(data); 
+		},
+		error: function(data) { // if error occured
+			alert("Error occured.please try again");
+			alert(data);
+		},
+		dataType:'json'
+	});
+}
 
 function participarFB(url, uid) {
 	FB.api(

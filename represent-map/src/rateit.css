@@ -81,9 +81,9 @@
 
 .rateit button.rateit-reset
 {
-    background: url(delete.gif) 0 0;
-    width: 16px;
-    height: 16px;
+    background: url(delete2.gif) 0 0;
+    width: 12px;
+    height: 12px;
     display: -moz-inline-box;
     display: inline-block;
     float: left;
@@ -94,5 +94,5 @@
 
 .rateit button.rateit-reset:hover, .rateit button.rateit-reset:focus
 {
-    background-position: 0 -16px;
+    background-position: 0 -12px;
 }

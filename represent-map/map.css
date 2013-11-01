@@ -689,6 +689,34 @@ div#precio{
 	font-size: 13px;
 }
 
+.txt_val1{
+	display: table-cell;
+	width: 100%;
+	font-family: lilyupc !important;
+	font-weight: bold !important;
+	font-size: 23px !important; 
+}
+
+.txt_val2{
+	display: table-cell;
+	width: 100%;
+	vertical-align: middle;
+}
+
+.estrellas_val{
+	display: table-cell;
+	min-width: 105px; /* 90+12+espacio*/
+}
+
+.nota_val{
+	display: table-cell;
+	text-align: right;
+	min-width: 60px;
+	#line-height: 50%;
+	vertical-align: middle;
+}
+
+
 /* ESTRELLITAS */
 div.bigstars div.rateit-range
 {
@@ -717,3 +745,4 @@ div.bigstars div.rateit-reset:hover
 {
     background: url(star-white32.png);
 }
+

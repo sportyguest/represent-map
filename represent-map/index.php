@@ -291,6 +291,26 @@ require_once("include/db.php");
             $evento->address = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->address)));
             $evento->category = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->category)));
             $evento->url = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->url)));
+            $evento->id = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->id))); // añadida
+            // añadido
+            $wpdb->show_errors();
+              
+            //var_dump($valoracionGeneral);
+            if($evento->category != 'experiencia'){
+            	$consulta = "SELECT AVG(valoracion) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
+            	$valoracionGeneral = $wpdb->get_var($consulta);
+	            $consulta = "SELECT AVG(valoracion_dificultad) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
+	            $valoracionDificultad = $wpdb->get_var($consulta);  
+	            $consulta = "SELECT AVG(valoracion_organizacion) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
+	            $valoracionOrganizacion  = $wpdb->get_var($consulta);  
+				$consulta = "SELECT AVG(valoracion_recorrido) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
+	            $valoracionAtractivo = $wpdb->get_var($consulta);  
+	           	$consulta = "SELECT AVG(valoracion_precio) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
+	            $valoracionPrecio = $wpdb->get_var($consulta);  
+	            $consulta = "SELECT AVG(valoracion_actividad_complementaria) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
+	            $valoracionActComplementarios = $wpdb->get_var($consulta);  
+	        }
+
             $date = "";
             if ($evento->date != "") {
               $date = (strtotime($evento->date) * 1000);
@@ -304,7 +324,14 @@ require_once("include/db.php");
                                   $evento->description . "', '" . 
                                   $evento->url . "', '" . 
                                   $evento->address . "', " .
-                                  $date . "]); 
+                                  $date . ", '" .
+                                  $evento->id . "', '" . 
+                                  $valoracionGeneral . "', '" .  
+                                  $valoracionDificultad . "', '" . 
+                                  $valoracionOrganizacion  . "', '" .  
+                                  $valoracionAtractivo   . "', '" . 
+                                  $valoracionPrecio   . "', '" .
+                                  $valoracionActComplementarios . "']); //cuidado con las comillas 
                  markerTitles[" . $marker_id . "] = '" . $evento->name . "';
                "; 
             $count[$evento->category]++;
@@ -394,7 +421,7 @@ require_once("include/db.php");
           if (marker.date != undefined) {
             date = marker.date.toLocaleDateString();
           }
-          var menu ="<div id='menu_superior'><div id='menu_sup_pestanya1'><a href='#' onclick='cambiaPestanya(1)'>Información</a></div><div id='menu_sup_pestanya2'><a href='#' onclick='cambiaPestanya(2)'>Valoraciones</a></div><div id='menu_sup_pestanya3'><a href='#' onclick='cambiaPestanya(3)'>Comentarios</a></div><div id='menu_sup_pestanya4'><a href='#' onclick='cambiaPestanya(4)'>Fotos</a></div></div>"; 
+          var menu ="<div id='contenedor'><div id='menu_superior'><div id='menu_sup_pestanya1'><a href='#' onclick='cambiaPestanya(1)'>Información</a></div><div id='menu_sup_pestanya2'><a href='#' onclick='cambiaPestanya(2)'>Valoraciones</a></div><div id='menu_sup_pestanya3'><a href='#' onclick='cambiaPestanya(3)'>Comentarios</a></div><div id='menu_sup_pestanya4'><a href='#' onclick='cambiaPestanya(4)'>Fotos</a></div></div>"; 
 
           // CAPA 1: INFORMACIÓN
           var titulo = "<div id='capa1'><div id='contenedor_superior'><div id='contenedor_sup_izq'><div class='marker_title'>" + val[0] + "</div>";
@@ -404,7 +431,6 @@ require_once("include/db.php");
           var asistire = "<div id='contenedor_sup_der'><div id='asistire'>Asistiré</div>";
           var megustaria = "<div id='megustaria'>Me gustaría asistir</div></div></div>";
           var valoracionActual ="<div id='valoracionActual'>Estrellitas</div>";
-          //var separador ="<div id='contenedor_inferior'><hr>";
           var description = "<div class='marker_desc'><span>Descripción</span><br>"+val[5]+"</div>";
           var crear_experiencia = "";
           if (marker.category != "experiencia") {
@@ -414,31 +440,30 @@ require_once("include/db.php");
           var capa1 = titulo + address  + date + url + asistire + megustaria + valoracionActual + description + crear_experiencia;
 
           // CAPA 2: VALORACIONES
-
-          var valoracionGeneral = "<div id='capa2' style='display: none;'><div id='valoracionGeneral'>Valoración general</div>";
+          var idEvento = val[9];
+          var val1 = mostrarMedia(val[10]); var val2 = mostrarMedia(val[11]); var val3 = mostrarMedia(val[12]); 
+          var val4 = mostrarMedia(val[13]); var val5 = mostrarMedia(val[14]); var val6 = mostrarMedia(val[15]); 
+          var valoracionGeneral = "<div id='capa2' style='display: none;'><div id='valoracionGeneral'><div class='txt_val1'>Valoración general</div><div class='estrellas_val'><div id='val_general' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val1 + "</div></div>";
           var valoracionPorCriterios = "<div id='valoracionPorCriterios'>Valoración por criterios</div>";
-          var dificultad ="<div id='dificultad'><div>Dificultad</div><div>nota (6,3)</div></div>";
-          var estrellas = "<div class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div>";
-          var organizacion ="<div id='organizacion'>Organización</div>";
-          var atractivo = "<div id='atractivo'>Atractivo</div>";
-          var precio = "<div id='precio'>Precio</div>";
-          var actComplementarias = "<div id='actComplementarias'>Actividades complementarias</div>";
+          var dificultad ="<div id='dificultad'><div class='txt_val2'>Dificultad</div><div class='estrellas_val'><div id='val_dificultad' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val2 + "</div></div>";
+          var organizacion ="<div id='organizacion'><div class='txt_val2'>Organización</div><div class='estrellas_val'><div id='val_organizacion' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val3 + "</div></div>";
+          var atractivo = "<div id='atractivo'><div class='txt_val2'>Atractivo</div><div class='estrellas_val'><div id='val_atractivo' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val4 + "</div></div>";
+          var precio = "<div id='precio'><div class='txt_val2'>Precio</div><div class='estrellas_val'><div id='val_precio' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val5 + "</div></div>";
+          var actComplementarias = "<div id='actComplementarias'><div class='txt_val2'>Actividades complementarias</div><div class='estrellas_val'><div id='val_actcomplementarias' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val6 + "</div></div>";
 
           var recomienda ="<div id='recomienda'>Recomienda</div>";
           var comentario ="<div id='comentario'>Comentario</div></div>";
 
 
-          var capa2 = valoracionGeneral + valoracionPorCriterios + dificultad + estrellas + organizacion + atractivo + precio + actComplementarias + recomienda + comentario;
+          var capa2 = valoracionGeneral + valoracionPorCriterios + dificultad + organizacion + atractivo + precio + actComplementarias + recomienda + comentario;
 
           // CAPA 3: COMENTARIOS
 
-          var capa3 ="<div id='capa3' style='display: none;'>capa 3</div>";
+          var div1 ='<div id="capa3" style="display: none;">capa 3: comentarios de facebook</div>';
+		  var capa3 = div1;
 
           // CAPA 4: FOTOS
-          var capa4 ="<div id='capa4' style='display: none;'>capa 4</div>";
-
-          var fotos ="<div id='fotos'>aquí van las fotos</div>";
-
+          var capa4 ="<div id='capa4' style='display: none;'>capa 4: fotos <br><br> <a href='#'><img src='images/boton-enviar.png'></a></div></div>";
           
           var rate = "<div id='rate'><form action='rate.php' id='form_rating' method='POST'><input type='hidden' id='event_id' value='" + i + "'><select id='rate'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><input type='submit' value='Valorar'></form></div></div></div>";
           // add marker click effects (open infowindow)
@@ -540,6 +565,31 @@ require_once("include/db.php");
       		document.getElementById('menu_sup_pestanya4').style.backgroundImage="url('images/pestanya_off.png')";
       		document.getElementById(pestanya).style.display = 'block';
       		document.getElementById(imagenPestanya).style.backgroundImage="url('images/pestanya_on.png')";
+      }
+
+
+
+      function recuperarEstrellas(idEvento){
+      	// recupera las estrellas de cada valoración, las prepara para guardar en la bd y y actualiza la media
+      	var valoracion = jQuery('#val_general[evid='+ idEvento +']').rateit('value');
+      	var valoracion_organizacion = jQuery('#val_organizacion[evid='+ idEvento +']').rateit('value');
+      	var valoracion_dificultad = jQuery('#val_dificultad[evid='+ idEvento +']').rateit('value');
+      	var valoracion_recorrido = jQuery('#val_atractivo[evid='+ idEvento +']').rateit('value');
+      	var valoracion_precio = jQuery('#val_precio[evid='+ idEvento +']').rateit('value');
+      	var valoracion_actividad_complementaria = jQuery('#val_actcomplementarias[evid='+ idEvento +']').rateit('value');
+      }
+
+      function mostrarMedia(dato){
+      	var res;
+      	if(dato == 0){
+      		res = 'nota (0.0)';
+      	}
+      	else{
+      		parteEntera = Math.round(dato);
+      		parteDecimal = (Math.round((dato - parteEntera)*10));
+      		res = 'nota (' + parteEntera + ',' + parteDecimal +')';
+      	}
+      	return res;
       }
   
       // zoom to specific marker
@@ -1115,9 +1165,9 @@ require_once("include/db.php");
     <!-- SCRIPTS ESTRELLITAS -->
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
                 //we bind only to the rateit controls within the products div
-                $('#products .rateit').bind('rated reset', function (e) {
+                $('#contenedor .rateit').bind('rated reset', function (e) {
                     var ri = $(this);
 
                     //if the use pressed reset, it will get value: 0 (to be compatible with the HTML range control), we could check if e.type == 'reset', and then set the value to  null .
@@ -1139,6 +1189,7 @@ require_once("include/db.php");
                             $('#response').append('<li style="color:red">' + msg + '</li>');
                         }
                     });
+                    alert(value);
                 });
             </script>
 
@@ -1184,6 +1235,10 @@ require_once("include/db.php");
         SyntaxHighlighter.all()
     </script>
 
+
+
+
+ 
 
 
   </body>

@@ -28,7 +28,7 @@ class FacebookFriendsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','ajax'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -141,6 +141,24 @@ class FacebookFriendsController extends Controller
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+	}
+	public function actionAjax() 
+	{
+		$friends = $_POST["data"];
+		$uid = $_POST["uid"];
+		foreach ($friends as $friend) {
+			$frienddb = FacebookFriends::model()->find(array(
+			    'condition' => 'facebook_id=:facebook_id AND facebook_friend_id=:facebook_friend_id',
+			    'params' => array(':facebook_id' => $uid, ':facebook_friend_id' => $friend["id"]),
+			));
+			if (empty($frienddb)) {
+				$frienddb = new FacebookFriends;
+			}
+			$frienddb->facebook_id = $uid;
+			$frienddb->facebook_friend_id =  $friend["id"];
+			$frienddb->facebook_friend_name = $friend["name"];
+			$frienddb->save();
+		}
 	}
 
 	/**

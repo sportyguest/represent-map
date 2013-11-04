@@ -112,7 +112,8 @@ class FacebookUserController extends Controller
 	{
 		$this->loadModel($id)->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		// if AJAX request (trigge
+		// red by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
@@ -146,34 +147,27 @@ class FacebookUserController extends Controller
 	public function actionAjax() 
 	{
 		$model = new FacebookUser;
-		$config = array();
-		$config['appId'] = '167839766714035';
-		$config['secret'] = '0fd6dd48a389e40cc810fec2bf3bec5f';
-
-		$facebook = new Facebook($config);
-		$uid = $facebook->getUser();
-		echo json_encode(array("uid" => $uid));
-		/*
-		if(isset($_POST['FacebookUser'])) {
-			$model->attributes = $_POST['EventoValoracion'];
-			if($model->validate()) {
-				// form inputs are valid, do something here
-				if (isset($_POST['EventoValoracion']['id']) && 
-					EventoValoracion::model()->exists('id=:id', 
-						array(':id'=>$_POST['EventoValoracion']['id'])
-						)
-					) {
-					$model->update();
-				} else {
-					$model->save();
-				}
-				echo json_encode(array("id" => $model->getPrimaryKey(), "code" => "success"));
-				return;
+		$model->attributes = $_POST["FacebookUser"];
+		if($model->validate()) {
+			// form inputs are valid, do something here
+			if (FacebookUser::model()->exists(
+					'facebook_id=:facebook_id', 
+					array(':facebook_id'=>$_POST['FacebookUser']['facebook_id'])
+					)
+			) {
+				$criteria = new CDbCriteria;
+		        $criteria->condition = 'facebook_id=:facebook_id';
+		        $criteria->params = array(':facebook_id' => $_POST["FacebookUser"]["facebook_id"]);
+				$result = FacebookUser::model()->updateAll($_POST["FacebookUser"], $criteria);
+				echo json_encode(array("count" => $result, "code" => "success"));
 			} else {
-				echo json_encode(array("code" => "error"));
-				return;
+				$model->save();
 			}
-		}*/
+			return;
+		} else {
+			echo json_encode(array("code" => "error"));
+			return;
+		}
 	}
 
 	/**

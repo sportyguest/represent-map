@@ -1,0 +1,58 @@
+/* CSS POP-UP MAPA*/
+
+
+@font-face{
+font-family: itcavantgardestdbk;
+src: url('email/fonts/itcavantgardestdbk.eot?#iefix') format('embedded-opentype'),
+    url('email/fonts/itcavantgardestdbk.ttf') format('truetype');
+}
+
+@font-face{
+font-family: lilyupc;
+src: url('email/fonts/lilyupc.eot?#iefix') format('embedded-opentype'),
+    url('email/fonts/lilyupc.ttf') format('truetype');
+}
+
+
+
+/* SECCION SUPERIOR IZQUIERDA*/
+
+div#contenedor_sup_izq{
+	float: left;
+	font-family: itcavantgardestdbk;
+}
+
+div#titulo{
+	font-weight: bold;
+	font-family: lilyupc;
+	font-size: 24px; /* 1.5em */
+}
+
+div#lugar{
+	font-family: lilyupc;
+	color: #878787;
+	font-size: 16px; /* 1.0em */
+}
+
+div#direccion{
+	color: #B2B2B2;
+	font-size: 11px; /* 0.7em */
+}
+
+div#fecha{
+	color: #878787;
+	font-size: 8px; /* 0.7em */
+}
+
+div#enlace{
+	font-size: 8px; /* 0.7em */
+	color: #009FC6;
+}
+
+/* SECCION SUPERIOR DERECHA */
+
+div#contenedor_sup_der{
+	float: right;
+}
+
+/* SECCION INFERIOR */

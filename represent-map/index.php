@@ -2,7 +2,7 @@
 include_once "header.php";
 define( 'SHORTINIT', true );
 //require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-load.php' );
-require_once("c:/wamp/www/sportyguest/wp-load.php");
+require_once("c:/wamp/www/desarrollo/wp-load.php");
 
 require_once ("include/evento.php");
 require_once ("include/experiencia.php");
@@ -60,7 +60,7 @@ require_once("include/db.php");
     <!-- estrellitas -->
     <link href="src/rateit.css" rel="stylesheet" type="text/css">
     <!-- alternative styles -->
-    <link href="content/bigstars.css" rel="stylesheet" type="text/css">
+    <link href="rateit/content/bigstars.css" rel="stylesheet" type="text/css">
 
     
     <!-- Code to show the list of addresses -->

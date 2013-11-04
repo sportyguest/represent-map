@@ -14,6 +14,7 @@ $this->menu=array(
 	array('label'=>'Delete Evento', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Manage Evento', 'url'=>array('admin')),
 );
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/map_social.js'); 
 Yii::app()->clientScript->registerMetaTag("167839766714035", null, null, array('property'=>'og:app_id'), null);
 Yii::app()->clientScript->registerMetaTag("sportyguest_eventos:sport_event", null, null, array('property'=> 'og:type'), null);
 Yii::app()->clientScript->registerMetaTag($model->url, null, null, array('property'=> 'og:see_also'), null);
@@ -31,8 +32,8 @@ if (!empty($model->image_url)) {
   window.fbAsyncInit = function() {
     // init the FB JS SDK
     FB.init({
-      appId      : '167839766714035',                        // App ID from the app dashboard
-      channelUrl : '//eventosdeportivos.sportyguest.es/channel.html', // Channel file for x-domain comms
+      appId      : '167652430078861',                        // App ID from the app dashboard
+      channelUrl : '//localhost/mapa/represent-map/channel.html', // Channel file for x-domain comms
       status     : true,                                 // Check Facebook Login status
       xfbml      : true                                  // Look for social plugins on the page
     });
@@ -101,178 +102,6 @@ if (!empty($model->image_url)) {
 <?php $this->endWidget(); ?>
  
 </div><!-- form -->
-<script>
-var uid;
-jQuery("#participado").click(function() {
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			saveFBData();
-			uid = response.authResponse.userID;
-			var accessToken = response.authResponse.accessToken;
-			participarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>', uid);
-		} else {
-			FB.login(function(response) {
-				if (response.authResponse) {
-					saveFBData();
-					uid = response.authResponse.userID;
-					FB.api('/me', function(response) {
-						participarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>',  uid);
-					});
-				} else {
-					console.log('User cancelled login or did not fully authorize.');
-				}
-			}, {scope: 'publish_actions, email, user_friends'});
-		}
-	});
-});
-jQuery("#like").click(function() {
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			uid = response.authResponse.userID;
-			var accessToken = response.authResponse.accessToken;
-			likeFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>');
-		} else {
-			FB.login(function(response) {
-				if (response.authResponse) {
-					FB.api('/me', function(response) {
-						likeFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>')
-					});
-				} else {
-					console.log('User cancelled login or did not fully authorize.');
-				}
-			}, {scope: 'publish_actions, email, user_friends'});
-		}
-	});
-});
-jQuery("#valorar").click(function() {
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			uid = response.authResponse.userID;
-			var accessToken = response.authResponse.accessToken;
-			valorarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>', uid);
-		} else {
-			FB.login(function(response) {
-				if (response.authResponse) {
-					uid = response.authResponse.userID;
-					FB.api('/me', function(response) {
-						valorarFB('<?php echo "http://" . Yii::app()->request->serverName . Yii::app()->request->requestUri;?>', uid);
-					});
-				} else {
-					console.log('User cancelled login or did not fully authorize.');
-				}
-			}, {scope: 'publish_actions, email, user_friends'});
-		}
-	});
-});
-
-function saveFBData() {
-	$.ajax({
-		type: 'POST',
-		url: '<?php echo Yii::app()->createAbsoluteUrl("facebookUser/ajax"); ?>',
-		success:function(data){
-			alert(data); 
-		},
-		error: function(data) { // if error occured
-			alert("Error occured.please try again");
-			alert(data);
-		},
-		dataType:'json'
-	});
-}
-
-function participarFB(url, uid) {
-	FB.api(
-		'me/sportyguest_eventos:participate',
-		'post',
-		{
-			'sport_event': url,
-			'years': ["2000"]
-		},
-		function(response) {
-			console.log(response);
-			console.log(response.id);
-			// Create a new participation
-			var data = {
-							evento_id: <?php echo $model->id;?>, 
-							facebook_id: uid, 
-							facebook_participacion_id: response.id, 
-							year: "2000"
-						};
-			$.ajax({
-				type: 'POST',
-				url: '<?php echo Yii::app()->createAbsoluteUrl("eventoParticipacion/ajax"); ?>',
-				data: data,
-				success:function(data){
-					alert(data); 
-				},
-				error: function(data) { // if error occured
-					alert("Error occured.please try again");
-					alert(data);
-				},
-				dataType:'html'
-			});
-		}
-	);
-}
-function valorarFB(evento_url, uid) {
-	var rating = $("#EventoValoracion_valoracion").val();
-	var rating_org = $("#EventoValoracion_valoracion_organizacion").val();
-	var rating_diff = $("#EventoValoracion_valoracion_dificultad").val();
-	var rating_route = $("#EventoValoracion_valoracion_recorrido").val();
-	var rating_price = $("#EventoValoracion_valoracion_precio").val();
-	var rating_extra = $("#EventoValoracion_valoracion_actividad_complementaria").val();
-	var data = {
-					'EventoValoracion[evento_id]': <?php echo $model->id;?>, 
-					'EventoValoracion[facebook_id]': uid, 
-					'EventoValoracion[valoracion]': rating,
-					'EventoValoracion[valoracion_organizacion]': rating_org,
-					'EventoValoracion[valoracion_dificultad]': rating_diff,
-					'EventoValoracion[valoracion_recorrido]': rating_route,
-					'EventoValoracion[valoracion_precio]': rating_price,
-					'EventoValoracion[valoracion_actividad_complementaria]': rating_extra
-				};
-	// The rating is created in the database and then the rating is post to facebook
-	$.ajax({
-		type: 'POST',
-		url: '<?php echo Yii::app()->createAbsoluteUrl("eventoValoracion/ajax"); ?>',
-		data: data,
-		success:function(data){
-			alert(data);
-			if (data.code == "success") {
-				var rating_url = 'http://eventosdeportivos.sportyguest.es/yii/eventoValoracion/view/id/' + data.id;
-				FB.api(
-					'me/sportyguest_eventos:rating',
-					'post',
-					{
-						'rating': rating_url,
-						'sport_event': evento_url
-					},
-					function(response) {
-						console.log(response);
-					}
-				);
-			}
-		},
-		error: function(data) { // if error occured
-			alert("Error occured.please try again");
-			alert(data);
-		},
-		dataType:'json'
-	});
-}
-function likeFB(url) {
-	FB.api(
-		'me/og.likes',
-		'post',
-		{
-			object: url
-		},
-		function(response) {
-			console.log(response);
-		}
-	);
-}
-</script>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

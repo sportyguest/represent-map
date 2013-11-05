@@ -464,9 +464,10 @@ require_once("include/db.php");
           var address = "<div class='marker_address'>"+val[7]+"</div>";
           var date = "<div class='marker_date'>"+date+"</div>";
           var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div></div>";
+          var megusta = "<div id='logo_megusta' onclick='likeFB(" + idEvento + ")'><img id='img_megusta' src='images/megusta.png'></div>";
           //var asistire = "<div id='contenedor_sup_der'><div id='logo_asistire'><img src='images/tick_on.png'></div><div id='asistire'>Asistiré</div>";
-          var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img src='images/heart_on.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
-          var heparticipado = "<br><div id='logo_heparticipado' onclick='participarFB(" + idEvento + ")'><img src='images/heart_on.png'></div><div onclick='participarFB(" + idEvento + ")' id='heparticipado'>He participado</div></div></div>";
+          var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img img='src='images/heart_off.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
+          var heparticipado = "<br><div id='logo_heparticipado' onclick='participarFB(" + idEvento + ")'><img src='images/medal_off.png'></div><div onclick='participarFB(" + idEvento + ")' id='heparticipado'>He participado</div></div></div>";
           var valoracionActual ="<div id='valoracionActual'><div class='estrellas_val'><div id='val_general' class='rateit bigstars' data-rateit-readonly='true' data-rateit-starwidth='18' data-rateit-starheight='18' data-rateit-value='" + val[10] + "'></div></div></div>";
           var description = "<div class='marker_desc'><span>Descripción</span><br>"+val[5]+"</div>";
           var crear_experiencia = "";
@@ -474,7 +475,7 @@ require_once("include/db.php");
             crear_experiencia = "<div id='centrar_img' class='marker_uri'><span>Crea una experiencia cerca de " + val[0] + "</span><br><a href='http://www.sportyguest.es/crear-experiencia/'><img src='images/boton_crear.png' alt='crear'></a></div></div></div></div>"; 
           }
 
-          var capa1 = titulo + address  + date + url + megustaria + heparticipado + valoracionActual + description + crear_experiencia;
+          var capa1 = titulo + address  + date + url + megusta + megustaria + heparticipado + valoracionActual + description + crear_experiencia;
 
           // CAPA 2: VALORACIONES
           var val1 = mostrarMedia(val[10]); var val2 = mostrarMedia(val[11]); var val3 = mostrarMedia(val[12]); 
@@ -496,7 +497,7 @@ require_once("include/db.php");
 
           // CAPA 3: COMENTARIOS
 
-          var capa3 ='<div id="capa3" style="display: none;"><div id="fb-comments" class="fb-comments" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-numposts="5" data-width="400"></div></div>';
+          var capa3 ='<div id="capa3" style="display: none;"><div class="fb-comments" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-numposts="5" data-width="400"></div></div>';
           // CAPA 4: FOTOS
           var capa4 ="<div id='capa4' style='display: none;'>capa 4: fotos <br><br> <a href='#'><img src='images/boton-enviar.png'></a></div></div>";
           
@@ -505,6 +506,11 @@ require_once("include/db.php");
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
             infowindow.open(map, this);
+
+          });
+          // cerrar el infowindow al hacer click en el mapa
+          google.maps.event.addListener(map, 'click', function () {
+            infowindow.close();
           });
 
           // add marker label
@@ -588,7 +594,7 @@ require_once("include/db.php");
       		jQuery(pestanya).show();
       		document.getElementById(imagenPestanya).style.backgroundImage="url('images/pestanya_on.png')";
           if (activa == 3) {
-            FB.XFBML.parse(document.getElementById('fb-comments'));
+            FB.XFBML.parse();
           }
       }
 

@@ -505,7 +505,11 @@ require_once("include/db.php");
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
             infowindow.open(map, this);
-            FB.XFBML.parse();
+            var timeout = setInterval(function(){myTimer()},1000);
+            function myTimer() {
+              FB.XFBML.parse();
+              clearInterval(timeout);
+            }
           });
 
           // add marker label

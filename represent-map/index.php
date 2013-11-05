@@ -2,7 +2,7 @@
 include_once "header.php";
 define( 'SHORTINIT', true );
 //require_once( $_SERVER['DOCUMENT_ROOT'] . '/desarrollo/wp-load.php' );
-require_once("c:/wamp/www/desarrollo/wp-load.php");
+require_once("/var/www/sportyguest/wp-load.php");
 
 require_once ("include/evento.php");
 require_once ("include/experiencia.php");
@@ -45,24 +45,55 @@ require_once("include/db.php");
     <link href="./bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="map.css?nocache=289671982568" type="text/css" />
     <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="mobile.css" type="text/css" />
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.3/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.3/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" href="./bootstrap/css/bootstrap-fileupload.min.css" />
     <script src="./bootstrap/js/bootstrap-fileupload.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./scripts/jquery.cookie.min.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="popupmap.css" />
 
     <!-- estrellitas -->
-    <link href="src/rateit.css" rel="stylesheet" type="text/css">
+    <link href="rateit/src/rateit.css" rel="stylesheet" type="text/css">
+    <script src="rateit/src/jquery.rateit.js" type="text/javascript"></script>
+    <!-- syntax highlighter -->
+    <script src="rateit/sh/shCore.js" type="text/javascript"></script>
+    <script src="rateit/sh/shBrushJScript.js" type="text/javascript"></script>
+    <script src="rateit/sh/shBrushXml.js" type="text/javascript"></script>
+    <script src="rateit/sh/shBrushCss.js" type="text/javascript"></script>
+    <script src="rateit/sh/shBrushCSharp.js" type="text/javascript"></script>
     <!-- alternative styles -->
     <link href="rateit/content/bigstars.css" rel="stylesheet" type="text/css">
+    <!-- Facebook rating, participating, like, ... -->
+    <script src="scripts/map_social.js" type="text/javascript"></script>
 
-    
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        // init the FB JS SDK
+        FB.init({
+          appId      : '167652430078861',                        // App ID from the app dashboard
+          channelUrl : '//sportyguest.es/channel.html', // Channel file for x-domain comms
+          status     : true,                                 // Check Facebook Login status
+          xfbml      : true                                  // Look for social plugins on the page
+        });
+
+        // Additional initialization code such as adding Event Listeners goes here
+      };
+
+      // Load the SDK asynchronously
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
     <!-- Code to show the list of addresses -->
     <style>
       .pac-container {
@@ -303,13 +334,13 @@ require_once("include/db.php");
 	            $valoracionDificultad = $wpdb->get_var($consulta);  
 	            $consulta = "SELECT AVG(valoracion_organizacion) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
 	            $valoracionOrganizacion  = $wpdb->get_var($consulta);  
-				$consulta = "SELECT AVG(valoracion_recorrido) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
+				      $consulta = "SELECT AVG(valoracion_recorrido) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
 	            $valoracionAtractivo = $wpdb->get_var($consulta);  
 	           	$consulta = "SELECT AVG(valoracion_precio) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
 	            $valoracionPrecio = $wpdb->get_var($consulta);  
 	            $consulta = "SELECT AVG(valoracion_actividad_complementaria) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
 	            $valoracionActComplementarios = $wpdb->get_var($consulta);  
-	        }
+            }
 
             $date = "";
             if ($evento->date != "") {
@@ -385,6 +416,9 @@ require_once("include/db.php");
             zIndex: 10 + i,
             icon: markerImage
           });
+          if (val[1] != 'experiencia') {
+            marker.id = val[9];
+          }
           marker.category = val[1];
           marker.subcategory = val[2];
           if (val[8] != undefined) {
@@ -415,12 +449,14 @@ require_once("include/db.php");
           }
           var markerURI_short = markerURI.replace("http://", "").replace("www.", "");
           if (markerURI_short.length > 40) {
-            markerURI_short = markerURI_short.substring(0, 40) + "...";
+            markerURI_short = markerURI_short.substring(0, 30) + "...";
           }
           var date = "";
           if (marker.date != undefined) {
             date = marker.date.toLocaleDateString();
           }
+
+          var idEvento = val[9];
           var menu ="<div id='contenedor'><div id='menu_superior'><div id='menu_sup_pestanya1'><a href='#' onclick='cambiaPestanya(1)'>Información</a></div><div id='menu_sup_pestanya2'><a href='#' onclick='cambiaPestanya(2)'>Valoraciones</a></div><div id='menu_sup_pestanya3'><a href='#' onclick='cambiaPestanya(3)'>Comentarios</a></div><div id='menu_sup_pestanya4'><a href='#' onclick='cambiaPestanya(4)'>Fotos</a></div></div>"; 
 
           // CAPA 1: INFORMACIÓN
@@ -428,70 +464,47 @@ require_once("include/db.php");
           var address = "<div class='marker_address'>"+val[7]+"</div>";
           var date = "<div class='marker_date'>"+date+"</div>";
           var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div></div>";
-          var asistire = "<div id='contenedor_sup_der'><div id='asistire'>Asistiré</div>";
-          var megustaria = "<div id='megustaria'>Me gustaría asistir</div></div></div>";
-          var valoracionActual ="<div id='valoracionActual'>Estrellitas</div>";
+          //var asistire = "<div id='contenedor_sup_der'><div id='logo_asistire'><img src='images/tick_on.png'></div><div id='asistire'>Asistiré</div>";
+          var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img src='images/heart_on.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
+          var heparticipado = "<br><div id='logo_heparticipado' onclick='participarFB(" + idEvento + ")'><img src='images/heart_on.png'></div><div onclick='participarFB(" + idEvento + ")' id='heparticipado'>He participado</div></div></div>";
+          var valoracionActual ="<div id='valoracionActual'><div class='estrellas_val'><div id='val_general' class='rateit bigstars' data-rateit-readonly='true' data-rateit-starwidth='18' data-rateit-starheight='18' data-rateit-value='" + val[10] + "'></div></div></div>";
           var description = "<div class='marker_desc'><span>Descripción</span><br>"+val[5]+"</div>";
           var crear_experiencia = "";
           if (marker.category != "experiencia") {
-            crear_experiencia = "<div id='crear_exp'class='marker_uri'><span>Crea una experiencia cerca de " + val[0] + "</span><br><a href='http://www.sportyguest.es/crear-experiencia/'><img src='images/boton_crear.png' alt='crear'></a></div></div></div></div>"; 
+            crear_experiencia = "<div id='centrar_img' class='marker_uri'><span>Crea una experiencia cerca de " + val[0] + "</span><br><a href='http://www.sportyguest.es/crear-experiencia/'><img src='images/boton_crear.png' alt='crear'></a></div></div></div></div>"; 
           }
 
-          var capa1 = titulo + address  + date + url + asistire + megustaria + valoracionActual + description + crear_experiencia;
+          var capa1 = titulo + address  + date + url + megustaria + heparticipado + valoracionActual + description + crear_experiencia;
 
           // CAPA 2: VALORACIONES
-          var idEvento = val[9];
           var val1 = mostrarMedia(val[10]); var val2 = mostrarMedia(val[11]); var val3 = mostrarMedia(val[12]); 
           var val4 = mostrarMedia(val[13]); var val5 = mostrarMedia(val[14]); var val6 = mostrarMedia(val[15]); 
-          var valoracionGeneral = "<div id='capa2' style='display: none;'><div id='valoracionGeneral'><div class='txt_val1'>Valoración general</div><div class='estrellas_val'><div id='val_general' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val1 + "</div></div>";
+          var valoracionGeneral = "<div id='capa2' style='display: none;'><div id='valoracionGeneral'><div class='txt_val1'>Valoración general</div><div class='estrellas_val'><div id='val_general' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val1 + "</div></div>";
           var valoracionPorCriterios = "<div id='valoracionPorCriterios'>Valoración por criterios</div>";
-          var dificultad ="<div id='dificultad'><div class='txt_val2'>Dificultad</div><div class='estrellas_val'><div id='val_dificultad' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val2 + "</div></div>";
-          var organizacion ="<div id='organizacion'><div class='txt_val2'>Organización</div><div class='estrellas_val'><div id='val_organizacion' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val3 + "</div></div>";
-          var atractivo = "<div id='atractivo'><div class='txt_val2'>Atractivo</div><div class='estrellas_val'><div id='val_atractivo' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val4 + "</div></div>";
-          var precio = "<div id='precio'><div class='txt_val2'>Precio</div><div class='estrellas_val'><div id='val_precio' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val5 + "</div></div>";
-          var actComplementarias = "<div id='actComplementarias'><div class='txt_val2'>Actividades complementarias</div><div class='estrellas_val'><div id='val_actcomplementarias' class='rateit bigstars' evid='"+ idEvento +"' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val6 + "</div></div>";
+          var dificultad ="<div id='dificultad'><div class='txt_val2'>Dificultad</div><div class='estrellas_val'><div id='val_dificultad' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val2 + "</div></div>";
+          var organizacion ="<div id='organizacion'><div class='txt_val2'>Organización</div><div class='estrellas_val'><div id='val_organizacion' class='rateit bigstars'' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val3 + "</div></div>";
+          var atractivo = "<div id='atractivo'><div class='txt_val2'>Atractivo</div><div class='estrellas_val'><div id='val_atractivo' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val4 + "</div></div>";
+          var precio = "<div id='precio'><div class='txt_val2'>Precio</div><div class='estrellas_val'><div id='val_precio' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val5 + "</div></div>";
+          var actComplementarias = "<div id='actComplementarias'><div class='txt_val2'>Actividades complementarias</div><div class='estrellas_val'><div id='val_actcomplementarias' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val6 + "</div></div>";
 
-          var recomienda ="<div id='recomienda'>Recomienda</div>";
-          var comentario ="<div id='comentario'>Comentario</div></div>";
+          var recomienda = "<div id='recomienda'>Recomienda</div>";
+          var comentario = "<div id='comentario'>Comentario</div>";
+          var botonEnviar = "<div id='centrar_img'><a href='#' id='valorar' onclick='valorarFB(" + idEvento + ")'><img src='images/boton-enviar.png'></a></div>";
+          var finCapa2 = "</div>";
 
-
-          var capa2 = valoracionGeneral + valoracionPorCriterios + dificultad + organizacion + atractivo + precio + actComplementarias + recomienda + comentario;
+          var capa2 = valoracionGeneral + valoracionPorCriterios + dificultad + organizacion + atractivo + precio + actComplementarias + recomienda + comentario + botonEnviar + finCapa2;
 
           // CAPA 3: COMENTARIOS
 
-          var div1 ='<div id="capa3" style="display: none;">capa 3: comentarios de facebook</div>';
-		  var capa3 = div1;
-
+          var capa3 ='<div id="capa3" style="display: none;"><div class="fb-comments" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-numposts="5" data-width="400"></div></div>';
           // CAPA 4: FOTOS
           var capa4 ="<div id='capa4' style='display: none;'>capa 4: fotos <br><br> <a href='#'><img src='images/boton-enviar.png'></a></div></div>";
           
-          var rate = "<div id='rate'><form action='rate.php' id='form_rating' method='POST'><input type='hidden' id='event_id' value='" + i + "'><select id='rate'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><input type='submit' value='Valorar'></form></div></div></div>";
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
             infowindow.open(map, this);
-
-          });
-          // add marker rating code
-          google.maps.event.addListener(infowindow, 'domready', function() {
-          	// fix de las estrellitas
-          	$('.rateit').rateit();
-
-            $("#form_rating").submit(function(event) {
-              event.preventDefault();
-              var event_id = $(this).find('#event_id').val();
-              var rate = $(this).find('#rate').val();
-              $.ajax({
-                url: "rate.php",
-                type: "POST",
-                data: {
-                  event_id: event_id,
-                  rate: rate
-                }
-              });
-              $(this).replaceWith("<strong>Gracias por valorar!!</strong>");
-            });
           });
 
           // add marker label
@@ -507,9 +520,18 @@ require_once("include/db.php");
           label.bindTo('zIndex', marker);
         });
 
-
+        // do something only the first time the map is loaded
+        google.maps.event.addListenerOnce(map, 'idle', function(){
+          console.log("idle triggered");
+          // It opens the event selected in the URL
+          if (window.location.hash.length > 0) {
+            console.log(window.location.hash);
+            var evento_URL = window.location.hash.substr(1);
+            google.maps.event.trigger(gmarkers[evento_URL], 'click');
+          }
+        });
         // zoom to marker if selected in search typeahead list
-        $('#search').typeahead({
+        jQuery('#search').typeahead({
           source: markerTitles, 
           onselect: function(obj) {
             marker_id = jQuery.inArray(obj, markerTitles);
@@ -518,7 +540,7 @@ require_once("include/db.php");
               map.setZoom(15);
               google.maps.event.trigger(gmarkers[marker_id], 'click');
             }
-            $("#search").val("");
+            jQuery("#search").val("");
           }
         });
       } 
@@ -553,7 +575,7 @@ require_once("include/db.php");
       }
 
       function cambiaPestanya(activa){
-      		var pestanya = 'capa' + activa;
+      		var pestanya = '#capa' + activa;
       		var imagenPestanya = 'menu_sup_pestanya' + activa;
       		document.getElementById('capa1').style.display = 'none';
       		document.getElementById('menu_sup_pestanya1').style.backgroundImage="url('images/pestanya_off.png')";
@@ -563,7 +585,7 @@ require_once("include/db.php");
       		document.getElementById('menu_sup_pestanya3').style.backgroundImage="url('images/pestanya_off.png')";
       		document.getElementById('capa4').style.display = 'none';
       		document.getElementById('menu_sup_pestanya4').style.backgroundImage="url('images/pestanya_off.png')";
-      		document.getElementById(pestanya).style.display = 'block';
+      		jQuery(pestanya).show();
       		document.getElementById(imagenPestanya).style.backgroundImage="url('images/pestanya_on.png')";
       }
 
@@ -618,7 +640,7 @@ require_once("include/db.php");
           if (
               (query.hasOwnProperty("category") && gmarkers[i].category == query.category) ||
               (query.hasOwnProperty("subcategory") && gmarkers[i].subcategory == query.subcategory) ||
-              (query.hasOwnProperty("month") && gmarkers[i].date.getMonth() == query.month)
+              (query.hasOwnProperty("month") && gmarkers[i].date != null && gmarkers[i].date.getMonth() == query.month)
             ) {
             gmarkers[i].setVisible(false);
           }
@@ -1096,7 +1118,6 @@ require_once("include/db.php");
     </div>
     <script>
       $(document).ready(function(){ 
-
         $("#add_category").change(function() {
           var subcategory = [];
           <?php
@@ -1193,10 +1214,6 @@ require_once("include/db.php");
                 });
             </script>
 
-            
-
-    <script src="src/jquery.rateit.js" type="text/javascript"></script>
-
     <script>
         //build toc
         var toc = [];
@@ -1218,18 +1235,6 @@ require_once("include/db.php");
         $('#toc').html(toc.join(''));
 
     </script>
-
-    <!-- syntax highlighter -->
-
-    <script src="sh/shCore.js" type="text/javascript"></script>
-
-    <script src="sh/shBrushJScript.js" type="text/javascript"></script>
-
-    <script src="sh/shBrushXml.js" type="text/javascript"></script>
-
-    <script src="sh/shBrushCss.js" type="text/javascript"></script>
-
-    <script src="sh/shBrushCSharp.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         SyntaxHighlighter.all()

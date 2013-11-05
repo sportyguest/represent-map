@@ -1,50 +1,3 @@
-var uid;
-jQuery(document).ready(function() {
-	jQuery("#participado").click(function() {
-		FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-				uid = response.authResponse.userID;
-				saveFBData(uid);
-				var accessToken = response.authResponse.accessToken;
-				participarFB(window.location, uid);
-			} else {
-				FB.login(function(response) {
-					if (response.authResponse) {
-						uid = response.authResponse.userID;
-						saveFBData(uid);
-						FB.api('/me', function(response) {
-							participarFB(window.location,  uid);
-						});
-					} else {
-						console.log('User cancelled login or did not fully authorize.');
-					}
-				}, {scope: 'publish_actions, email, user_friends'});
-			}
-		});
-	});
-	jQuery("#like").click(function() {
-		FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-				uid = response.authResponse.userID;
-				var accessToken = response.authResponse.accessToken;
-				likeFB(window.location);
-			} else {
-				FB.login(function(response) {
-					if (response.authResponse) {
-						FB.api('/me', function(response) {
-							likeFB(window.location)
-						});
-					} else {
-						console.log('User cancelled login or did not fully authorize.');
-					}
-				}, {scope: 'publish_actions, email, user_friends'});
-			}
-		});
-	});
-	jQuery("#valorar").click(function() {
-		
-	});
-});
 function saveFBData(uid) {
 	saveFBUserData();
 	saveFBFriends(uid);
@@ -98,13 +51,88 @@ function saveFBFriends(uid) {
 	});	
 }
 
-function participarFB(url, uid) {
+function meGustariaParticiparFB(evento_id) {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			uid = response.authResponse.userID;
+			saveFBData(uid);
+			meGustariaParticipar(evento_id, uid);
+		} else {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					uid = response.authResponse.userID;
+					saveFBData(uid);
+					meGustariaParticipar(evento_id, uid);
+				} else {
+					alert("No podemos realizar esta acción sin Facebook ;(");
+					console.log('User cancelled login or did not fully authorize.');
+				}
+			}, {scope: 'publish_actions, email, user_friends'});
+		}
+	});
+}
+
+function meGustariaParticipar(evento_id, uid) {
+	var data = {
+			'meGustariaParticipar[facebook_id]': uid,
+			'meGustariaParticipar[evento_id]': evento_id
+		};
+	// The rating is created in the database and then the rating is post to facebook
+	$.ajax({
+		type: 'POST',
+		url: 'http://eventosdeportivos.sportyguest.es/yii/eventoMeGustariaParticipar/ajax',
+		data: data,
+		success:function(data){
+			alert(data);
+			if (data.code == "success") {
+				FB.api(
+					'me/sportyguest_eventos:would_like_to_assist',
+					'post',
+					{
+						sport_event: 'http://eventosdeportivos.sportyguest.es/#' + evento_id
+					},
+					function(response) {
+						console.log(response);
+					}
+				);
+			}
+		},
+		error: function(data) { // if error occured
+			alert("Error occured.please try again");
+			alert(data);
+		},
+		dataType:'json'
+	});
+}
+
+function participar(evento_id) {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			uid = response.authResponse.userID;
+			saveFBData(uid);
+			participarFB(evento_id, uid);
+		} else {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					uid = response.authResponse.userID;
+					saveFBData(uid);
+					participarFB(evento_id,  uid);
+				} else {
+					console.log('User cancelled login or did not fully authorize.');
+				}
+			}, {scope: 'publish_actions, email, user_friends'});
+		}
+	});
+}
+
+function participarFB(evento_id, uid) {
+	// TODO: Manage years
 	id = $("#Evento_id").val();
 	FB.api(
 		'me/sportyguest_eventos:participate',
 		'post',
 		{
-			'sport_event': url,
+			'sport_event': 'http://eventosdeportivos.sportyguest.es/#' + evento_id,
 			'years': ["2000"]
 		},
 		function(response) {
@@ -112,11 +140,11 @@ function participarFB(url, uid) {
 			console.log(response.id);
 			// Create a new participation
 			var data = {
-							evento_id: id, 
-							facebook_id: uid, 
-							facebook_participacion_id: response.id, 
-							year: "2000"
-						};
+				evento_id: id, 
+				facebook_id: uid, 
+				facebook_participacion_id: response.id, 
+				year: "2000"
+			};
 			$.ajax({
 				type: 'POST',
 				url: 'http://eventosdeportivos.sportyguest.es/yii/eventoParticipacion/ajax',
@@ -138,16 +166,16 @@ function valorarFB(evento_id) {
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
 			uid = response.authResponse.userID;
-			var accessToken = response.authResponse.accessToken;
+			saveFBData(uid);
 			valorar(evento_id, uid);
 		} else {
 			FB.login(function(response) {
 				if (response.authResponse) {
 					uid = response.authResponse.userID;
-					FB.api('/me', function(response) {
-						valorar(evento_id, uid);
-					});
+					saveFBData(uid);
+					valorar(evento_id, uid);
 				} else {
+					alert("No podemos realizar la valoración sin Facebook ;(");
 					console.log('User cancelled login or did not fully authorize.');
 				}
 			}, {scope: 'publish_actions, email, user_friends'});
@@ -186,7 +214,7 @@ function valorar(evento_id, uid) {
 					'post',
 					{
 						'rating': rating_url,
-						'sport_event': 'http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + evento_id
+						'sport_event': 'http://eventosdeportivos.sportyguest.es/#' + evento_id
 					},
 					function(response) {
 						console.log(response);
@@ -201,15 +229,54 @@ function valorar(evento_id, uid) {
 		dataType:'json'
 	});
 }
-function likeFB(url) {
-	FB.api(
-		'me/og.likes',
-		'post',
-		{
-			object: url
-		},
-		function(response) {
-			console.log(response);
+function likeFB(evento_id) {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			uid = response.authResponse.userID;
+			saveFBData(uid);
+			like(evento_id, uid);
+		} else {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					saveFBData(uid);
+					like(evento_id, uid)
+				} else {
+					console.log('User cancelled login or did not fully authorize.');
+				}
+			}, {scope: 'publish_actions, email, user_friends'});
 		}
-	);
+	});
+}
+
+function like(evento_id, uid) {
+	var data = {
+		'EventoMeGusta[evento_id]': evento_id, 
+		'EventoMeGusta[facebook_id]': uid
+	};
+	// The rating is created in the database and then the rating is post to facebook
+	$.ajax({
+		type: 'POST',
+		url: 'http://eventosdeportivos.sportyguest.es/yii/eventoMeGusta/ajax',
+		data: data,
+		success:function(data){
+			alert(data);
+			if (data.code == "success") {
+				FB.api(
+					'me/og.likes',
+					'post',
+					{
+						object: 'http://eventosdeportivos.sportyguest.es/#' + evento_id
+					},
+					function(response) {
+						console.log(response);
+					}
+				);
+			}
+		},
+		error: function(data) { // if error occured
+			alert("Error occured.please try again");
+			alert(data);
+		},
+		dataType:'json'
+	});
 }

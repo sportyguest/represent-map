@@ -107,18 +107,18 @@ function meGustariaParticipar(evento_id, uid) {
 	});
 }
 
-function participar(evento_id) {
+function participarFB(evento_id) {
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
 			uid = response.authResponse.userID;
 			saveFBData(uid);
-			participarFB(evento_id, uid);
+			participar(evento_id, uid);
 		} else {
 			FB.login(function(response) {
 				if (response.authResponse) {
 					uid = response.authResponse.userID;
 					saveFBData(uid);
-					participarFB(evento_id,  uid);
+					participar(evento_id,  uid);
 				} else {
 					console.log('User cancelled login or did not fully authorize.');
 				}
@@ -127,7 +127,7 @@ function participar(evento_id) {
 	});
 }
 
-function participarFB(evento_id, uid) {
+function participar(evento_id, uid) {
 	// TODO: Manage years
 	id = $("#Evento_id").val();
 	FB.api(

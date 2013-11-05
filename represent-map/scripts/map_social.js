@@ -76,8 +76,8 @@ function meGustariaParticiparFB(evento_id) {
 
 function meGustariaParticipar(evento_id, uid) {
 	var data = {
-			'meGustariaParticipar[facebook_id]': uid,
-			'meGustariaParticipar[evento_id]': evento_id
+			'EventoMeGustariaParticipar[facebook_id]': uid,
+			'EventoMeGustariaParticipar[evento_id]': evento_id
 		};
 	// The rating is created in the database and then the rating is post to facebook
 	$.ajax({
@@ -142,10 +142,10 @@ function participar(evento_id, uid) {
 			console.log(response.id);
 			// Create a new participation
 			var data = {
-				evento_id: id, 
-				facebook_id: uid, 
-				facebook_participacion_id: response.id, 
-				year: "2000"
+				'EventoParticipacion[evento_id]': id, 
+				'EventoParticipacion[facebook_id]': uid, 
+				'EventoPaticipacion[facebook_participacion_id]': response.id, 
+				'EventoParticipacion[year]': "2000"
 			};
 			$.ajax({
 				type: 'POST',

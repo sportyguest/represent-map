@@ -1,3 +1,5 @@
+var url_home = "http://eventosdeportivos.sportyguest.es/";
+
 function saveFBData(uid) {
 	saveFBUserData();
 	saveFBFriends(uid);
@@ -17,7 +19,7 @@ function saveFBUserData() {
 		};
 		$.ajax({
 			type: 'POST',
-			url: 'http://eventosdeportivos.sportyguest.es/yii/facebookUser/ajax',
+			url: url_home + 'yii/facebookUser/ajax',
 			data: data,
 			success:function(data){
 				alert(data); 
@@ -37,7 +39,7 @@ function saveFBFriends(uid) {
 		var friends = response;
 		$.ajax({
 			type: 'POST',
-			url: 'http://eventosdeportivos.sportyguest.es/yii/facebookFriends/ajax',
+			url: url_home + 'yii/facebookFriends/ajax',
 			data: friends,
 			success:function(data){
 				alert(data); 
@@ -80,7 +82,7 @@ function meGustariaParticipar(evento_id, uid) {
 	// The rating is created in the database and then the rating is post to facebook
 	$.ajax({
 		type: 'POST',
-		url: 'http://eventosdeportivos.sportyguest.es/yii/eventoMeGustariaParticipar/ajax',
+		url: url_home + 'yii/eventoMeGustariaParticipar/ajax',
 		data: data,
 		success:function(data){
 			alert(data);
@@ -89,7 +91,7 @@ function meGustariaParticipar(evento_id, uid) {
 					'me/sportyguest_eventos:would_like_to_assist',
 					'post',
 					{
-						sport_event: 'http://eventosdeportivos.sportyguest.es/#' + evento_id
+						sport_event: url_home + 'yii/evento/view/id/' + evento_id
 					},
 					function(response) {
 						console.log(response);
@@ -132,7 +134,7 @@ function participarFB(evento_id, uid) {
 		'me/sportyguest_eventos:participate',
 		'post',
 		{
-			'sport_event': 'http://eventosdeportivos.sportyguest.es/#' + evento_id,
+			'sport_event': url_home + 'yii/evento/view/id/' + evento_id,
 			'years': ["2000"]
 		},
 		function(response) {
@@ -147,7 +149,7 @@ function participarFB(evento_id, uid) {
 			};
 			$.ajax({
 				type: 'POST',
-				url: 'http://eventosdeportivos.sportyguest.es/yii/eventoParticipacion/ajax',
+				url: url_home + 'yii/eventoParticipacion/ajax',
 				data: data,
 				success:function(data){
 					alert(data); 
@@ -208,13 +210,13 @@ function valorar(evento_id, uid) {
 		success:function(data){
 			alert(data);
 			if (data.code == "success") {
-				var rating_url = 'http://eventosdeportivos.sportyguest.es/yii/eventoValoracion/view/id/' + data.id;
+				var rating_url = url_home + 'yii/eventoValoracion/view/id/' + data.id;
 				FB.api(
 					'me/sportyguest_eventos:rating',
 					'post',
 					{
 						'rating': rating_url,
-						'sport_event': 'http://eventosdeportivos.sportyguest.es/#' + evento_id
+						'sport_event': url_home + 'yii/evento/view/id/' + evento_id
 					},
 					function(response) {
 						console.log(response);
@@ -256,7 +258,7 @@ function like(evento_id, uid) {
 	// The rating is created in the database and then the rating is post to facebook
 	$.ajax({
 		type: 'POST',
-		url: 'http://eventosdeportivos.sportyguest.es/yii/eventoMeGusta/ajax',
+		url: url_home + 'yii/eventoMeGusta/ajax',
 		data: data,
 		success:function(data){
 			alert(data);
@@ -265,11 +267,21 @@ function like(evento_id, uid) {
 					'me/og.likes',
 					'post',
 					{
-						object: 'http://eventosdeportivos.sportyguest.es/#' + evento_id
+						object: url_home + 'yii/evento/view/id/' + evento_id
 					},
 					function(response) {
 						console.log(response);
 					}
+				);
+			}
+		},
+		error: function(data) { // if error occured
+			alert("Error occured.please try again");
+			alert(data);
+		},
+		dataType:'json'
+	});
+}				}
 				);
 			}
 		},

@@ -281,14 +281,4 @@ function like(evento_id, uid) {
 		},
 		dataType:'json'
 	});
-}				}
-				);
-			}
-		},
-		error: function(data) { // if error occured
-			alert("Error occured.please try again");
-			alert(data);
-		},
-		dataType:'json'
-	});
 }

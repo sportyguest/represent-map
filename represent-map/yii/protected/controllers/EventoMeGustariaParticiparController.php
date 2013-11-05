@@ -154,7 +154,7 @@ class EventoMeGustariaParticiparController extends Controller
 				echo json_encode(array("id" => $model->getPrimaryKey(), "code" => "success"));
 				return;
 			} else {
-				echo json_encode(array("code" => "error"));
+				echo json_encode(array("code" => "error", "errors" => $model->getErrors()));
 				return;
 			}
 		}

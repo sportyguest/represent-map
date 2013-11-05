@@ -27,7 +27,7 @@ class EventoMeGustariaParticipar extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('facebook_id, evento_id, fecha', 'required'),
+			array('facebook_id, evento_id', 'required'),
 			array('evento_id', 'numerical', 'integerOnly'=>true),
 			array('facebook_id', 'length', 'max'=>20),
 			// The following rule is used by search().

@@ -129,7 +129,6 @@ function participarFB(evento_id) {
 
 function participar(evento_id, uid) {
 	// TODO: Manage years
-	id = $("#Evento_id").val();
 	FB.api(
 		'me/sportyguest_eventos:participate',
 		'post',
@@ -142,7 +141,7 @@ function participar(evento_id, uid) {
 			console.log(response.id);
 			// Create a new participation
 			var data = {
-				'EventoParticipacion[evento_id]': id, 
+				'EventoParticipacion[evento_id]': evento_id, 
 				'EventoParticipacion[facebook_id]': uid, 
 				'EventoPaticipacion[facebook_participacion_id]': response.id, 
 				'EventoParticipacion[year]': "2000"

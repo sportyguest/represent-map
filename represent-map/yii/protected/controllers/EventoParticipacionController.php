@@ -151,10 +151,10 @@ class EventoParticipacionController extends Controller
 			if($model->validate()) {
 				// form inputs are valid, do something here
 				$model->save();
-				echo "success";
+				echo json_encode(array("code" => "success"));
 				return;
 			} else {
-				echo "error";
+				echo json_encode(array("code" => "error", "errors" => $model->getErrors()));;
 				return;
 			}
 		}

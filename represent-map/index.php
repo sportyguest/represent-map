@@ -496,7 +496,7 @@ require_once("include/db.php");
 
           // CAPA 3: COMENTARIOS
 
-          var capa3 ='<div id="capa3" style="display: none;"><div class="fb-comments" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-numposts="5" data-width="400"></div></div>';
+          var capa3 ='<div id="capa3" style="display: none;"><div id="fb-comments" class="fb-comments" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-numposts="5" data-width="400"></div></div>';
           // CAPA 4: FOTOS
           var capa4 ="<div id='capa4' style='display: none;'>capa 4: fotos <br><br> <a href='#'><img src='images/boton-enviar.png'></a></div></div>";
           
@@ -505,11 +505,6 @@ require_once("include/db.php");
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
             infowindow.open(map, this);
-            var timeout = setInterval(function(){myTimer()},1000);
-            function myTimer() {
-              FB.XFBML.parse();
-              clearInterval(timeout);
-            }
           });
 
           // add marker label
@@ -592,6 +587,9 @@ require_once("include/db.php");
       		document.getElementById('menu_sup_pestanya4').style.backgroundImage="url('images/pestanya_off.png')";
       		jQuery(pestanya).show();
       		document.getElementById(imagenPestanya).style.backgroundImage="url('images/pestanya_on.png')";
+          if (activa == 3) {
+            FB.XFBML.parse(document.getElementById('fb-comments'));
+          }
       }
 
 

@@ -143,7 +143,7 @@ function participar(evento_id, uid) {
 			var data = {
 				'EventoParticipacion[evento_id]': evento_id, 
 				'EventoParticipacion[facebook_id]': uid, 
-				'EventoPaticipacion[facebook_participacion_id]': response.id, 
+				'EventoParticipacion[facebook_participacion_id]': response.id, 
 				'EventoParticipacion[year]': "2000"
 			};
 			$.ajax({

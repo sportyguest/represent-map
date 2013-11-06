@@ -94,6 +94,7 @@ function meGustariaParticipar(evento_id, uid) {
 						sport_event: url_home + 'yii/evento/view/id/' + evento_id
 					},
 					function(response) {
+						changeImgMeGustaria();
 						console.log(response);
 					}
 				);
@@ -151,7 +152,7 @@ function participar(evento_id, uid) {
 				url: url_home + 'yii/eventoParticipacion/ajax',
 				data: data,
 				success:function(data){
-					alert(data); 
+					changeImgParticipado();
 				},
 				error: function(data) { // if error occured
 					alert("Error occured.please try again");
@@ -269,6 +270,7 @@ function like(evento_id, uid) {
 						object: url_home + 'yii/evento/view/id/' + evento_id
 					},
 					function(response) {
+						changeImgMeGusta();
 						console.log(response);
 					}
 				);
@@ -280,4 +282,14 @@ function like(evento_id, uid) {
 		},
 		dataType:'json'
 	});
+}
+
+function changeImgMeGusta() {
+	jQuery("#img_megusta").attr("src", "images/megusta.png");
+}
+function changeImgMeGustaria() {
+	jQuery("#img_megustaria").attr("src", "images/heart_on.png");
+}
+function changeImgParticipado() {
+	jQuery("#img_participado").attr("src", "images/medal_on.png");
 }

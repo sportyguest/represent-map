@@ -457,7 +457,9 @@ require_once("include/db.php");
           }
 
           var idEvento = val[9];
-          var menu ="<div id='contenedor'><div id='menu_superior'><div id='menu_sup_pestanya1'><a href='#' onclick='cambiaPestanya(1)'>Información</a></div><div id='menu_sup_pestanya2'><a href='#' onclick='cambiaPestanya(2)'>Valoraciones</a></div><div id='menu_sup_pestanya3'><a href='#' onclick='cambiaPestanya(3)'>Comentarios</a></div><div id='menu_sup_pestanya4'><a href='#' onclick='cambiaPestanya(4)'>Fotos</a></div></div>"; 
+          var menu ="<div id='contenedor'><div id='menu_superior'><div id='menu_sup_pestanya1'><a href='#' onclick='cambiaPestanya(1)'>Información</a></div><div id='menu_sup_pestanya2'><a href='#' onclick='cambiaPestanya(2)'>Valoraciones</a></div><div id='menu_sup_pestanya3'><a href='#' onclick='cambiaPestanya(3)'>Comentarios</a></div></div>"; 
+          // Pestaña de las fotos
+          //<div id='menu_sup_pestanya4'><a href='#' onclick='cambiaPestanya(4)'>Fotos</a></div>
 
           // CAPA 1: INFORMACIÓN
           var titulo = "<div id='capa1'><div id='contenedor_superior'><div id='contenedor_sup_izq'><div class='marker_title'>" + val[0] + "</div>";
@@ -466,8 +468,8 @@ require_once("include/db.php");
           var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div></div>";
           var megusta = "<div id='logo_megusta' onclick='likeFB(" + idEvento + ")'><img id='img_megusta' src='images/megusta.png'></div>";
           //var asistire = "<div id='contenedor_sup_der'><div id='logo_asistire'><img src='images/tick_on.png'></div><div id='asistire'>Asistiré</div>";
-          var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img img='src='images/heart_off.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
-          var heparticipado = "<br><div id='logo_heparticipado' onclick='participarFB(" + idEvento + ")'><img src='images/medal_off.png'></div><div onclick='participarFB(" + idEvento + ")' id='heparticipado'>He participado</div></div></div>";
+          var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img id='img_megustaria' src='images/heart_off.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
+          var heparticipado = "<br><div id='logo_heparticipado' onclick='participarFB(" + idEvento + ")'><img id='img_participado' src='images/medal_off.png'></div><div onclick='participarFB(" + idEvento + ")' id='heparticipado'>He participado</div></div></div>";
           var valoracionActual ="<div id='valoracionActual'><div class='estrellas_val'><div id='val_general' class='rateit bigstars' data-rateit-readonly='true' data-rateit-starwidth='18' data-rateit-starheight='18' data-rateit-value='" + val[10] + "'></div></div></div>";
           var description = "<div class='marker_desc'><span>Descripción</span><br>"+val[5]+"</div>";
           var crear_experiencia = "";
@@ -506,7 +508,7 @@ require_once("include/db.php");
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
             infowindow.open(map, this);
-
+            $('.rateit').rateit();
           });
           // cerrar el infowindow al hacer click en el mapa
           google.maps.event.addListener(map, 'click', function () {
@@ -589,8 +591,8 @@ require_once("include/db.php");
       		document.getElementById('menu_sup_pestanya2').style.backgroundImage="url('images/pestanya_off.png')";
       		document.getElementById('capa3').style.display = 'none';
       		document.getElementById('menu_sup_pestanya3').style.backgroundImage="url('images/pestanya_off.png')";
-      		document.getElementById('capa4').style.display = 'none';
-      		document.getElementById('menu_sup_pestanya4').style.backgroundImage="url('images/pestanya_off.png')";
+      		//document.getElementById('capa4').style.display = 'none';
+      		//document.getElementById('menu_sup_pestanya4').style.backgroundImage="url('images/pestanya_off.png')";
       		jQuery(pestanya).show();
       		document.getElementById(imagenPestanya).style.backgroundImage="url('images/pestanya_on.png')";
           if (activa == 3) {

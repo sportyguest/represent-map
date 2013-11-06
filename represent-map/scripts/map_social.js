@@ -261,7 +261,7 @@ function checkMeGustaria(evento_id) {
 		function(response) {
 			console.log(response);
 			for (var i = 0; i < response.data.length; i++) {
-				if (response.data[i].data.url == url_home + "yii/evento/view/id/" + evento_id) {
+				if (response.data[i].data.sport_event.url == url_home + "yii/evento/view/id/" + evento_id) {
 					changeImgMeGustaria();
 				}
 			}
@@ -277,7 +277,7 @@ function checkParticipado(evento_id) {
 		function(response) {
 			console.log(response);
 			for (var i = 0; i < response.data.length; i++) {
-				if (response.data[i].data.url == url_home + "yii/evento/view/id/" + evento_id) {
+				if (response.data[i].data.sport_event.url == url_home + "yii/evento/view/id/" + evento_id) {
 					changeImgParticipado();
 				}
 			}

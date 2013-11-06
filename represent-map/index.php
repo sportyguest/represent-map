@@ -71,29 +71,6 @@ require_once("include/db.php");
     <!-- Facebook rating, participating, like, ... -->
     <script src="scripts/map_social.js" type="text/javascript"></script>
 
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        // init the FB JS SDK
-        FB.init({
-          appId      : '167652430078861',                        // App ID from the app dashboard
-          channelUrl : '//sportyguest.es/channel.html', // Channel file for x-domain comms
-          status     : true,                                 // Check Facebook Login status
-          xfbml      : true                                  // Look for social plugins on the page
-        });
-
-        // Additional initialization code such as adding Event Listeners goes here
-      };
-
-      // Load the SDK asynchronously
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/all.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-    </script>
     <!-- Code to show the list of addresses -->
     <style>
       .pac-container {
@@ -466,7 +443,8 @@ require_once("include/db.php");
           var address = "<div class='marker_address'>"+val[7]+"</div>";
           var date = "<div class='marker_date'>"+date+"</div>";
           var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div></div>";
-          var megusta = "<div id='logo_megusta' onclick='likeFB(" + idEvento + ")'><img id='img_megusta' src='images/megusta.png'></div>";
+          var megusta = '<div class="fb-like" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="false"></div>';
+          //var megusta = "<div id='logo_megusta' onclick='likeFB(" + idEvento + ")'><img id='img_megusta' src='images/megusta.png'></div>";
           //var asistire = "<div id='contenedor_sup_der'><div id='logo_asistire'><img src='images/tick_on.png'></div><div id='asistire'>Asistiré</div>";
           var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img id='img_megustaria' src='images/heart_off.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
           var heparticipado = "<br><div id='logo_heparticipado' onclick='participarFB(" + idEvento + ")'><img id='img_participado' src='images/medal_off.png'></div><div onclick='participarFB(" + idEvento + ")' id='heparticipado'>He participado</div></div></div>";
@@ -508,7 +486,12 @@ require_once("include/db.php");
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
             infowindow.open(map, this);
-            $('.rateit').rateit();
+            if (marker.category != 'experiencia') {
+              $('.rateit').rateit();
+              checkMeGustaria(marker.id);
+              checkMeGusta(marker.id);
+              checkParticipado(marker.id);
+            }
           });
           // cerrar el infowindow al hacer click en el mapa
           google.maps.event.addListener(map, 'click', function () {
@@ -733,8 +716,8 @@ require_once("include/db.php");
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          //appId      : '167652430078861', // App ID localhost
-          appId      : '167839766714035', // App ID de producción
+          appId      : '167652430078861', // App ID localhost
+          //appId      : '167839766714035', // App ID de producción
           channelUrl : '//www.sportyguest.es/channel.html', // Channel File
           status     : true, // check login status
           cookie     : true, // enable cookies to allow the server to access the session

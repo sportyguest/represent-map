@@ -22,11 +22,11 @@ function saveFBUserData() {
 			url: url_home + 'yii/facebookUser/ajax',
 			data: data,
 			success:function(data){
-				alert(data); 
+				console.log(data);
 			},
 			error: function(data) { // if error occured
 				alert("Error occured.please try again");
-				alert(data);
+				console.log(data);
 			},
 			dataType:'json'
 		});
@@ -42,11 +42,11 @@ function saveFBFriends(uid) {
 			url: url_home + 'yii/facebookFriends/ajax',
 			data: friends,
 			success:function(data){
-				alert(data); 
+				console.log(data); 
 			},
 			error: function(data) { // if error occured
 				alert("Error occured.please try again");
-				alert(data);
+				console.log(data);
 			},
 			dataType:'json'
 		});
@@ -85,7 +85,7 @@ function meGustariaParticipar(evento_id, uid) {
 		url: url_home + 'yii/eventoMeGustariaParticipar/ajax',
 		data: data,
 		success:function(data){
-			alert(data);
+			console.log(data);
 			if (data.code == "success") {
 				FB.api(
 					'me/sportyguest_eventos:would_like_to_assist',
@@ -102,7 +102,7 @@ function meGustariaParticipar(evento_id, uid) {
 		},
 		error: function(data) { // if error occured
 			alert("Error occured.please try again");
-			alert(data);
+			console.log(data);
 		},
 		dataType:'json'
 	});
@@ -156,7 +156,7 @@ function participar(evento_id, uid) {
 				},
 				error: function(data) { // if error occured
 					alert("Error occured.please try again");
-					alert(data);
+					console.log(data);
 				},
 				dataType:'html'
 			});
@@ -208,7 +208,7 @@ function valorar(evento_id, uid) {
 		url: 'http://eventosdeportivos.sportyguest.es/yii/eventoValoracion/ajax',
 		data: data,
 		success:function(data){
-			alert(data);
+			console.log(data);
 			if (data.code == "success") {
 				var rating_url = url_home + 'yii/eventoValoracion/view/id/' + data.id;
 				FB.api(
@@ -226,7 +226,7 @@ function valorar(evento_id, uid) {
 		},
 		error: function(data) { // if error occured
 			alert("Error occured.please try again");
-			alert(data);
+			console.log(data);
 		},
 		dataType:'json'
 	});
@@ -261,7 +261,7 @@ function like(evento_id, uid) {
 		url: url_home + 'yii/eventoMeGusta/ajax',
 		data: data,
 		success:function(data){
-			alert(data);
+			console.log(data);
 			if (data.code == "success") {
 				FB.api(
 					'me/og.likes',
@@ -278,9 +278,59 @@ function like(evento_id, uid) {
 		},
 		error: function(data) { // if error occured
 			alert("Error occured.please try again");
-			alert(data);
+			console.log(data);
 		},
 		dataType:'json'
+	});
+}
+
+function checkMeGustaria(evento_id) {
+	FB.api(
+		'me/sportyguest_eventos:would_like_to_assist',
+		'get',
+		{},
+		function(response) {
+			for (var i = 0; i < response.data.length; i++) {
+				if (response.data[i].data.url == url_home + "yii/evento/view/id/" + evento_id) {
+					changeImgMeGustaria();
+				}
+			}
+		}
+	);
+}
+
+function checkParticipado(evento_id) {
+	FB.api(
+		'me/sportyguest_eventos:participate',
+		'get',
+		{},
+		function(response) {
+			for (var i = 0; i < response.data.length; i++) {
+				if (response.data[i].data.url == url_home + "yii/evento/view/id/" + evento_id) {
+					changeImgParticipado();
+				}
+			}
+		}
+	);
+}
+
+function checkMeGusta(evento_id) {
+	FB.api({
+		method: 'fql.query',
+		query: 'select id from object_url where url=' + url_home + "yii/evento/view/id/" + evento_id;
+	}, function(response){
+		console.log(response);
+		FB.api(
+			'me/likes/' + response.data.id,
+			'get',
+			{},
+			function(response) {
+				console.log(response);
+				if (response.data.length > 0) {
+					changeImgMeGusta();
+				}
+			}
+		);
 	});
 }
 

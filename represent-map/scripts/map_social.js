@@ -231,24 +231,6 @@ function valorar(evento_id, uid) {
 		dataType:'json'
 	});
 }
-function likeFB(evento_id) {
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			uid = response.authResponse.userID;
-			saveFBData(uid);
-			like(evento_id, uid);
-		} else {
-			FB.login(function(response) {
-				if (response.authResponse) {
-					saveFBData(uid);
-					like(evento_id, uid)
-				} else {
-					console.log('User cancelled login or did not fully authorize.');
-				}
-			}, {scope: 'publish_actions, email, user_friends'});
-		}
-	});
-}
 
 function like(evento_id, uid) {
 	var data = {
@@ -262,19 +244,6 @@ function like(evento_id, uid) {
 		data: data,
 		success:function(data){
 			console.log(data);
-			if (data.code == "success") {
-				FB.api(
-					'me/og.likes',
-					'post',
-					{
-						object: url_home + 'yii/evento/view/id/' + evento_id
-					},
-					function(response) {
-						changeImgMeGusta();
-						console.log(response);
-					}
-				);
-			}
 		},
 		error: function(data) { // if error occured
 			alert("Error occured.please try again");
@@ -290,6 +259,7 @@ function checkMeGustaria(evento_id) {
 		'get',
 		{},
 		function(response) {
+			console.log(response);
 			for (var i = 0; i < response.data.length; i++) {
 				if (response.data[i].data.url == url_home + "yii/evento/view/id/" + evento_id) {
 					changeImgMeGustaria();
@@ -305,6 +275,7 @@ function checkParticipado(evento_id) {
 		'get',
 		{},
 		function(response) {
+			console.log(response);
 			for (var i = 0; i < response.data.length; i++) {
 				if (response.data[i].data.url == url_home + "yii/evento/view/id/" + evento_id) {
 					changeImgParticipado();
@@ -314,29 +285,6 @@ function checkParticipado(evento_id) {
 	);
 }
 
-function checkMeGusta(evento_id) {
-	FB.api({
-		method: 'fql.query',
-		query: 'select id from object_url where url=' + url_home + "yii/evento/view/id/" + evento_id;
-	}, function(response){
-		console.log(response);
-		FB.api(
-			'me/likes/' + response.data.id,
-			'get',
-			{},
-			function(response) {
-				console.log(response);
-				if (response.data.length > 0) {
-					changeImgMeGusta();
-				}
-			}
-		);
-	});
-}
-
-function changeImgMeGusta() {
-	jQuery("#img_megusta").attr("src", "images/megusta.png");
-}
 function changeImgMeGustaria() {
 	jQuery("#img_megustaria").attr("src", "images/heart_on.png");
 }

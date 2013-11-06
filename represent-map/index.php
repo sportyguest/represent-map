@@ -443,7 +443,7 @@ require_once("include/db.php");
           var address = "<div class='marker_address'>"+val[7]+"</div>";
           var date = "<div class='marker_date'>"+date+"</div>";
           var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div></div>";
-          var megusta = '<div class="fb-like" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="false"></div>';
+          var megusta = '<div class="fb-like" data-width="50" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-layout="box_count" data-action="like" data-show-faces="false"></div>';
           //var megusta = "<div id='logo_megusta' onclick='likeFB(" + idEvento + ")'><img id='img_megusta' src='images/megusta.png'></div>";
           //var asistire = "<div id='contenedor_sup_der'><div id='logo_asistire'><img src='images/tick_on.png'></div><div id='asistire'>Asistiré</div>";
           var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img id='img_megustaria' src='images/heart_off.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
@@ -489,8 +489,12 @@ require_once("include/db.php");
             if (marker.category != 'experiencia') {
               $('.rateit').rateit();
               checkMeGustaria(marker.id);
-              checkMeGusta(marker.id);
               checkParticipado(marker.id);
+              var timeout = setInterval(fbParse(), 500);
+              function fbParse() {
+                FB.XFBML.parse();
+                clearInterval(timeout);
+              }
             }
           });
           // cerrar el infowindow al hacer click en el mapa
@@ -716,13 +720,23 @@ require_once("include/db.php");
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : '167652430078861', // App ID localhost
-          //appId      : '167839766714035', // App ID de producción
+          //appId      : '167652430078861', // App ID localhost
+          appId      : '167839766714035', // App ID de producción
           channelUrl : '//www.sportyguest.es/channel.html', // Channel File
           status     : true, // check login status
           cookie     : true, // enable cookies to allow the server to access the session
           xfbml      : true  // parse XFBML
         });
+        FB.Event.subscribe('edge.create',
+          function(href, widget) {
+            session = FB.getSession();
+            uid = session['uid'];
+            href_split = href.split("/");
+            evento_id = href_split[href_split.length - 2];
+            like(evento_id, uid);
+            alert('You liked the URL: ' + href);
+          }
+        );
       };
       // Load the SDK Asynchronously
       (function(d){

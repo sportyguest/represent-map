@@ -8,12 +8,12 @@
  * @property integer $evento_id
  * @property string $facebook_id
  * @property string $facebook_valoracion_id
- * @property integer $valoracion
- * @property integer $valoracion_organizacion
- * @property integer $valoracion_dificultad
- * @property integer $valoracion_recorrido
- * @property integer $valoracion_actividad_complementaria
- * @property integer $valoracion_precio
+ * @property double $valoracion
+ * @property double $valoracion_organizacion
+ * @property double $valoracion_dificultad
+ * @property double $valoracion_recorrido
+ * @property double $valoracion_actividad_complementaria
+ * @property double $valoracion_precio
  *
  * The followings are the available model relations:
  * @property Evento $evento
@@ -43,7 +43,8 @@ class EventoValoracion extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('evento_id, facebook_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'required'),
-			array('evento_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'numerical', 'integerOnly'=>true),
+			array('evento_id', 'numerical', 'integerOnly'=>true),
+			array('valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'numerical'),
 			array('facebook_id, facebook_valoracion_id', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

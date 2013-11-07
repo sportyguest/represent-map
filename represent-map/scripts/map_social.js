@@ -205,7 +205,7 @@ function valorar(evento_id, uid) {
 	// The rating is created in the database and then the rating is post to facebook
 	$.ajax({
 		type: 'POST',
-		url: 'http://eventosdeportivos.sportyguest.es/yii/eventoValoracion/ajax',
+		url: url_home + 'yii/eventoValoracion/ajax',
 		data: data,
 		success:function(data){
 			console.log(data);

@@ -245,8 +245,48 @@ function like(evento_id, uid) {
 		success:function(data){
 			console.log(data);
 		},
-		error: function(data) { // if error occured
-			alert("Error occured.please try again");
+		error: function(data) {
+			console.log(data);
+		},
+		dataType:'json'
+	});
+}
+
+function asistireFB(evento_id) {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			uid = response.authResponse.userID;
+			saveFBData(uid);
+			asistire(evento_id, uid);
+		} else {
+			FB.login(function(response) {
+				if (response.authResponse) {
+					uid = response.authResponse.userID;
+					saveFBData(uid);
+					asistire(evento_id, uid);
+				} else {
+					alert("No podemos realizar la valoración sin Facebook ;(");
+					console.log('User cancelled login or did not fully authorize.');
+				}
+			}, {scope: 'email, user_friends'});
+		}
+	});
+}
+
+function asistire(evento_id, uid) {
+	var data = {
+		'EventoAsistire[evento_id]': evento_id,
+		'EventoAsistire[facebook_id]': uid
+	}
+	$.ajax({
+		type: 'POST',
+		url: url_home + 'yii/eventoAsistire/ajax',
+		data: data,
+		success: function(data) {
+			changeImgAsistire();
+			console.log(data);
+		},
+		error: function(data) {
 			console.log(data);
 		},
 		dataType:'json'
@@ -260,7 +300,7 @@ function checkMeGustaria(evento_id) {
 		{},
 		function(response) {
 			console.log(response);
-			for (var i = 0; i < response.data.length; i++) {
+			for (var i = 0; response && response.data && i < response.data.length; i++) {
 				if (response.data[i].data.sport_event.url == url_home + "yii/evento/view/id/" + evento_id) {
 					changeImgMeGustaria();
 				}
@@ -276,7 +316,7 @@ function checkParticipado(evento_id) {
 		{},
 		function(response) {
 			console.log(response);
-			for (var i = 0; i < response.data.length; i++) {
+			for (var i = 0; response && response.data && i < response.data.length; i++) {
 				if (response.data[i].data.sport_event.url == url_home + "yii/evento/view/id/" + evento_id) {
 					changeImgParticipado();
 				}
@@ -290,4 +330,7 @@ function changeImgMeGustaria() {
 }
 function changeImgParticipado() {
 	jQuery("#img_participado").attr("src", "images/medal_on.png");
+}
+function changeImgAsistire() {
+	jQuery("#img_asistire").attr("src", "images/tick_on.png");
 }

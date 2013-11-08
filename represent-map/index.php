@@ -446,9 +446,14 @@ textdomain($lang);
           if (marker.date != undefined) {
             date = marker.date.toLocaleDateString();
           }
+          var titulo_short = val[0];
+          if (titulo_short.length > 90) {
+            titulo_short = val[0].substring(0, 85) + "...";
+          }
           // Values to replace from the html code
           var valores = {
             "TITULO": val[0],
+            "TITULO_SHORT": titulo_short,
             "DIRECCION": val[7],
             "EVENTO_ID": val[9],
             "INFORMACION": "<?php echo _("Información");?>",

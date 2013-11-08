@@ -368,11 +368,9 @@ background:#FFF;
 .marker_title
 {
   font-weight: bold;
-  max-width: 350px;
-
-
 	font-family: lilyupc !important;
 	font-size: 24px !important; /* 1.5em */
+  margin-bottom: 10px;
 }
 .marker_uri
 {
@@ -380,6 +378,7 @@ background:#FFF;
   color: #999;
 	#text-align: center;
 	overflow: hidden;
+  max-width: 420px;
 }
 .marker_desc
 {
@@ -402,7 +401,6 @@ background:#FFF;
 .marker_address
 {
   font-size: 8pt;
-  margin-top: 10px;
   color: #B2B2B2;
 }
 .marker_date
@@ -618,7 +616,6 @@ div#contenedor_sup_der{
 	float: right;
 	max-width: 40%;
 	width: 40%;
-	margin-top: 10px;
 	#position: relative;
 	bottom: 100%;
 }

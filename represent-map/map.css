@@ -722,6 +722,6 @@ div#logo_heparticipado{
 display: inline;
 }
 
-div.marker_img{
-  width: 50px;
+div img.marker_img{
+  max-height: 50px;
 }

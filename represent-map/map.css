@@ -387,7 +387,7 @@ background:#FFF;
   width: 100%;
   color: #555;
   font-size: 9pt;
-  margin-top: 40px;
+  margin-top: 5px;
   text-align: justify;
   width: 100%;
 
@@ -722,3 +722,6 @@ div#logo_heparticipado{
 display: inline;
 }
 
+div.marker_img{
+  width: 50px;
+}

@@ -7,6 +7,13 @@ require_once("/var/www/sportyguest/wp-load.php");
 require_once ("include/evento.php");
 require_once ("include/experiencia.php");
 require_once("include/db.php");
+$lang = "es_ES";
+if (isset($_GET['lang'])) $lang = $_GET['lang'];
+putenv("LC_ALL=$lang");
+setlocale(LC_ALL, $lang);
+bindtextdomain($lang, "locale");
+bind_textdomain_codeset($lang, 'UTF-8');
+textdomain($lang);
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +77,10 @@ require_once("include/db.php");
     <link href="rateit/content/bigstars.css" rel="stylesheet" type="text/css">
     <!-- Facebook rating, participating, like, ... -->
     <script src="scripts/map_social.js" type="text/javascript"></script>
+    <!-- Bootstrap Form Helpers -->
+    <link href="vlamanna/dist/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
+    <!-- Bootstrap Form Helpers -->
+    <script src="vlamanna/dist/js/bootstrap-formhelpers.js"></script>
 
     <!-- Code to show the list of addresses -->
     <style>
@@ -339,7 +350,8 @@ require_once("include/db.php");
                                   $valoracionOrganizacion  . "', '" .  
                                   $valoracionAtractivo   . "', '" . 
                                   $valoracionPrecio   . "', '" .
-                                  $valoracionActComplementarios . "']); //cuidado con las comillas 
+                                  $valoracionActComplementarios . "', '" .
+                                  $evento->image_url . "']); //cuidado con las comillas 
                  markerTitles[" . $marker_id . "] = '" . $evento->name . "';
                "; 
             $count[$evento->category]++;
@@ -363,7 +375,9 @@ require_once("include/db.php");
           infowindow = new google.maps.InfoWindow({
             content: ""
           });
-
+          if (val[16] == "") {
+            val[16] = "http://eventosdeportivos.sportyguest.es/images/no-image-50x50.png";
+          }
 
           // offset latlong ever so slightly to prevent marker overlap
           rand_x = Math.random();
@@ -432,59 +446,50 @@ require_once("include/db.php");
           if (marker.date != undefined) {
             date = marker.date.toLocaleDateString();
           }
-
-          var idEvento = val[9];
-          var menu ="<div id='contenedor'><div id='menu_superior'><div id='menu_sup_pestanya1'><a href='#' onclick='cambiaPestanya(1)'>Información</a></div><div id='menu_sup_pestanya2'><a href='#' onclick='cambiaPestanya(2)'>Valoraciones</a></div><div id='menu_sup_pestanya3'><a href='#' onclick='cambiaPestanya(3)'>Comentarios</a></div></div>"; 
-          // Pestaña de las fotos
-          //<div id='menu_sup_pestanya4'><a href='#' onclick='cambiaPestanya(4)'>Fotos</a></div>
-
-          // CAPA 1: INFORMACIÓN
-          var titulo = "<div id='capa1'><div id='contenedor_superior'><div id='contenedor_sup_izq'><div class='marker_title'>" + val[0] + "</div>";
-          var address = "<div class='marker_address'>"+val[7]+"</div>";
-          var date = "<div class='marker_date'>"+date+"</div>";
-          var url = "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div></div>";
-          var megusta = '<div class="fb-like" data-width="50" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-layout="box_count" data-action="like" data-show-faces="false"></div>';
-          //var megusta = "<div id='logo_megusta' onclick='likeFB(" + idEvento + ")'><img id='img_megusta' src='images/megusta.png'></div>";
-          //var asistire = "<div id='contenedor_sup_der'><div id='logo_asistire'><img src='images/tick_on.png'></div><div id='asistire'>Asistiré</div>";
-          var megustaria = "<br><div><div id='logo_megustaria' onclick='meGustariaParticiparFB(" + idEvento + ")'><img id='img_megustaria' src='images/heart_off.png'></div><div onclick='meGustariaParticiparFB(" + idEvento + ")' id='megustaria'>Me gustaría asistir</div>";
-          var heparticipado = "<br><div id='logo_heparticipado' onclick='participarFB(" + idEvento + ")'><img id='img_participado' src='images/medal_off.png'></div><div onclick='participarFB(" + idEvento + ")' id='heparticipado'>He participado</div></div></div>";
-          var valoracionActual ="<div id='valoracionActual'><div class='estrellas_val'><div id='val_general' class='rateit bigstars' data-rateit-readonly='true' data-rateit-starwidth='18' data-rateit-starheight='18' data-rateit-value='" + val[10] + "'></div></div></div>";
-          var description = "<div class='marker_desc'><span>Descripción</span><br>"+val[5]+"</div>";
-          var crear_experiencia = "";
-          if (marker.category != "experiencia") {
-            crear_experiencia = "<div id='centrar_img' class='marker_uri'><span>Crea una experiencia cerca de " + val[0] + "</span><br><a href='http://www.sportyguest.es/crear-experiencia/'><img src='images/boton_crear.png' alt='crear'></a></div></div></div></div>"; 
+          // Values to replace from the html code
+          var valores = {
+            "TITULO": val[0],
+            "DIRECCION": val[7],
+            "EVENTO_ID": val[9],
+            "INFORMACION": "<?php echo _("Información");?>",
+            "VALORACIONES": "<?php echo _("Valoraciones");?>",
+            "COMENTARIOS": "<?php echo _("Comentarios");?>",
+            "FECHA": date,
+            "URI": markerURI,
+            "URI_SHORT": markerURI_short,
+            "ASISTIRE": "<?php echo _("Asistiré");?>",
+            "HE_PARTICIPADO": "<?php echo _("He participado");?>",
+            "VALORACION_GENERAL_TITULO": "<?php echo _("Valoración general");?>",
+            "VALORACION_GENERAL": mostrarMedia(val[10]),
+            "DESCRIPCION_TITULO": "<?php echo _("Descripción");?>",
+            "DESCRIPCION": val[5],
+            "CREAR_UNA_EXPERIENCIA_CERCA_DE": "<?php echo _("Crea una experiencia cerca de ");?>",
+            "VALORACION_POR_CRITERIOS": "<?php echo _("Valoración detallada");?>",
+            "DIFICULTAD_TITULO": "<?php echo _("Dificultad");?>",
+            "VALORACION_DIFICULTAD": mostrarMedia(val[11]),
+            "ORGANIZACION_TITULO": "<?php echo _("Organización");?>",
+            "VALORACION_ORGANIZACION": mostrarMedia(val[12]),
+            "ATRACTIVO_TITULO": "<?php echo _("Atractivo");?>",
+            "VALORACION_ATRACTIVO": mostrarMedia(val[13]),
+            "PRECIO_TITULO": "<?php echo _("Precio");?>",
+            "VALORACION_PRECIO": mostrarMedia(val[14]),
+            "ACTIVIDADES_COMPLEMENTARIAS_TITULO": "<?php echo _("Actividades complementarias");?>",
+            "VALORACION_ACTIVIDADES_COMPLEMENTARIAS": mostrarMedia(val[15]),
+            "IMG_SRC": val[16],
+            "IMG_ALT": val[0]
+          };
+          // If there are any double QUOTES in the file this line WILL BREAK
+          var popup = "<?php echo trim(preg_replace('/\s\s+/', ' ', file_get_contents("popup.html")));?>"
+          for (var key in valores) {
+            if (valores.hasOwnProperty(key)) {
+              var value = valores[key];
+              popup = popup.replace(new RegExp("%" + key + "%", "g"), value);
+            }
           }
-
-          var capa1 = titulo + address  + date + url + megusta + megustaria + heparticipado + valoracionActual + description + crear_experiencia;
-
-          // CAPA 2: VALORACIONES
-          var val1 = mostrarMedia(val[10]); var val2 = mostrarMedia(val[11]); var val3 = mostrarMedia(val[12]); 
-          var val4 = mostrarMedia(val[13]); var val5 = mostrarMedia(val[14]); var val6 = mostrarMedia(val[15]); 
-          var valoracionGeneral = "<div id='capa2' style='display: none;'><div id='valoracionGeneral'><div class='txt_val1'>Valoración general</div><div class='estrellas_val'><div id='val_general' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val1 + "</div></div>";
-          var valoracionPorCriterios = "<div id='valoracionPorCriterios'>Valoración por criterios</div>";
-          var dificultad ="<div id='dificultad'><div class='txt_val2'>Dificultad</div><div class='estrellas_val'><div id='val_dificultad' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val2 + "</div></div>";
-          var organizacion ="<div id='organizacion'><div class='txt_val2'>Organización</div><div class='estrellas_val'><div id='val_organizacion' class='rateit bigstars'' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val3 + "</div></div>";
-          var atractivo = "<div id='atractivo'><div class='txt_val2'>Atractivo</div><div class='estrellas_val'><div id='val_atractivo' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val4 + "</div></div>";
-          var precio = "<div id='precio'><div class='txt_val2'>Precio</div><div class='estrellas_val'><div id='val_precio' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val5 + "</div></div>";
-          var actComplementarias = "<div id='actComplementarias'><div class='txt_val2'>Actividades complementarias</div><div class='estrellas_val'><div id='val_actcomplementarias' class='rateit bigstars' data-rateit-starwidth='18' data-rateit-starheight='18'></div></div><div class='nota_val'>" + val6 + "</div></div>";
-
-          var recomienda = "<div id='recomienda'>Recomienda</div>";
-          var comentario = "<div id='comentario'>Comentario</div>";
-          var botonEnviar = "<div id='centrar_img'><a href='#' id='valorar' onclick='valorarFB(" + idEvento + ")'><img src='images/boton-enviar.png'></a></div>";
-          var finCapa2 = "</div>";
-
-          var capa2 = valoracionGeneral + valoracionPorCriterios + dificultad + organizacion + atractivo + precio + actComplementarias + recomienda + comentario + botonEnviar + finCapa2;
-
-          // CAPA 3: COMENTARIOS
-
-          var capa3 ='<div id="capa3" style="display: none;"><div class="fb-comments" data-href="http://eventosdeportivos.sportyguest.es/yii/evento/view/id/' + idEvento + '" data-colorscheme="light" data-numposts="5" data-width="400"></div></div>';
-          // CAPA 4: FOTOS
-          var capa4 ="<div id='capa4' style='display: none;'>capa 4: fotos <br><br> <a href='#'><img src='images/boton-enviar.png'></a></div></div>";
-          
           // add marker click effects (open infowindow)
           google.maps.event.addListener(marker, 'click', function () {
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
-            infowindow.setContent(menu + capa1 + capa2 + capa3 + capa4);
+            infowindow.setContent(popup);
             infowindow.open(map, this);
             if (marker.category != 'experiencia') {
               $('.rateit').rateit();
@@ -756,7 +761,7 @@ require_once("include/db.php");
       <div class="wrapper">
         <div class="right">
           <div class="share">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $domain ?>" data-text="<?php echo $twitter['share_text'] ?>" data-via="<?php echo $twitter['username'] ?>" data-count="none">Tweet</a>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $domain ?>" data-text="<?php echo $twitter['share_text'] ?>" data-via="<?php echo $twitter['username'] ?>" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             <div class="fb-like" data-href="http://www.facebook.com/Sportyguest" data-width="100"
                  data-layout="button_count" data-show-faces="false" data-send="true"></div>
@@ -769,28 +774,32 @@ require_once("include/db.php");
             </a>
           </div>
           <div class="buttons">
-            <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>Sobre este mapa</a>
+            <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i><?php echo _("Sobre este mapa");?></a>
             <a href="#modal_faq" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>FAQ</a>
-            <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Añade tu evento</a>
+            <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i><?php echo _("Añade tu evento");?></a>
           </div>
           <div class="search">
-            <input type="text" name="search" id="search" placeholder="Busca competiciones..." data-provide="typeahead" autocomplete="off" />
+            <input type="text" name="search" id="search" placeholder="<?php echo _("Busca competiciones...");?>" data-provide="typeahead" autocomplete="off" />
           </div>
           <div class="combob">
             <select id="filter_date" class="combob" style="background-color: #FFF;">
-              <option value="n/a" selected>Elige mes</option>
-              <option value="0">Enero</option>
-              <option value="1">Febrero</option>
-              <option value="2">Marzo</option>
-              <option value="3">Abril</option>
-              <option value="4">Mayo</option>
-              <option value="5">Junio</option>
-              <option value="6">Julio</option>
-              <option value="7">Agosto</option>
-              <option value="8">Septiembre</option>
-              <option value="9">Octubre</option>
-              <option value="10">Noviembre</option>
-              <option value="11">Diciembre</option>
+              <option value="n/a" selected><?php echo _("Elige mes");?></option>
+              <option value="0"><?php echo _("Enero");?></option>
+              <option value="1"><?php echo _("Febrero");?></option>
+              <option value="2"><?php echo _("Marzo");?></option>
+              <option value="3"><?php echo _("Abril");?></option>
+              <option value="4"><?php echo _("Mayo");?></option>
+              <option value="5"><?php echo _("Junio");?></option>
+              <option value="6"><?php echo _("Julio");?></option>
+              <option value="7"><?php echo _("Agosto");?></option>
+              <option value="8"><?php echo _("Septiembre");?></option>
+              <option value="9"><?php echo _("Octubre");?></option>
+              <option value="10"><?php echo _("Noviembre");?></option>
+              <option value="11"><?php echo _("Diciembre");?></option>
+            </select>
+          </div>
+          <div class="combob">
+            <select class="combob form-control bfh-languages" data-language="<?php echo $lang;?>" data-available="en,es_ES">
             </select>
           </div>
         </div>
@@ -875,26 +884,11 @@ require_once("include/db.php");
     <div class="modal hide in" id="modal_info" style="margin-top: -310px!important;">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>Sobre este mapa</h3>
+        <h3><?php echo _("Sobre este mapa");?></h3>
       </div>
       <div class="modal-body">
         <p>
-        <a href="http://www.sportyguest.es">Sportyguest</a> ha creado este mapa 
-        para que la comunidad online pueda promocionar los eventos deportivos outdoor 
-        que se realizan tanto a nivel español como internacional y para que así 
-        puedas planificarte tu calendario deportivo.<br><br>
-        Este mapa te permitirá encontrar los eventos deportivos y experiencias 
-        deportivas más cercanas al lugar donde quieras desplazarte o encontrar 
-        aquellos eventos y experiencias más cercanas a tu lugar de origen.<br><br>
-        Hemos incluido alguna información sobre algunos eventos pero necesitamos 
-        tu ayuda para hacerlo más completo. Si quieres añadir un evento deportivo 
-        que organizas o, simplemente, al que asistes, únicamente tienes que pulsar 
-        el botón: 
-          <a href="#modal_add" data-toggle="modal" data-dismiss="modal">añadir evento</a>
-        y completar un pequeño formulario con información al respecto. <br><br>
-        <strong>Si quieres ayudarnos a apoyar la promoción de este mapa de eventos puedes 
-        incorporar las siguientes imágenes (click derecho > guardar imagen como...) en tu 
-        Web o blog enlazando el mapa:</strong>
+        <?php echo _("<a href='http://www.sportyguest.es'>Sportyguest</a> ha creado este mapa para que la comunidad online pueda promocionar los eventos deportivos outdoor que se realizan tanto a nivel español como internacional y para que así puedas planificarte tu calendario deportivo.<br><br>Este mapa te permitirá encontrar los eventos deportivos y experiencias deportivas más cercanas al lugar donde quieras desplazarte o encontrar aquellos eventos y experiencias más cercanas a tu lugar de origen.<br><br>Hemos incluido alguna información sobre algunos eventos pero necesitamos tu ayuda para hacerlo más completo. Si quieres añadir un evento deportivo que organizas o, simplemente, al que asistes, únicamente tienes que pulsar el botón: <a href='#modal_add' data-toggle='modal' data-dismiss='modal'>añadir evento</a> y completar un pequeño formulario con información al respecto. <br><br><strong>Si quieres ayudarnos a apoyar la promoción de este mapa de eventos puedes incorporar las siguientes imágenes (click derecho > guardar imagen como...) en tu Web o blog enlazando el mapa:</strong>");?>
         <ul class="badges">
           <li>
             <img src="./images/badges/badge1.png" alt="Logo Sportyguest map">
@@ -903,14 +897,14 @@ require_once("include/db.php");
             <img src="./images/badges/badge2.png" alt="Logo secundario sportyguest map">
           </li>
         </ul>
-        ¿Tienes preguntas? ¿Aportaciones? Contacta con nosotros en 
+        <?php echo _("¿Tienes preguntas? ¿Aportaciones? Contacta con nosotros en ");?>
         <a href="http://www.twitter.com/ <?php echo $twitter['username'] ?>" target="_blank">@<?php echo $twitter['username'] ?></a>
         <br>
-        Creado por <a href="http://www.sportyguest.es">Sportyguest Spain S.L</a>
+        <?php echo _("Creado por");?> <a href="http://www.sportyguest.es">Sportyguest Spain S.L</a>
         </p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
+        <a href="#" class="btn" data-dismiss="modal" style="float: right;"><?php echo _("Cerrar");?></a>
       </div>
     </div>
 
@@ -918,72 +912,54 @@ require_once("include/db.php");
     <div class="modal hide in" id="modal_faq">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>FAQ - Preguntas frecuentes</h3>
+        <h3><?php echo _("FAQ - Preguntas frecuentes");?></h3>
       </div>
       <div class="modal-body">
         <ol>
-          <li><a href="#1">¿Qué es Sportyguest Sports Map?</a> </li>
-          <li><a href="#2">¿Por qué lo hemos creado?</a> </li>
-          <li><a href="#3">¿Qué beneficios tiene añadir mi evento en este mapa?</a> </li>
-          <li><a href="#4">¿Cuál es el objetivo de este mapa?</a> </li>
-          <li><a href="#5">¿Qué tipo de eventos hay en el mapa?</a> </li>
-          <li><a href="#6">¿Cómo añado un evento?</a> </li>
-          <li><a href="#7">¿Cómo puedo modificar un evento existente?</a> </li>
-          <li><a href="#8">Mi evento no está situado bien en el mapa de Sportyguest Sports Map:</a> </li>
-          <li><a href="#9">Me parece una idea muy interesante y me gustaría ayudar a promocionarlo:</a> </li>
+          <li><a href="#1"><?php echo _("¿Qué es Sportyguest Sports Map?");?></a> </li>
+          <li><a href="#2"><?php echo _("¿Por qué lo hemos creado?");?></a> </li>
+          <li><a href="#3"><?php echo _("¿Qué beneficios tiene añadir mi evento en este mapa?");?></a> </li>
+          <li><a href="#4"><?php echo _("¿Cuál es el objetivo de este mapa?");?></a> </li>
+          <li><a href="#5"><?php echo _("¿Qué tipo de eventos hay en el mapa?");?></a> </li>
+          <li><a href="#6"><?php echo _("¿Cómo añado un evento?");?></a> </li>
+          <li><a href="#7"><?php echo _("¿Cómo puedo modificar un evento existente?");?></a> </li>
+          <li><a href="#8"><?php echo _("Mi evento no está situado bien en el mapa de Sportyguest Sports Map:");?></a> </li>
+          <li><a href="#9"><?php echo _("Me parece una idea muy interesante y me gustaría ayudar a promocionarlo:");?></a> </li>
           
         </ol>
         <p>&nbsp;</p>
         <ol>
-          <li><a name="1">¿Qué es Sportyguest Sports Map?</a> 
-            <br>Sportyguest Sports Map es un mapa que representa los eventos deportivos 
-                outdoor de España y del ámbito internacional. 
+          <li><a name="1"><?php echo _("¿Qué es Sportyguest Sports Map?");?></a> 
+            <br><?php echo _("Sportyguest Sports Map es un mapa que representa los eventos deportivos outdoor de España y del ámbito internacional.");?> 
           </li>
-          <li><a name="2">¿Por qué lo hemos creado?</a>
-            <br>Hemos creado este mapa de eventos deportivos para que puedas encontrar 
-                los eventos deportivos y experiencias deportivas más cercanas al lugar 
-                donde quieras desplazarte o encontrar aquellos eventos y experiencias más 
-                cercanas a tu lugar de origen, para así poder planificarte tu calendario deportivo. 
+          <li><a name="2"><?php echo _("¿Por qué lo hemos creado?");?></a>
+            <br><?php echo _("Hemos creado este mapa de eventos deportivos para que puedas encontrar los eventos deportivos y experiencias deportivas más cercanas al lugar donde quieras desplazarte o encontrar aquellos eventos y experiencias más cercanas a tu lugar de origen, para así poder planificarte tu calendario deportivo.");?> 
           </li>
-          <li><a name="3">¿Qué beneficios tiene añadir mi evento en este mapa?</a> 
-            <br>Indudablemente, si añades tu evento en este mapa de eventos deportivos vas a tener 
-                una mayor visibilidad, además de un enlace directo al mismo que te permitirá obtener 
-                mas visitantes en la web/blog y probables participantes y visitantes a la ciudad del evento.
+          <li><a name="3"><?php echo _("¿Qué beneficios tiene añadir mi evento en este mapa?");?></a> 
+            <br><?php echo _("Indudablemente, si añades tu evento en este mapa de eventos deportivos vas a tener una mayor visibilidad, además de un enlace directo al mismo que te permitirá obtener mas visitantes en la web/blog y probables participantes y visitantes a la ciudad del evento.");?>
           </li>
-          <li><a name="4">¿Vamos a vender estos datos?¿Cómo monetizamos esto?</a>
-            <br>El objetivo de este mapa es el de darle un valor añadido y una
-               herramienta de fácil acceso y usabilidad a cualquier aficionado al deporte que busque 
-               eventos a los que asistir o nuevas experiencias deportivas que vivir.
+          <li><a name="4"><?php echo _("¿Cuál es el objetivo de este mapa?");?></a>
+            <br><?php echo _("El objetivo de este mapa es el de darle un valor añadido y una herramienta de fácil acceso y usabilidad a cualquier aficionado al deporte que busque eventos a los que asistir o nuevas experiencias deportivas que vivir.");?>
           </li>
-          <li><a name="5">¿Qué tipo de eventos hay en el mapa?</a> 
-            <br>Este mapa ha sido realizado para que sean añadidos todos los eventos de deporte 
-              outdoor, sobre todo, aquellos que permiten la participación a cualquier aficionado al 
-              deporte outdoor. 
+          <li><a name="5"><?php echo _("¿Qué tipo de eventos hay en el mapa?");?></a> 
+            <br><?php echo _("Este mapa ha sido realizado para que sean añadidos todos los eventos de deporte outdoor, sobre todo, aquellos que permiten la participación a cualquier aficionado al deporte outdoor.");?>
           </li>
-          <li><a name="6">¿Cómo añado un evento?</a>
-            <br>Únicamente tendrás que pinchar en el botón añadir evento y completar un sencillo 
-              formulario con información del mismo. Ten en cuenta que el equipo de Sportyguest 
-              revisará el mismo y tardará un máximo de 48h en aprobarlo y que este aparezca en el mapa.
+          <li><a name="6"><?php echo _("¿Cómo añado un evento?");?></a>
+            <br><?php echo _("Únicamente tendrás que pinchar en el botón añadir evento y completar un sencillo formulario con información del mismo. Ten en cuenta que el equipo de Sportyguest revisará el mismo y tardará un máximo de 48h en aprobarlo y que este aparezca en el mapa.");?>
           </li>
-          <li><a name="7">¿Cómo puedo modificar un evento existente?</a>
-            <br>Para hacer modificaciones de eventos ya publicados tienes que mandarnos un 
-              correo a info@sportyguest.es con la información correspondiente.
+          <li><a name="7"><?php echo _("¿Cómo puedo modificar un evento existente?");?></a>
+            <br><?php echo _("Para hacer modificaciones de eventos ya publicados tienes que mandarnos un correo a info@sportyguest.es con la información correspondiente.");?>
           </li>
-          <li><a name="8">Mi evento no está situado bien en el mapa de Sportyguest Sports Map:</a>
-            <br>Sportyguest Sports Map se posiciona utilizando las funcionalidades de Google Maps, 
-              por lo tanto, comprueba antes de enviar la dirección que en Google Maps sale correctamente. 
-              Si no es así, ajústalo.
+          <li><a name="8"><?php echo _("Mi evento no está situado bien en el mapa de Sportyguest Sports Map:");?></a>
+            <br><?php echo _("Sportyguest Sports Map se posiciona utilizando las funcionalidades de Google Maps, por lo tanto, comprueba antes de enviar la dirección que en Google Maps sale correctamente. Si no es así, ajústalo.");?>
           </li>
-          <li><a name="9">Me parece una idea muy interesante y me gustaría ayudar a promocionarlo:</a>
-            <br>Bienvenido amig@! Estaremos encantados de que nos ayudes a promocionar Sportyguest Sports Map. 
-              Si quieres ayudarnos a apoyar la promoción de este mapa de eventos deportivos puedes pinchar 
-              en el botón “Sobre este mapa” y allí encontrarás el código que puedes implementar en tu 
-              Web o blog. Gracias de antemano!
+          <li><a name="9"><?php echo _("Me parece una idea muy interesante y me gustaría ayudar a promocionarlo:");?></a>
+            <br><?php echo _("Bienvenido amig@! Estaremos encantados de que nos ayudes a promocionar Sportyguest Sports Map. Si quieres ayudarnos a apoyar la promoción de este mapa de eventos deportivos puedes pinchar en el botón “Sobre este mapa” y allí encontrarás el código que puedes implementar en tu Web o blog. Gracias de antemano!");?>
           </li>
-        </ol>      
+        </ol>
       </div>
       <div class="modal-footer">
-      <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
+      <a href="#" class="btn" data-dismiss="modal" style="float: right;"><?php echo _("Cerrar");?></a>
       </div>
     </div>  
     
@@ -992,40 +968,40 @@ require_once("include/db.php");
       <form method="POST" action="add.php" id="modal_addform" class="form-horizontal" enctype="multipart/form-data">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">x</button>
-          <h3>Añade tu evento</h3>
+          <h3><?php echo _("Añade tu evento");?></h3>
         </div>
         <div class="modal-body">
           <div id="result"></div>
           <fieldset>
             <div class="control-group" id="control_group_owner_name">
-              <label class="control-label" for="add_owner_name">Tu nombre</label>
+              <label class="control-label" for="add_owner_name"><?php echo _("Tu nombre");?></label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="owner_name" id="add_owner_name" maxlength="100">
                 <p class="help-block">
-                No se muestra en la información del evento.
+                <?php echo _("No se muestra en la información del evento.");?>
                 </p>
               </div>
             </div>
             <div class="control-group" id="control_group_owner_email">
-              <label class="control-label" for="add_owner_email">Tu email</label>
+              <label class="control-label" for="add_owner_email"><?php echo _("Tu email");?></label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="owner_email" id="add_owner_email" maxlength="100">
                 <p class="help-block">
-                No se muestra en la información del evento, para resolver dudas.
+                <?php echo _("No se muestra en la información del evento, para resolver dudas.");?>
                 </p>
               </div>
             </div>
             <div class="control-group" id="control_group_title">
-              <label class="control-label" for="add_title">Nombre del evento</label>
+              <label class="control-label" for="add_title"><?php echo _("Nombre del evento");?></label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="title" id="add_title" maxlength="100" autocomplete="off">
                 <p class="help-block">
-                Nombre descriptivo del evento.
+                <?php echo _("Nombre descriptivo del evento.");?>
                 </p>
               </div>
             </div>
             <div class="control-group" id="control_group_category">
-              <label class="control-label" for="input01">Tipo de deporte</label>
+              <label class="control-label" for="input01"><?php echo _("Tipo de deporte");?></label>
               <div class="controls">
                 <select name="category" id="add_category" class="input-xlarge">
                   <option value=""></option>
@@ -1039,50 +1015,50 @@ require_once("include/db.php");
                   ?>
                 </select>
                 <p class="help-block">
-                La categoría deportiva de la competición.
+                <?php echo _("La categoría deportiva de la competición.");?>
                 </p>
               </div>
             </div>
             <div class="control-group" id="control_group_subcategory">
-              <label class="control-label" for="input01">Categoría</label>
+              <label class="control-label" for="input01"><?php echo _("Categoría");?></label>
               <div class="controls"  id="add_subcategory_container">
                 <select id="add_subcategory"></select>
                 <p class="help-block">
-                Deporte específico de la competición.
+                <?php echo _("Deporte específico de la competición.");?>
                 </p>
               </div>
             </div> 
 
             <div class="control-group" id="control_group_address">
-              <label class="control-label" for="add_address">Dirección</label>
+              <label class="control-label" for="add_address"><?php echo _("Dirección");?></label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="address" id="add_address" autocomplete="off">
                 <p class="help-block">
-                Dirección en la que se va a realizar el evento.
+                <?php echo _("Dirección en la que se va a realizar el evento.");?>
                 </p>
               </div>
             </div>
             <input type="hidden"name="city" id="add_city">
             <div class="control-group" id="control_group_datepicker">
-              <label class="control-label" for="add_date">Fecha</label>
+              <label class="control-label" for="add_date"><?php echo _("Fecha");?></label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="datepicker" id="datepicker">
                 <p class="help-block">
-                 Fecha en la que tiene lugar el evento
+                 <?php echo _("Fecha en la que tiene lugar el evento");?>
                 </p>
               </div>
             </div> 
             <div class="control-group" id="control_group_uri">
-              <label class="control-label" for="add_uri">URL del evento</label>
+              <label class="control-label" for="add_uri"><?php echo _("URL del evento");?></label>
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_uri" name="uri" placeholder="http://">
                 <p class="help-block">
-                URL del evento en caso de que la conozcas.
+                <?php echo _("URL del evento en caso de que la conozcas.");?>
                 </p>
               </div>
             </div>
             <div class="control-group" id="control_group_image">
-              <label class="control-label" for="add_uri">Imagen</label>
+              <label class="control-label" for="add_uri"><?php echo _("Imagen");?></label>
               <div class="controls">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
                   <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">
@@ -1090,37 +1066,37 @@ require_once("include/db.php");
                   </div>
                   <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
                   <span class="btn btn-file">
-                    <span class="fileupload-new">Selecciona imagen</span>
-                    <span class="fileupload-exists">Cambiar</span>
+                    <span class="fileupload-new"><?php echo _("Selecciona imagen");?></span>
+                    <span class="fileupload-exists"><?php echo _("Cambiar");?></span>
                     <input type="file" id="image" name="image"/>
                   </span>
-                  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Eliminiar</a>
+                  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><?php echo _("Eliminiar");?></a>
                 </div>
               </div>
             </div>
             <div class="control-group" id="control_group_price">
-              <label class="control-label" for="add_price">Precio del evento</label>
+              <label class="control-label" for="add_price"><?php echo _("Precio del evento");?></label>
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_price" name="price" placeholder="10€">
                 <p class="help-block">
-                Precio de la inscripción en el evento.
+                <?php echo _("Precio de la inscripción en el evento.");?>
                 </p>
               </div>
             </div>
             <div class="control-group" id="control_group_description">
-              <label class="control-label" for="add_description">Descripción</label>
+              <label class="control-label" for="add_description"><?php echo _("Descripción");?></label>
               <div class="controls">
                 <textarea class="input input-xlarge" id="add_description" name="description" maxlength="600" rows="8"></textarea>
                 <p class="help-block">
-                Describe brevemente en que consiste el evento. Incluye datos importantes como: precio, duración, distancia, que distingue este evento de otros de su categoría...
+                <?php echo _("Describe brevemente en que consiste el evento. Incluye datos importantes como: precio, duración, distancia, que distingue este evento de otros de su categoría...");?>
                 </p>
               </div>
             </div>
           </fieldset>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Aceptar</button>
-          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
+          <button type="submit" class="btn btn-primary"><?php echo _("Aceptar");?></button>
+          <a href="#" class="btn" data-dismiss="modal" style="float: right;"><?php echo _("Cerrar");?></a>
         </div>
       </form>
     </div>
@@ -1195,64 +1171,68 @@ require_once("include/db.php");
 
 
 	<script type="text/javascript">
-                //we bind only to the rateit controls within the products div
-                $('#contenedor .rateit').bind('rated reset', function (e) {
-                    var ri = $(this);
+    //we bind only to the rateit controls within the products div
+    $('#contenedor .rateit').bind('rated reset', function (e) {
+        var ri = $(this);
 
-                    //if the use pressed reset, it will get value: 0 (to be compatible with the HTML range control), we could check if e.type == 'reset', and then set the value to  null .
-                    var value = ri.rateit('value');
-                    var productID = ri.data('productid'); // if the product id was in some hidden field: ri.closest('li').find('input[name="productid"]').val()
+        //if the use pressed reset, it will get value: 0 (to be compatible with the HTML range control), we could check if e.type == 'reset', and then set the value to  null .
+        var value = ri.rateit('value');
+        var productID = ri.data('productid'); // if the product id was in some hidden field: ri.closest('li').find('input[name="productid"]').val()
 
-                    //maybe we want to disable voting?
-                    ri.rateit('readonly', true);
+        //maybe we want to disable voting?
+        ri.rateit('readonly', true);
 
-                    $.ajax({
-                        url: 'rateit.aspx', //your server side script
-                        data: { id: productID, value: value }, //our data
-                        type: 'POST',
-                        success: function (data) {
-                            $('#response').append('<li>' + data + '</li>');
+        $.ajax({
+            url: 'rateit.aspx', //your server side script
+            data: { id: productID, value: value }, //our data
+            type: 'POST',
+            success: function (data) {
+                $('#response').append('<li>' + data + '</li>');
 
-                        },
-                        error: function (jxhr, msg, err) {
-                            $('#response').append('<li style="color:red">' + msg + '</li>');
-                        }
-                    });
-                    alert(value);
-                });
-            </script>
-
-    <script>
-        //build toc
-        var toc = [];
-        $('#examples > li').each(function (i, e) {
-
-
-            if (i > 0)
-                toc.push(', ');
-            toc.push('<a href="#')
-            toc.push(e.id)
-            toc.push('">')
-            var title = $(e).find('h3:first').text();
-            title = title.substring(title.indexOf(')') + 2);
-            toc.push(title);
-            toc.push('</a>');
-
+            },
+            error: function (jxhr, msg, err) {
+                $('#response').append('<li style="color:red">' + msg + '</li>');
+            }
         });
+        alert(value);
+    });
+  </script>
 
-        $('#toc').html(toc.join(''));
+  <!-- Languages script -->
+  <script>
+    $(document).ready(function() {
+      $('select.bfh-languages').bind(
+        "change.bfhselectbox", 
+        function() {
+          if ($('select.bfh-languages').val() != "") {
+            window.location.href = "http://" + window.location.host + window.location.pathname + "?lang=" + $('select.bfh-languages').val();
+          }
+        }
+      );
+    });
+  </script>
+  <!-- Languages script end -->
 
-    </script>
+  <script>
+    //build toc
+    var toc = [];
+    $('#examples > li').each(function (i, e) {
+        if (i > 0)
+            toc.push(', ');
+        toc.push('<a href="#')
+        toc.push(e.id)
+        toc.push('">')
+        var title = $(e).find('h3:first').text();
+        title = title.substring(title.indexOf(')') + 2);
+        toc.push(title);
+        toc.push('</a>');
+    });
 
-    <script type="text/javascript">
-        SyntaxHighlighter.all()
-    </script>
+    $('#toc').html(toc.join(''));
+  </script>
 
-
-
-
- 
-
-
+  <script type="text/javascript">
+    SyntaxHighlighter.all()
+  </script>
   </body>
 </html>

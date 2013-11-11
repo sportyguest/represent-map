@@ -16,6 +16,7 @@ $this->menu=array(
 );
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/map_social.js'); 
 Yii::app()->clientScript->registerMetaTag("167839766714035", null, null, array('property'=>'og:app_id'), null);
+Yii::app()->clientScript->registerMetaTag(date("c"), null, null, array('property'=>'og:updated_time'), null);
 Yii::app()->clientScript->registerMetaTag("sportyguest_eventos:sport_event", null, null, array('property'=> 'og:type'), null);
 Yii::app()->clientScript->registerMetaTag($model->url, null, null, array('property'=> 'og:see_also'), null);
 Yii::app()->clientScript->registerMetaTag($model->name, null, null, array('property'=>'og:title'), null);

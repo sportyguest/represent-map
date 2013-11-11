@@ -463,6 +463,7 @@ textdomain($lang);
             "URI": markerURI,
             "URI_SHORT": markerURI_short,
             "ASISTIRE": "<?php echo _("Asistiré");?>",
+            "ME_GUSTARIA_ASISTIR": "<?php echo _("Me gustaría asistir");?>",
             "HE_PARTICIPADO": "<?php echo _("He participado");?>",
             "VALORACION_MEDIA_TITULO_SHORT": "<?php echo _("Val. media:");?>",
             "VALORACION_GENERAL_TITULO": "<?php echo _("Valoración general");?>",

@@ -305,7 +305,7 @@ function asistire(evento_id, uid) {
 
 function checkMeGustaria(evento_id) {
 	FB.api(
-		'me/sportyguest_eventos:would_like_to_assist',
+		'me/sportyguest_eventos:want_to_go',
 		'get',
 		{},
 		function(response) {
@@ -313,6 +313,22 @@ function checkMeGustaria(evento_id) {
 			for (var i = 0; response && response.data && i < response.data.length; i++) {
 				if (response.data[i].data.sport_event.url == url_home + "yii/evento/view/id/" + evento_id) {
 					changeImgMeGustaria();
+				}
+			}
+		}
+	);
+}
+
+function checkAsistire(evento_id) {
+	FB.api(
+		'me/sportyguest_eventos:register',
+		'get',
+		{},
+		function(response) {
+			console.log(response);
+			for (var i = 0; response && response.data && i < response.data.length; i++) {
+				if (response.data[i].data.sport_event.url == url_home + "yii/evento/view/id/" + evento_id) {
+					changeImgAsistire();
 				}
 			}
 		}

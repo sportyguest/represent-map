@@ -73,11 +73,15 @@ function meGustariaParticiparFB(evento_id) {
 }
 
 function meGustariaParticipar(evento_id, uid) {
+	var today = new Date();
+	var year5000 = new Date(5000, 1);
 	// The rating is created in the database and then the rating is post to facebook
 	FB.api(
 		'me/sportyguest_eventos:want_to_go',
 		'post',
 		{
+			'start_time': today.toISOString(),
+			'end_time': year5000.toISOString(),
 			sport_event: url_home + 'yii/evento/view/id/' + evento_id
 		},
 		function(response) {
@@ -270,7 +274,6 @@ function asistireFB(evento_id) {
 function asistire(evento_id, uid) {
 	var today = new Date();
 	var year5000 = new Date(5000, 1);
-
 	FB.api(
 		'me/sportyguest_eventos:register',
 		'post',

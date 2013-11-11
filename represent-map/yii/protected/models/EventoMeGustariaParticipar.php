@@ -8,6 +8,7 @@
  * @property string $facebook_id
  * @property integer $evento_id
  * @property string $fecha
+ * @property string $facebook_me_gustaria_id
  */
 class EventoMeGustariaParticipar extends CActiveRecord
 {
@@ -27,12 +28,12 @@ class EventoMeGustariaParticipar extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('facebook_id, evento_id', 'required'),
+			array('facebook_id, evento_id, fecha', 'required'),
 			array('evento_id', 'numerical', 'integerOnly'=>true),
-			array('facebook_id', 'length', 'max'=>20),
+			array('facebook_id, facebook_me_gustaria_id', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, facebook_id, evento_id, fecha', 'safe', 'on'=>'search'),
+			array('id, facebook_id, evento_id, fecha, facebook_me_gustaria_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +58,7 @@ class EventoMeGustariaParticipar extends CActiveRecord
 			'facebook_id' => 'Facebook',
 			'evento_id' => 'Evento',
 			'fecha' => 'Fecha',
+			'facebook_me_gustaria_id' => 'Facebook Me Gustaria',
 		);
 	}
 
@@ -82,6 +84,7 @@ class EventoMeGustariaParticipar extends CActiveRecord
 		$criteria->compare('facebook_id',$this->facebook_id,true);
 		$criteria->compare('evento_id',$this->evento_id);
 		$criteria->compare('fecha',$this->fecha,true);
+		$criteria->compare('facebook_me_gustaria_id',$this->facebook_me_gustaria_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

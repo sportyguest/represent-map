@@ -8,6 +8,7 @@
  * @property integer $evento_id
  * @property string $facebook_id
  * @property string $fecha_creacion
+ * @property string $facebook_asistire_id
  */
 class EventoAsistire extends CActiveRecord
 {
@@ -29,11 +30,11 @@ class EventoAsistire extends CActiveRecord
 		return array(
 			array('evento_id, facebook_id', 'required'),
 			array('evento_id', 'numerical', 'integerOnly'=>true),
-			array('facebook_id', 'length', 'max'=>20),
+			array('facebook_id, facebook_asistire_id', 'length', 'max'=>20),
 			array('fecha_creacion', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, evento_id, facebook_id, fecha_creacion', 'safe', 'on'=>'search'),
+			array('id, evento_id, facebook_id, fecha_creacion, facebook_asistire_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +59,7 @@ class EventoAsistire extends CActiveRecord
 			'evento_id' => 'Evento',
 			'facebook_id' => 'Facebook',
 			'fecha_creacion' => 'Fecha Creacion',
+			'facebook_asistire_id' => 'Facebook Asistire',
 		);
 	}
 
@@ -83,6 +85,7 @@ class EventoAsistire extends CActiveRecord
 		$criteria->compare('evento_id',$this->evento_id);
 		$criteria->compare('facebook_id',$this->facebook_id,true);
 		$criteria->compare('fecha_creacion',$this->fecha_creacion,true);
+		$criteria->compare('facebook_asistire_id',$this->facebook_asistire_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

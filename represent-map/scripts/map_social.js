@@ -75,37 +75,38 @@ function meGustariaParticiparFB(evento_id) {
 }
 
 function meGustariaParticipar(evento_id, uid) {
-	var data = {
-			'EventoMeGustariaParticipar[facebook_id]': uid,
-			'EventoMeGustariaParticipar[evento_id]': evento_id
-		};
 	// The rating is created in the database and then the rating is post to facebook
-	$.ajax({
-		type: 'POST',
-		url: url_home + 'yii/eventoMeGustariaParticipar/ajax',
-		data: data,
-		success:function(data){
-			console.log(data);
-			if (data.code == "success") {
-				FB.api(
-					'me/sportyguest_eventos:would_like_to_assist',
-					'post',
-					{
-						sport_event: url_home + 'yii/evento/view/id/' + evento_id
+	if (data.code == "success") {
+		FB.api(
+			'me/sportyguest_eventos:want_to_go',
+			'post',
+			{
+				sport_event: url_home + 'yii/evento/view/id/' + evento_id
+			},
+			function(response) {
+				changeImgMeGustaria();
+				console.log(response);
+				var data = {
+					'EventoMeGustariaParticipar[facebook_id]': uid,
+					'EventoMeGustariaParticipar[evento_id]': evento_id,
+					'EventoMeGustariaParticipar[facebook_me_gustaria_id]': response.id
+				};
+				$.ajax({
+					type: 'POST',
+					url: url_home + 'yii/eventoMeGustariaParticipar/ajax',
+					data: data,
+					success:function(data){
+						console.log(data);
 					},
-					function(response) {
-						changeImgMeGustaria();
-						console.log(response);
-					}
-				);
+					error: function(data) { // if error occured
+						alert("Error occured.please try again");
+						console.log(data);
+					},
+					dataType:'json'
+				});
 			}
-		},
-		error: function(data) { // if error occured
-			alert("Error occured.please try again");
-			console.log(data);
-		},
-		dataType:'json'
-	});
+		);
+	}
 }
 
 function participarFB(evento_id) {
@@ -193,15 +194,15 @@ function valorar(evento_id, uid) {
 	var rating_price = jQuery("#val_precio").rateit('value');
 	var rating_extra = jQuery("#val_actcomplementarias").rateit('value');
 	var data = {
-					'EventoValoracion[evento_id]': evento_id, 
-					'EventoValoracion[facebook_id]': uid, 
-					'EventoValoracion[valoracion]': rating,
-					'EventoValoracion[valoracion_organizacion]': rating_org,
-					'EventoValoracion[valoracion_dificultad]': rating_diff,
-					'EventoValoracion[valoracion_recorrido]': rating_route,
-					'EventoValoracion[valoracion_precio]': rating_price,
-					'EventoValoracion[valoracion_actividad_complementaria]': rating_extra
-				};
+		'EventoValoracion[evento_id]': evento_id, 
+		'EventoValoracion[facebook_id]': uid, 
+		'EventoValoracion[valoracion]': rating,
+		'EventoValoracion[valoracion_organizacion]': rating_org,
+		'EventoValoracion[valoracion_dificultad]': rating_diff,
+		'EventoValoracion[valoracion_recorrido]': rating_route,
+		'EventoValoracion[valoracion_precio]': rating_price,
+		'EventoValoracion[valoracion_actividad_complementaria]': rating_extra
+	};
 	// The rating is created in the database and then the rating is post to facebook
 	$.ajax({
 		type: 'POST',
@@ -274,23 +275,39 @@ function asistireFB(evento_id) {
 }
 
 function asistire(evento_id, uid) {
-	var data = {
-		'EventoAsistire[evento_id]': evento_id,
-		'EventoAsistire[facebook_id]': uid
-	}
-	$.ajax({
-		type: 'POST',
-		url: url_home + 'yii/eventoAsistire/ajax',
-		data: data,
-		success: function(data) {
-			changeImgAsistire();
-			console.log(data);
+	var today = new Date();
+	var year5000 = new Date(5000, 1);
+
+	FB.api(
+		'me/sportyguest_eventos:register',
+		'post',
+		{
+			'start_time': today.toISOString(),
+			'end_time': year5000.toISOString(),
+			'sport_event': url_home + 'yii/evento/view/id/' + evento_id
 		},
-		error: function(data) {
-			console.log(data);
-		},
-		dataType:'json'
-	});
+		function(response) {
+			console.log(response);
+			var data = {
+				'EventoAsistire[evento_id]': evento_id,
+				'EventoAsistire[facebook_id]': uid,
+				'EventoAsistire[facebook_asistire_id]': response.id
+			}
+			$.ajax({
+				type: 'POST',
+				url: url_home + 'yii/eventoAsistire/ajax',
+				data: data,
+				success: function(data) {
+					changeImgAsistire();
+					console.log(data);
+				},
+				error: function(data) {
+					console.log(data);
+				},
+				dataType:'json'
+			});
+		}
+	);
 }
 
 function checkMeGustaria(evento_id) {

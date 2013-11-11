@@ -76,37 +76,35 @@ function meGustariaParticiparFB(evento_id) {
 
 function meGustariaParticipar(evento_id, uid) {
 	// The rating is created in the database and then the rating is post to facebook
-	if (data.code == "success") {
-		FB.api(
-			'me/sportyguest_eventos:want_to_go',
-			'post',
-			{
-				sport_event: url_home + 'yii/evento/view/id/' + evento_id
-			},
-			function(response) {
-				changeImgMeGustaria();
-				console.log(response);
-				var data = {
-					'EventoMeGustariaParticipar[facebook_id]': uid,
-					'EventoMeGustariaParticipar[evento_id]': evento_id,
-					'EventoMeGustariaParticipar[facebook_me_gustaria_id]': response.id
-				};
-				$.ajax({
-					type: 'POST',
-					url: url_home + 'yii/eventoMeGustariaParticipar/ajax',
-					data: data,
-					success:function(data){
-						console.log(data);
-					},
-					error: function(data) { // if error occured
-						alert("Error occured.please try again");
-						console.log(data);
-					},
-					dataType:'json'
-				});
-			}
-		);
-	}
+	FB.api(
+		'me/sportyguest_eventos:want_to_go',
+		'post',
+		{
+			sport_event: url_home + 'yii/evento/view/id/' + evento_id
+		},
+		function(response) {
+			changeImgMeGustaria();
+			console.log(response);
+			var data = {
+				'EventoMeGustariaParticipar[facebook_id]': uid,
+				'EventoMeGustariaParticipar[evento_id]': evento_id,
+				'EventoMeGustariaParticipar[facebook_me_gustaria_id]': response.id
+			};
+			$.ajax({
+				type: 'POST',
+				url: url_home + 'yii/eventoMeGustariaParticipar/ajax',
+				data: data,
+				success:function(data){
+					console.log(data);
+				},
+				error: function(data) { // if error occured
+					alert("Error occured.please try again");
+					console.log(data);
+				},
+				dataType:'json'
+			});
+		}
+	);
 }
 
 function participarFB(evento_id) {

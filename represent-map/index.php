@@ -506,9 +506,10 @@ textdomain($lang);
             function wait() {
               if (marker.category != 'experiencia') {
                 $('.rateit').rateit();
+                FB.XFBML.parse();
+                checkAsistire(marker.id);
                 checkMeGustaria(marker.id);
                 checkParticipado(marker.id);
-                FB.XFBML.parse();
               }
             }
           });

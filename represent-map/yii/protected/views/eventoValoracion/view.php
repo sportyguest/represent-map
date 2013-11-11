@@ -15,7 +15,7 @@ $this->menu=array(
 	array('label'=>'Manage EventoValoracion', 'url'=>array('admin')),
 );
 $evento = Evento::model()->find(array(
-    'select'=>'title,description,image_url',
+    'select'=>'name,description,image_url',
     'condition'=>'id=:id',
     'params'=>array(':id'=>$model->evento_id),
 ));

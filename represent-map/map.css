@@ -382,7 +382,7 @@ background:#FFF;
 }
 .marker_desc
 {
-  max-width: 350px;
+  max-width: 380px;
   width: 100%;
   color: #555;
   font-size: 9pt;
@@ -608,14 +608,14 @@ div#capa4{
 
 div#contenedor_sup_izq{
 	float: left;
-	max-width: 60%;
-	width: 60%;
+	max-width: 70%;
+	width: 70%;
 }
 
 div#contenedor_sup_der{
 	float: right;
-	max-width: 40%;
-	width: 40%;
+	max-width: 30%;
+	width: 30%;
 	#position: relative;
 	bottom: 100%;
 }

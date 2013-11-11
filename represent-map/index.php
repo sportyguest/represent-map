@@ -439,7 +439,7 @@ textdomain($lang);
             markerURI = "http://" + markerURI; 
           }
           var markerURI_short = markerURI.replace("http://", "").replace("www.", "");
-          if (markerURI_short.length > 40) {
+          if (markerURI_short.length > 35) {
             markerURI_short = markerURI_short.substring(0, 30) + "...";
           }
           var date = "";
@@ -464,6 +464,7 @@ textdomain($lang);
             "URI_SHORT": markerURI_short,
             "ASISTIRE": "<?php echo _("Asistiré");?>",
             "HE_PARTICIPADO": "<?php echo _("He participado");?>",
+            "VALORACION_MEDIA_TITULO_SHORT": "<?php echo _("Val. media:");?>",
             "VALORACION_GENERAL_TITULO": "<?php echo _("Valoración general");?>",
             "VALORACION_GENERAL": mostrarMedia(val[10]),
             "DESCRIPCION_TITULO": "<?php echo _("Descripción");?>",
@@ -484,7 +485,11 @@ textdomain($lang);
             "IMG_ALT": val[0]
           };
           // If there are any double QUOTES in the file this line WILL BREAK
-          var popup = "<?php echo trim(preg_replace('/\s\s+/', ' ', file_get_contents("popup.html")));?>"
+          if (marker.category == "experiencia") {
+            var popup = "<?php echo trim(preg_replace('/\s\s+/', ' ', file_get_contents("popup_experiencia.html")));?>";
+          } else {
+            var popup = "<?php echo trim(preg_replace('/\s\s+/', ' ', file_get_contents("popup_evento.html")));?>"
+          }
           for (var key in valores) {
             if (valores.hasOwnProperty(key)) {
               var value = valores[key];
@@ -496,14 +501,14 @@ textdomain($lang);
             _gaq.push(['_trackEvent', 'Marker', 'Click', val[0]]);
             infowindow.setContent(popup);
             infowindow.open(map, this);
-            if (marker.category != 'experiencia') {
-              $('.rateit').rateit();
-              checkMeGustaria(marker.id);
-              checkParticipado(marker.id);
-              var timeout = setInterval(fbParse(), 500);
-              function fbParse() {
+            // If it isn't an experience the rating and other buttons must be shown.
+            setTimeout(function() {wait()}, 100);
+            function wait() {
+              if (marker.category != 'experiencia') {
+                $('.rateit').rateit();
+                checkMeGustaria(marker.id);
+                checkParticipado(marker.id);
                 FB.XFBML.parse();
-                clearInterval(timeout);
               }
             }
           });

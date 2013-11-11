@@ -21,7 +21,7 @@ $evento = Evento::model()->find(array(
 ));
 Yii::app()->clientScript->registerMetaTag("167839766714035", null, null, array('property'=>'og:app_id'), null);
 Yii::app()->clientScript->registerMetaTag("sportyguest_eventos:rating", null, null, array('property'=> 'og:type'), null);
-Yii::app()->clientScript->registerMetaTag($evento->title, null, null, array('property' => 'og:title'), null);
+Yii::app()->clientScript->registerMetaTag($evento->name, null, null, array('property' => 'og:title'), null);
 Yii::app()->clientScript->registerMetaTag($evento->description, null, null, array('property' => 'og:description'), null);
 if (!empty($evento->image_url)) {
 	Yii::app()->clientScript->registerMetaTag($evento->image_url, null, null, array('property'=> 'og:image'), null);

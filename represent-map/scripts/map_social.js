@@ -25,7 +25,6 @@ function saveFBUserData() {
 				console.log(data);
 			},
 			error: function(data) { // if error occured
-				alert("Error occured.please try again");
 				console.log(data);
 			},
 			dataType:'json'
@@ -45,7 +44,6 @@ function saveFBFriends(uid) {
 				console.log(data); 
 			},
 			error: function(data) { // if error occured
-				alert("Error occured.please try again");
 				console.log(data);
 			},
 			dataType:'json'
@@ -98,7 +96,6 @@ function meGustariaParticipar(evento_id, uid) {
 					console.log(data);
 				},
 				error: function(data) { // if error occured
-					alert("Error occured.please try again");
 					console.log(data);
 				},
 				dataType:'json'
@@ -138,7 +135,6 @@ function participar(evento_id, uid) {
 		},
 		function(response) {
 			console.log(response);
-			console.log(response.id);
 			// Create a new participation
 			var data = {
 				'EventoParticipacion[evento_id]': evento_id, 
@@ -154,7 +150,6 @@ function participar(evento_id, uid) {
 					changeImgParticipado();
 				},
 				error: function(data) { // if error occured
-					alert("Error occured.please try again");
 					console.log(data);
 				},
 				dataType:'html'

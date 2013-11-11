@@ -28,9 +28,10 @@ class EventoMeGustariaParticipar extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('facebook_id, evento_id, fecha', 'required'),
+			array('facebook_id, evento_id', 'required'),
 			array('evento_id', 'numerical', 'integerOnly'=>true),
 			array('facebook_id, facebook_me_gustaria_id', 'length', 'max'=>20),
+			array('fecha', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, facebook_id, evento_id, fecha, facebook_me_gustaria_id', 'safe', 'on'=>'search'),

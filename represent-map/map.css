@@ -368,30 +368,49 @@ background:#FFF;
 .marker_title
 {
   font-weight: bold;
-  max-width: 350px;
+	font-family: lilyupc !important;
+	font-size: 24px !important; /* 1.5em */
+  margin-bottom: 10px;
 }
 .marker_uri
 {
   font-size: 9pt;
   color: #999;
+	#text-align: center;
+	overflow: hidden;
+  max-width: 420px;
 }
 .marker_desc
 {
-  max-width: 300px;
+  max-width: 380px;
+  width: 100%;
   color: #555;
   font-size: 9pt;
-  margin-top: 10px;
+  margin-top: 5px;
+  text-align: justify;
+  width: 100%;
+
 }
+
+.marker_desc span{
+	font-weight: bold;
+	font-family: lilyupc !important;
+	font-size: 24px !important; /* 1.5em */
+}
+
 .marker_address
 {
   font-size: 8pt;
-  margin-top: 10px;
-  color: #999;
+  color: #B2B2B2;
 }
 .marker_date
 {
-  font-size: 8pt;
+  #font-size: 8pt;
   color: #999;
+
+	color: #878787;
+	font-size: 11px !important; /* 0.7em */
+	font-family: itcavantgardestdbk !important;
 }
 
 
@@ -520,3 +539,187 @@ background:#FFF;
 .running {width:30px; height:42px; background-position: -63px -43px}
 .senderismo {width:31px; height:42px; background-position: -32px -0px}
 .triatlon {width:31px; height:42px; background-position: -31px -44px}
+
+
+/* TIPOGRAFIAS */
+
+@font-face{
+font-family: itcavantgardestdbk;
+src: url('email/fonts/itcavantgardestdbk.eot?#iefix') format('embedded-opentype'),
+    url('email/fonts/itcavantgardestdbk.ttf') format('truetype');
+}
+
+@font-face{
+font-family: lilyupc;
+src: url('email/fonts/lilyupc.eot?#iefix') format('embedded-opentype'),
+    url('email/fonts/lilyupc.ttf') format('truetype');
+}
+
+/* AÑADIDOS */
+
+div#menu_superior{
+	width: 100%;
+	height: 32px;
+	text-align: center;
+}
+
+div#menu_sup_pestanya1,
+div#menu_sup_pestanya2,
+div#menu_sup_pestanya3,
+div#menu_sup_pestanya4{
+	display: inline-block;
+	width: 96px;
+	height: 32px;
+	margin-right: 3.5px;
+	margin-left: 3.5px;
+}
+
+div#menu_sup_pestanya2,
+div#menu_sup_pestanya3,
+div#menu_sup_pestanya4{
+	background-image: url('images/pestanya_off.png');
+}
+
+div#menu_sup_pestanya1{
+	background-image: url('images/pestanya_on.png');
+}
+
+#menu_sup_pestanya1 a,
+#menu_sup_pestanya2 a,
+#menu_sup_pestanya3 a,
+#menu_sup_pestanya4 a{
+	color: #FFFFFF;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 30px;
+	font-weight: bold;
+}
+
+div#capa1,
+div#capa2,
+div#capa3,
+div#capa4{
+	width: 100%;
+	height: auto; /* debería de ser auto!!! */
+	margin-top: 20px;
+	overflow: hidden;
+}
+
+div#contenedor_sup_izq{
+	float: left;
+	max-width: 61%;
+	width: 61%;
+  padding-right: 2%;
+}
+
+div#contenedor_sup_der{
+	float: right;
+	max-width: 37%;
+	width: 37%;
+	#position: relative;
+	bottom: 100%;
+}
+
+div#contenedor_inferior{
+	width: 100%;
+}
+
+div#asistire,
+div#megustaria,
+div#heparticipado{
+font-weight: bold;
+display: inline-block;
+padding-left: 5px;
+}
+
+div#centrar_img{
+	padding-top: 25px; 
+	text-align: center;
+}
+
+#centrar_img img{
+	padding-top: 20px;
+}
+
+.marker_uri span{
+	color: #1D1D1B;
+	font-family: lilyupc !important;
+	font-size: 22px !important; /* 1.4em */
+}
+
+.marker_uri button{
+	font-family: itcavantgardestdbk !important;
+	font-weight: bold;
+	background-color: #009FC6;
+	color: #FFFFFF;
+	border-radius: 7px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	width: 70px;
+	height: 25px;
+	margin-top: 10px;
+}
+
+hr{
+	border: solid 1px #EAEAEA;
+	#width: 100%;
+}
+
+div#valoracionGeneral,
+div#valoracionPorCriterios,
+div#recomienda,
+div#comentario{
+	font-family: lilyupc !important;
+	font-weight: bold;
+	font-size: 23px; 
+	padding-left: 18px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+div#dificultad,
+div#organizacion,
+div#atractivo,
+div#actComplementarias,
+div#precio{
+	padding-left: 40px;
+	font-size: 13px;
+}
+
+.txt_val1{
+	display: table-cell;
+	width: 100%;
+	font-family: lilyupc !important;
+	font-weight: bold !important;
+	font-size: 23px !important; 
+}
+
+.txt_val2{
+	display: table-cell;
+	width: 100%;
+	vertical-align: middle;
+}
+
+.estrellas_val{
+	display: table-cell;
+	min-width: 105px; /* 90+12+espacio*/
+}
+
+.nota_val{
+	display: table-cell;
+	text-align: right;
+	min-width: 60px;
+	#line-height: 50%;
+	vertical-align: middle;
+}
+
+div#logo_asistire,
+div#logo_megustaria,
+div#logo_heparticipado{
+display: inline;
+}
+
+div img.marker_img{
+  max-height: 50px;
+}

@@ -17,7 +17,6 @@ if($task == "logout") {
 if($task == "dologin") {
   $input_user = htmlspecialchars($_POST['user']);
   $input_pass = htmlspecialchars($_POST['pass']);
-  echo $input_user . $input_pass . $admin_user . $admin_pass;
   if(trim($input_user) == "" || trim($input_pass) == "") {
     $alert = "Nope. Wanna try that again?";
   } else {

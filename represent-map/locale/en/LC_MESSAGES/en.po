@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sports_map\n"
-"POT-Creation-Date: 2013-11-11 12:13+0100\n"
-"PO-Revision-Date: 2013-11-11 12:13+0100\n"
+"POT-Creation-Date: 2013-11-12 10:06+0100\n"
+"PO-Revision-Date: 2013-11-12 10:07+0100\n"
 "Last-Translator: Juan Mompeán Esteban <jmompes@sportyguest.es>\n"
 "Language-Team: Sportyguest <jmompes@sportyguest.es>\n"
 "Language: Spanish\n"
@@ -435,8 +435,16 @@ msgstr ""
 "others of its same category..."
 
 #: C:\wamp\www\mapa\represent-map/index.php:1110
-msgid "Aceptar"
-msgstr "Ok"
+#: C:\wamp\www\mapa\represent-map/index.php:1162
+msgid "Enviar"
+msgstr "Send"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1141
+msgid "Enviando"
+msgstr "Sending"
+
+#~ msgid "Aceptar"
+#~ msgstr "Ok"
 
 #~ msgid "Valoración por criterios"
 #~ msgstr "CRating"

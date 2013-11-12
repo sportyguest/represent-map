@@ -152,6 +152,12 @@ if($task == "doedit") {
       </div>
     </div>
     <div class="control-group">
+      <label class="control-label" for="">Image</label>
+      <div class="controls">
+        <img src="<?php echo $place->image_url;?>"/>
+      </div>
+    </div>
+    <div class="control-group">
       <label class="control-label" for="">Location</label>
       <div class="controls">
         <input type="hidden" name="lat" id="mylat" value="<?php echo $place->lat;?>"/>

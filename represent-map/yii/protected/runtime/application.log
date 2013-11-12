@@ -1,0 +1,283 @@
+2013/10/24 09:42:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "6".' in C:\wamp\www\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\yii\framework\web\CController.php(270): CController->missingAction('6')
+#1 C:\wamp\www\yii\framework\web\CWebApplication.php(282): CController->run('6')
+#2 C:\wamp\www\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/6')
+#3 C:\wamp\www\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/6
+---
+2013/10/24 09:42:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "id".' in C:\wamp\www\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\yii\framework\web\CController.php(270): CController->missingAction('id')
+#1 C:\wamp\www\yii\framework\web\CWebApplication.php(282): CController->run('id')
+#2 C:\wamp\www\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/id/6')
+#3 C:\wamp\www\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/id/6
+---
+2013/10/24 09:42:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "6".' in C:\wamp\www\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\yii\framework\web\CController.php(270): CController->missingAction('6')
+#1 C:\wamp\www\yii\framework\web\CWebApplication.php(282): CController->run('6')
+#2 C:\wamp\www\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/6')
+#3 C:\wamp\www\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/6
+---
+2013/10/24 09:42:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "id".' in C:\wamp\www\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\yii\framework\web\CController.php(270): CController->missingAction('id')
+#1 C:\wamp\www\yii\framework\web\CWebApplication.php(282): CController->run('id')
+#2 C:\wamp\www\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/id/6')
+#3 C:\wamp\www\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/id/6
+---
+2013/10/24 09:42:20 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "6".' in C:\wamp\www\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\yii\framework\web\CController.php(270): CController->missingAction('6')
+#1 C:\wamp\www\yii\framework\web\CWebApplication.php(282): CController->run('6')
+#2 C:\wamp\www\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/6')
+#3 C:\wamp\www\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/6
+---
+2013/10/24 10:39:08 [error] [php] Undefined variable: js (C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoController.php:7)
+Stack trace:
+#0 unknown(0): EventoController->actionView()
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs()
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\actions\CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(133): EventoController->runAction()
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): EventoController->filterAccessControl()
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): EventoController->runActionWithFilters()
+#11 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): EventoController->run()
+#12 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#13 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\wamp\www\mapa\represent-map\yii\index.php(13): CWebApplication->run()
+REQUEST_URI=/mapa/represent-map/yii/index.php?r=evento/view&id=6
+in C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoController.php (7)
+in C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoController.php (63)
+in C:\wamp\www\mapa\represent-map\yii\index.php (13)
+2013/10/28 12:53:44 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`yii`.`wp_evento_valoracion`, CONSTRAINT `wp_evento_valoracion_ibfk_1` FOREIGN KEY (`evento_id`) REFERENCES `wp_evento` (`id`) ON UPDATE NO ACTION). The SQL statement executed was: INSERT INTO `wp_evento_valoracion` (`evento_id`, `facebook_id`, `valoracion`, `valoracion_organizacion`, `valoracion_dificultad`, `valoracion_recorrido`, `valoracion_actividad_complementaria`, `valoracion_precio`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7).
+in C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoValoracionController.php (73)
+in C:\wamp\www\mapa\represent-map\yii\index.php (13)
+2013/10/28 12:53:44 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`yii`.`wp_evento_valoracion`, CONSTRAINT `wp_evento_valoracion_ibfk_1` FOREIGN KEY (`evento_id`) REFERENCES `wp_evento` (`id`) ON UPDATE NO ACTION). The SQL statement executed was: INSERT INTO `wp_evento_valoracion` (`evento_id`, `facebook_id`, `valoracion`, `valoracion_organizacion`, `valoracion_dificultad`, `valoracion_recorrido`, `valoracion_actividad_complementaria`, `valoracion_precio`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7)' in C:\wamp\www\mapa\represent-map\yii\framework\db\CDbCommand.php:358
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\db\ar\CActiveRecord.php(1077): CDbCommand->execute()
+#1 C:\wamp\www\mapa\represent-map\yii\framework\db\ar\CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoValoracionController.php(73): CActiveRecord->save()
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\actions\CInlineAction.php(49): EventoValoracionController->actionCreate()
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#11 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('create')
+#13 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#14 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#15 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/create
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/create
+---
+2013/10/29 11:29:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "ajax".' in C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(270): CController->missingAction('ajax')
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/ajax')
+#3 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:35:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "ajax".' in C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(270): CController->missingAction('ajax')
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/ajax')
+#3 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:35:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "ajax".' in C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(270): CController->missingAction('ajax')
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('evento/ajax')
+#3 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mapa/represent-map/yii/evento/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:37:51 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'Login Required' in C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CWebUser.php:394
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php(180): CWebUser->loginRequired()
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('EventoValoracio...')
+#10 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/mapa/represent-map/yii/EventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:38:03 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'Login Required' in C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CWebUser.php:394
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php(180): CWebUser->loginRequired()
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#10 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:38:08 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'Login Required' in C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CWebUser.php:394
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php(180): CWebUser->loginRequired()
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#10 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:41:31 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php:182
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\auth\CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#9 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:42:56 [error] [exception.CException] exception 'CException' with message 'EventoValoracionController cannot find the requested view "valoracion_form".' in C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php:878
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(782): CController->renderPartial('valoracion_form', Array, true)
+#1 C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoValoracionController.php(165): CController->render('valoracion_form', Array)
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\actions\CInlineAction.php(49): EventoValoracionController->actionAjax()
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#12 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#13 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:46:52 [error] [exception.CException] exception 'CException' with message 'EventoValoracionController cannot find the requested view "valoracion_form".' in C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php:878
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(782): CController->renderPartial('valoracion_form', Array, true)
+#1 C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoValoracionController.php(165): CController->render('valoracion_form', Array)
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\actions\CInlineAction.php(49): EventoValoracionController->actionAjax()
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#12 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#13 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:47:18 [error] [exception.CException] exception 'CException' with message 'EventoValoracionController cannot find the requested view "valoracion_form".' in C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php:878
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(782): CController->renderPartial('valoracion_form', Array, true)
+#1 C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoValoracionController.php(166): CController->render('valoracion_form', Array)
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\actions\CInlineAction.php(49): EventoValoracionController->actionAjax()
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#12 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#13 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---
+2013/10/29 11:57:02 [error] [exception.CDbException] exception 'CDbException' with message 'The active record cannot be updated because it is new.' in C:\wamp\www\mapa\represent-map\yii\framework\db\ar\CActiveRecord.php:1118
+Stack trace:
+#0 C:\wamp\www\mapa\represent-map\yii\protected\controllers\EventoValoracionController.php(161): CActiveRecord->update()
+#1 C:\wamp\www\mapa\represent-map\yii\framework\web\actions\CInlineAction.php(49): EventoValoracionController->actionAjax()
+#2 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\wamp\www\mapa\represent-map\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\wamp\www\mapa\represent-map\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(282): CController->run('ajax')
+#11 C:\wamp\www\mapa\represent-map\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('eventoValoracio...')
+#12 C:\wamp\www\mapa\represent-map\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\wamp\www\mapa\represent-map\yii\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/mapa/represent-map/yii/eventoValoracion/ajax
+HTTP_REFERER=http://localhost/mapa/represent-map/yii/eventoValoracion/view/id/2
+---

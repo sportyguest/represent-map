@@ -1,0 +1,464 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sports_map\n"
+"POT-Creation-Date: 2013-11-12 10:06+0100\n"
+"PO-Revision-Date: 2013-11-12 10:07+0100\n"
+"Last-Translator: Juan Mompeán Esteban <jmompes@sportyguest.es>\n"
+"Language-Team: Sportyguest <jmompes@sportyguest.es>\n"
+"Language: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: C:\\wamp\\www\\mapa\\represent-map\n"
+
+#: C:\wamp\www\mapa\represent-map/index.php:459
+msgid "Información"
+msgstr "Information"
+
+#: C:\wamp\www\mapa\represent-map/index.php:460
+msgid "Valoraciones"
+msgstr "Ratings"
+
+#: C:\wamp\www\mapa\represent-map/index.php:461
+msgid "Comentarios"
+msgstr "Comments"
+
+#: C:\wamp\www\mapa\represent-map/index.php:465
+msgid "Asistiré"
+msgstr "I'll go"
+
+#: C:\wamp\www\mapa\represent-map/index.php:466
+msgid "Me gustaría asistir"
+msgstr "I would like to go"
+
+#: C:\wamp\www\mapa\represent-map/index.php:467
+msgid "He participado"
+msgstr "I've participated"
+
+#: C:\wamp\www\mapa\represent-map/index.php:468
+msgid "Val. media:"
+msgstr "Avg. rating:"
+
+#: C:\wamp\www\mapa\represent-map/index.php:469
+msgid "Valoración general"
+msgstr "Rating"
+
+#: C:\wamp\www\mapa\represent-map/index.php:471
+#: C:\wamp\www\mapa\represent-map/index.php:1099
+msgid "Descripción"
+msgstr "Description"
+
+#: C:\wamp\www\mapa\represent-map/index.php:473
+msgid "Crea una experiencia cerca de "
+msgstr "Create an experience close to"
+
+#: C:\wamp\www\mapa\represent-map/index.php:474
+msgid "Valoración detallada"
+msgstr "Detailed Rating"
+
+#: C:\wamp\www\mapa\represent-map/index.php:475
+msgid "Dificultad"
+msgstr "Difficulty"
+
+#: C:\wamp\www\mapa\represent-map/index.php:477
+msgid "Organización"
+msgstr "Organization"
+
+#: C:\wamp\www\mapa\represent-map/index.php:479
+msgid "Atractivo"
+msgstr "Attractive"
+
+#: C:\wamp\www\mapa\represent-map/index.php:481
+msgid "Precio"
+msgstr "Price"
+
+#: C:\wamp\www\mapa\represent-map/index.php:483
+msgid "Actividades complementarias"
+msgstr "Complementary activities"
+
+#: C:\wamp\www\mapa\represent-map/index.php:789
+#: C:\wamp\www\mapa\represent-map/index.php:899
+msgid "Sobre este mapa"
+msgstr "About this map"
+
+#: C:\wamp\www\mapa\represent-map/index.php:791
+#: C:\wamp\www\mapa\represent-map/index.php:983
+msgid "Añade tu evento"
+msgstr "Add your event"
+
+#: C:\wamp\www\mapa\represent-map/index.php:794
+msgid "Busca competiciones..."
+msgstr "Search events..."
+
+#: C:\wamp\www\mapa\represent-map/index.php:798
+msgid "Elige mes"
+msgstr "Choose month"
+
+#: C:\wamp\www\mapa\represent-map/index.php:799
+msgid "Enero"
+msgstr "January"
+
+#: C:\wamp\www\mapa\represent-map/index.php:800
+msgid "Febrero"
+msgstr "February"
+
+#: C:\wamp\www\mapa\represent-map/index.php:801
+msgid "Marzo"
+msgstr "March"
+
+#: C:\wamp\www\mapa\represent-map/index.php:802
+msgid "Abril"
+msgstr "April"
+
+#: C:\wamp\www\mapa\represent-map/index.php:803
+msgid "Mayo"
+msgstr "May"
+
+#: C:\wamp\www\mapa\represent-map/index.php:804
+msgid "Junio"
+msgstr "June"
+
+#: C:\wamp\www\mapa\represent-map/index.php:805
+msgid "Julio"
+msgstr "July"
+
+#: C:\wamp\www\mapa\represent-map/index.php:806
+msgid "Agosto"
+msgstr "August"
+
+#: C:\wamp\www\mapa\represent-map/index.php:807
+msgid "Septiembre"
+msgstr "September"
+
+#: C:\wamp\www\mapa\represent-map/index.php:808
+msgid "Octubre"
+msgstr "October"
+
+#: C:\wamp\www\mapa\represent-map/index.php:809
+msgid "Noviembre"
+msgstr "November"
+
+#: C:\wamp\www\mapa\represent-map/index.php:810
+msgid "Diciembre"
+msgstr "December"
+
+#: C:\wamp\www\mapa\represent-map/index.php:903
+msgid ""
+"<a href='http://www.sportyguest.es'>Sportyguest</a> ha creado este mapa para "
+"que la comunidad online pueda promocionar los eventos deportivos outdoor que "
+"se realizan tanto a nivel español como internacional y para que así puedas "
+"planificarte tu calendario deportivo.<br><br>Este mapa te permitirá "
+"encontrar los eventos deportivos y experiencias deportivas más cercanas al "
+"lugar donde quieras desplazarte o encontrar aquellos eventos y experiencias "
+"más cercanas a tu lugar de origen.<br><br>Hemos incluido alguna información "
+"sobre algunos eventos pero necesitamos tu ayuda para hacerlo más completo. "
+"Si quieres añadir un evento deportivo que organizas o, simplemente, al que "
+"asistes, únicamente tienes que pulsar el botón: <a href='#modal_add' data-"
+"toggle='modal' data-dismiss='modal'>añadir evento</a> y completar un pequeño "
+"formulario con información al respecto. <br><br><strong>Si quieres ayudarnos "
+"a apoyar la promoción de este mapa de eventos puedes incorporar las "
+"siguientes imágenes (click derecho > guardar imagen como...) en tu Web o "
+"blog enlazando el mapa:</strong>"
+msgstr ""
+"<a href='http://www.sportyguest.es'>Sportyguest</a> has created this map so "
+"that the online community can promote outdoor sports events in Spain and "
+"internationally. This way we help you plan your sports calendar.<br><br>This "
+"map will help you find those sports events and sports experiences nearer to "
+"where you want to move or where you live.We have included some information "
+"about several events but we need your help to make it more complete. If you "
+"want to add a sport event you are organizing or simply participating in, you "
+"only have to press the button:<a href='#modal_add' data-toggle='modal' data-"
+"dismiss='modal'>add event</a>\n"
+"and fill in a simple form with information about it.<br><br> <strong>If you "
+"want to help us support the promotion of this sports event map you can add "
+"the following pictures to your web or blog, with a link to the map:</strong>"
+
+#: C:\wamp\www\mapa\represent-map/index.php:912
+msgid "¿Tienes preguntas? ¿Aportaciones? Contacta con nosotros en "
+msgstr "Do you have any questions? Contributions? Contact us at"
+
+#: C:\wamp\www\mapa\represent-map/index.php:915
+msgid "Creado por"
+msgstr "Created by"
+
+#: C:\wamp\www\mapa\represent-map/index.php:919
+#: C:\wamp\www\mapa\represent-map/index.php:974
+#: C:\wamp\www\mapa\represent-map/index.php:1111
+msgid "Cerrar"
+msgstr "Close"
+
+#: C:\wamp\www\mapa\represent-map/index.php:927
+msgid "FAQ - Preguntas frecuentes"
+msgstr "FAQ - Frequently Asked Questions"
+
+#: C:\wamp\www\mapa\represent-map/index.php:931
+#: C:\wamp\www\mapa\represent-map/index.php:944
+msgid "¿Qué es Sportyguest Sports Map?"
+msgstr "What is Sportyguest Sports Map?"
+
+#: C:\wamp\www\mapa\represent-map/index.php:932
+#: C:\wamp\www\mapa\represent-map/index.php:947
+msgid "¿Por qué lo hemos creado?"
+msgstr "Why have we created it?"
+
+#: C:\wamp\www\mapa\represent-map/index.php:933
+#: C:\wamp\www\mapa\represent-map/index.php:950
+msgid "¿Qué beneficios tiene añadir mi evento en este mapa?"
+msgstr "What benefits has to add my event to this map?"
+
+#: C:\wamp\www\mapa\represent-map/index.php:934
+#: C:\wamp\www\mapa\represent-map/index.php:953
+msgid "¿Cuál es el objetivo de este mapa?"
+msgstr "What is the aim of this map?"
+
+#: C:\wamp\www\mapa\represent-map/index.php:935
+#: C:\wamp\www\mapa\represent-map/index.php:956
+msgid "¿Qué tipo de eventos hay en el mapa?"
+msgstr "What kind of events are there on the map?"
+
+#: C:\wamp\www\mapa\represent-map/index.php:936
+#: C:\wamp\www\mapa\represent-map/index.php:959
+msgid "¿Cómo añado un evento?"
+msgstr "How do I add an event?"
+
+#: C:\wamp\www\mapa\represent-map/index.php:937
+#: C:\wamp\www\mapa\represent-map/index.php:962
+msgid "¿Cómo puedo modificar un evento existente?"
+msgstr "How can I modify an existing event?"
+
+#: C:\wamp\www\mapa\represent-map/index.php:938
+#: C:\wamp\www\mapa\represent-map/index.php:965
+msgid "Mi evento no está situado bien en el mapa de Sportyguest Sports Map:"
+msgstr "My event is shown on a wrong place on the Sportyguest Sports map:"
+
+#: C:\wamp\www\mapa\represent-map/index.php:939
+#: C:\wamp\www\mapa\represent-map/index.php:968
+msgid ""
+"Me parece una idea muy interesante y me gustaría ayudar a promocionarlo:"
+msgstr ""
+"I believe it is a very interesting idea and I would like to help in "
+"promoting it:"
+
+#: C:\wamp\www\mapa\represent-map/index.php:945
+msgid ""
+"Sportyguest Sports Map es un mapa que representa los eventos deportivos "
+"outdoor de España y del ámbito internacional."
+msgstr ""
+"Sportyguest Sports Map is a map which shows outdoor sports events in Spain "
+"and internationally."
+
+#: C:\wamp\www\mapa\represent-map/index.php:948
+msgid ""
+"Hemos creado este mapa de eventos deportivos para que puedas encontrar los "
+"eventos deportivos y experiencias deportivas más cercanas al lugar donde "
+"quieras desplazarte o encontrar aquellos eventos y experiencias más cercanas "
+"a tu lugar de origen, para así poder planificarte tu calendario deportivo."
+msgstr ""
+"We’ve created this map of sports events to help you find those sports events "
+"and sports experiences nearer to where you want to move or where you live. "
+"This way we help you plan your sports calendar."
+
+#: C:\wamp\www\mapa\represent-map/index.php:951
+msgid ""
+"Indudablemente, si añades tu evento en este mapa de eventos deportivos vas a "
+"tener una mayor visibilidad, además de un enlace directo al mismo que te "
+"permitirá obtener mas visitantes en la web/blog y probables participantes y "
+"visitantes a la ciudad del evento."
+msgstr ""
+"Undoubtedly, if you add your event to this map of sports events you will "
+"have a better visibility. As well, you will have a direct link to your "
+"event, and this will allow you to obtain more visitors in your web/blog, and "
+"more potential participants and visitors to the city of the event."
+
+#: C:\wamp\www\mapa\represent-map/index.php:954
+msgid ""
+"El objetivo de este mapa es el de darle un valor añadido y una herramienta "
+"de fácil acceso y usabilidad a cualquier aficionado al deporte que busque "
+"eventos a los que asistir o nuevas experiencias deportivas que vivir."
+msgstr ""
+"The aim of this map is to give an added value, and an easily accessible and "
+"usable tool, to any sport fan looking for events to attend or for new sport "
+"experiences to live."
+
+#: C:\wamp\www\mapa\represent-map/index.php:957
+msgid ""
+"Este mapa ha sido realizado para que sean añadidos todos los eventos de "
+"deporte outdoor, sobre todo, aquellos que permiten la participación a "
+"cualquier aficionado al deporte outdoor."
+msgstr ""
+"We’ve created this map to add all outdoor sports events, especially those "
+"which allow any outdoor sports fan to participate."
+
+#: C:\wamp\www\mapa\represent-map/index.php:960
+msgid ""
+"Únicamente tendrás que pinchar en el botón añadir evento y completar un "
+"sencillo formulario con información del mismo. Ten en cuenta que el equipo "
+"de Sportyguest revisará el mismo y tardará un máximo de 48h en aprobarlo y "
+"que este aparezca en el mapa."
+msgstr ""
+"You will only have to click on the “add event” button and fill in a simple "
+"form with information about it. Take into account that our team will check "
+"it, and that it will take a maximum of 48h to approve it and make it visible "
+"on the map."
+
+#: C:\wamp\www\mapa\represent-map/index.php:963
+msgid ""
+"Para hacer modificaciones de eventos ya publicados tienes que mandarnos un "
+"correo a info@sportyguest.es con la información correspondiente."
+msgstr ""
+"To modify already published events it is necessary to send us an e-mail to "
+"info@sportyguest.es with the corresponding information."
+
+#: C:\wamp\www\mapa\represent-map/index.php:966
+msgid ""
+"Sportyguest Sports Map se posiciona utilizando las funcionalidades de Google "
+"Maps, por lo tanto, comprueba antes de enviar la dirección que en Google "
+"Maps sale correctamente. Si no es así, ajústalo."
+msgstr ""
+"Sportyguest Sports Map uses Google Maps tools to place your event on the "
+"map. Please do check before sending us the address that it appears correctly "
+"on Google Maps. If not, be so kind to adjust it."
+
+#: C:\wamp\www\mapa\represent-map/index.php:969
+msgid ""
+"Bienvenido amig@! Estaremos encantados de que nos ayudes a promocionar "
+"Sportyguest Sports Map. Si quieres ayudarnos a apoyar la promoción de este "
+"mapa de eventos deportivos puedes pinchar en el botón “Sobre este mapa” y "
+"allí encontrarás el código que puedes implementar en tu Web o blog. Gracias "
+"de antemano!"
+msgstr ""
+"Be welcome, friend! We will be delighted if you help us promote Sportyguest "
+"Sports Map. If you want to help us support the promotion of this sports "
+"event map you can click on the button “About this map”. There you will find "
+"the code to implement it in your web or blog. Thanks in advance!"
+
+#: C:\wamp\www\mapa\represent-map/index.php:989
+msgid "Tu nombre"
+msgstr "Your name"
+
+#: C:\wamp\www\mapa\represent-map/index.php:993
+msgid "No se muestra en la información del evento."
+msgstr "Not shown in the information of the event."
+
+#: C:\wamp\www\mapa\represent-map/index.php:998
+msgid "Tu email"
+msgstr "Your email"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1002
+msgid "No se muestra en la información del evento, para resolver dudas."
+msgstr "Not shown in the information of the event, to solve doubts."
+
+#: C:\wamp\www\mapa\represent-map/index.php:1007
+msgid "Nombre del evento"
+msgstr "Name of the event"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1011
+msgid "Nombre descriptivo del evento."
+msgstr "Descriptive name of the event"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1016
+msgid "Tipo de deporte"
+msgstr "Type of sport"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1030
+msgid "La categoría deportiva de la competición."
+msgstr "Sports category of the competition."
+
+#: C:\wamp\www\mapa\represent-map/index.php:1035
+msgid "Categoría"
+msgstr "Category"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1039
+msgid "Deporte específico de la competición."
+msgstr "Specific sport of the competition."
+
+#: C:\wamp\www\mapa\represent-map/index.php:1045
+msgid "Dirección"
+msgstr "Address"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1049
+msgid "Dirección en la que se va a realizar el evento."
+msgstr "Address where the event will be held."
+
+#: C:\wamp\www\mapa\represent-map/index.php:1055
+msgid "Fecha"
+msgstr "Date"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1059
+msgid "Fecha en la que tiene lugar el evento"
+msgstr "Date of the event"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1064
+msgid "URL del evento"
+msgstr "URL of the event"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1068
+msgid "URL del evento en caso de que la conozcas."
+msgstr "URL of the event (if you know it)"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1073
+msgid "Imagen"
+msgstr "Picture"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1081
+msgid "Selecciona imagen"
+msgstr "Select picture"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1082
+msgid "Cambiar"
+msgstr "Modify"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1085
+msgid "Eliminiar"
+msgstr "Delete"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1090
+msgid "Precio del evento"
+msgstr "Price of the event"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1094
+msgid "Precio de la inscripción en el evento."
+msgstr "Registration fee of the event"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1103
+msgid ""
+"Describe brevemente en que consiste el evento. Incluye datos importantes "
+"como: precio, duración, distancia, que distingue este evento de otros de su "
+"categoría..."
+msgstr ""
+"Describe briefly what the event is like. Include important information such "
+"as: price, duration, distance, what makes this event different compared to "
+"others of its same category..."
+
+#: C:\wamp\www\mapa\represent-map/index.php:1110
+#: C:\wamp\www\mapa\represent-map/index.php:1162
+msgid "Enviar"
+msgstr "Send"
+
+#: C:\wamp\www\mapa\represent-map/index.php:1141
+msgid "Enviando"
+msgstr "Sending"
+
+#~ msgid "Aceptar"
+#~ msgstr "Ok"
+
+#~ msgid "Valoración por criterios"
+#~ msgstr "CRating"
+
+#~ msgid "Recomienda"
+#~ msgstr "Recommend"
+
+#~ msgid "Comentario"
+#~ msgstr "Comment"
+
+#~ msgid "¿Vamos a vender estos datos?¿Cómo monetizamos esto?"
+#~ msgstr "Are we going to sell these data? How do we monetize this?"
+
+#~ msgid ""
+#~ "Cambiar</span>\n"
+#~ "                    <input type="
+#~ msgstr "Modify"

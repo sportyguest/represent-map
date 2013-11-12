@@ -32,6 +32,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'facebook_valoracion_id'); ?>
+		<?php echo $form->textField($model,'facebook_valoracion_id',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->error($model,'facebook_valoracion_id'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'valoracion'); ?>
 		<?php echo $form->textField($model,'valoracion'); ?>
 		<?php echo $form->error($model,'valoracion'); ?>

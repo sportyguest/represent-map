@@ -48,10 +48,11 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'id',
 		'evento_id',
 		'facebook_id',
+		'facebook_valoracion_id',
 		'valoracion',
 		'valoracion_organizacion',
-		'valoracion_dificultad',
 		/*
+		'valoracion_dificultad',
 		'valoracion_recorrido',
 		'valoracion_actividad_complementaria',
 		'valoracion_precio',

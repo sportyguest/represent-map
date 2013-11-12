@@ -23,17 +23,25 @@ class Email {
                                     "TWEET_TEXT"      	=> urlencode("Échale un vistazo a " . $evento->name),
                                     "TWEET_URL"       	=> urlencode(Email::MAP_URL));
 		$html = file_get_contents(Email::EMAIL_APPROVED);
-		foreach ($nombres_variables as $key => $value) {
-			$html = str_replace("%" . $key . "%", $value, $html);
-		}
+		$html = Email::replaceVariables($html, $nombres_variables);
 		$subject = "Se ha aprobado su evento";
 		Email::sendEmail(Email::OFFICIAL_MAIL, $evento->owner_email, $subject, $html);
+		Email::sendEmail(Email::OFFICIAL_MAIL, Email::ADMIN_MAIL, $subject, $html);
 	}
 
 	public static function notifyEventCreated($evento) {
+		$nombres_variables = array( "EVENT_NAME" => $evento->name);
 		$html = file_get_contents(Email::EMAIL_CREATED);
+		$html = Email::replaceVariables($html, $nombres_variables);
 		$subject = "Se ha creado un nuevo evento";
 		Email::sendEmail(Email::OFFICIAL_MAIL, Email::ADMIN_MAIL, $subject, $html);
+	}
+
+	private static function replaceVariables($msg, $variables) {
+		foreach ($variables as $key => $value) {
+			$msg = str_replace("%" . $key . "%", $value, $msg);
+		}
+		return $msg;
 	}
 }
 ?>

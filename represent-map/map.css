@@ -368,11 +368,9 @@ background:#FFF;
 .marker_title
 {
   font-weight: bold;
-  max-width: 350px;
-
-
 	font-family: lilyupc !important;
 	font-size: 24px !important; /* 1.5em */
+  margin-bottom: 10px;
 }
 .marker_uri
 {
@@ -380,14 +378,15 @@ background:#FFF;
   color: #999;
 	#text-align: center;
 	overflow: hidden;
+  max-width: 420px;
 }
 .marker_desc
 {
-  max-width: 350px;
+  max-width: 380px;
   width: 100%;
   color: #555;
   font-size: 9pt;
-  margin-top: 40px;
+  margin-top: 5px;
   text-align: justify;
   width: 100%;
 
@@ -402,7 +401,6 @@ background:#FFF;
 .marker_address
 {
   font-size: 8pt;
-  margin-top: 10px;
   color: #B2B2B2;
 }
 .marker_date
@@ -610,15 +608,15 @@ div#capa4{
 
 div#contenedor_sup_izq{
 	float: left;
-	max-width: 60%;
-	width: 60%;
+	max-width: 61%;
+	width: 61%;
+  padding-right: 2%;
 }
 
 div#contenedor_sup_der{
 	float: right;
-	max-width: 40%;
-	width: 40%;
-	margin-top: 10px;
+	max-width: 37%;
+	width: 37%;
 	#position: relative;
 	bottom: 100%;
 }
@@ -627,20 +625,20 @@ div#contenedor_inferior{
 	width: 100%;
 }
 
-div#asistire{
-	font-weight: bold;
+div#asistire,
+div#megustaria,
+div#heparticipado{
+font-weight: bold;
+display: inline-block;
+padding-left: 5px;
 }
 
-div#megustaria{
-	font-weight: bold;
-}
-
-div#crear_exp{
+div#centrar_img{
 	padding-top: 25px; 
 	text-align: center;
 }
 
-#crear_exp img{
+#centrar_img img{
 	padding-top: 20px;
 }
 
@@ -689,31 +687,39 @@ div#precio{
 	font-size: 13px;
 }
 
-/* ESTRELLITAS */
-div.bigstars div.rateit-range
-{
-    background: url(star-white32.png);
-    height: 32px;
+.txt_val1{
+	display: table-cell;
+	width: 100%;
+	font-family: lilyupc !important;
+	font-weight: bold !important;
+	font-size: 23px !important; 
 }
- 
-div.bigstars div.rateit-hover
-{
-    background: url(star-gold32.png);
+
+.txt_val2{
+	display: table-cell;
+	width: 100%;
+	vertical-align: middle;
 }
- 
-div.bigstars div.rateit-selected
-{
-    background: url(star-red32.png);
+
+.estrellas_val{
+	display: table-cell;
+	min-width: 105px; /* 90+12+espacio*/
 }
- 
-div.bigstars div.rateit-reset
-{
-    background: url(star-black32.png);
-    width: 32px;
-    height: 32px;
+
+.nota_val{
+	display: table-cell;
+	text-align: right;
+	min-width: 60px;
+	#line-height: 50%;
+	vertical-align: middle;
 }
- 
-div.bigstars div.rateit-reset:hover
-{
-    background: url(star-white32.png);
+
+div#logo_asistire,
+div#logo_megustaria,
+div#logo_heparticipado{
+display: inline;
+}
+
+div img.marker_img{
+  max-height: 50px;
 }

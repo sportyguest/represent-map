@@ -56,7 +56,7 @@ if (empty($date)) {
 if (empty($web)) {
   $errors["uri"] = 1;
 }
-if (empty($price) || !is_numeric(str_replace("€", "", $price))) {
+if (strlen($price) == 0 || !is_numeric(str_replace("€", "", $price))) {
   $errors["price"] = 1;
 }
 if (empty($image_name)) {

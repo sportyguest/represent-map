@@ -23,7 +23,7 @@ class Email {
                                     "TWEET_TEXT"      	=> urlencode("Échale un vistazo a " . $evento->name),
                                     "TWEET_URL"       	=> urlencode(Email::MAP_URL));
 		$html = file_get_contents(Email::EMAIL_APPROVED);
-		$html = replaceVariables($html, $nombres_variables);
+		$html = Email::replaceVariables($html, $nombres_variables);
 		$subject = "Se ha aprobado su evento";
 		Email::sendEmail(Email::OFFICIAL_MAIL, $evento->owner_email, $subject, $html);
 		Email::sendEmail(Email::OFFICIAL_MAIL, Email::ADMIN_MAIL, $subject, $html);
@@ -32,7 +32,7 @@ class Email {
 	public static function notifyEventCreated($evento) {
 		$nombres_variables = array( "EVENT_NAME" => $evento->name);
 		$html = file_get_contents(Email::EMAIL_CREATED);
-		$html = replaceVariables($html, $nombres_variables);
+		$html = Email::replaceVariables($html, $nombres_variables);
 		$subject = "Se ha creado un nuevo evento";
 		Email::sendEmail(Email::OFFICIAL_MAIL, Email::ADMIN_MAIL, $subject, $html);
 	}

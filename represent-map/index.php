@@ -1107,7 +1107,7 @@ textdomain($lang);
           </fieldset>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><?php echo _("Aceptar");?></button>
+          <button type="submit" class="btn btn-primary"><?php echo _("Enviar");?></button>
           <a href="#" class="btn" data-dismiss="modal" style="float: right;"><?php echo _("Cerrar");?></a>
         </div>
       </form>
@@ -1137,7 +1137,9 @@ textdomain($lang);
         });
         // add modal form submit
         $("#modal_addform").submit(function(event) {
-          event.preventDefault(); 
+          event.preventDefault();
+          $("#modal_addform .btn-primary").text("<?php echo _("Enviando");?>");
+          $("#modal_addform .btn-primary").prop("disabled", "true");
           var formData = new FormData(document.getElementById('modal_addform'));
             var url = jQuery("#modal_addform").attr( 'action' );
               $.ajax({
@@ -1155,9 +1157,10 @@ textdomain($lang);
                   $("#modal_addform p").css("display", "none");
                   $("#modal_addform fieldset").css("display", "none");
                   $("#modal_addform .btn-primary").css("display", "none");
-                  
                 // if submission failed, show error
                 } else {
+                  $("#modal_addform .btn-primary").text("<?php echo _("Enviar");?>");
+                  $("#modal_addform .btn-primary").prop("disabled", "false");
                   $("#modal_addform #result").html(data.msg);
                   $("#modal_addform #result").addClass("alert alert-danger");
                   var mandatory_fields = ["owner_name", "owner_email", "title", "category", "subcategory", "address", "datepicker", "uri", "image", "price", "description"];

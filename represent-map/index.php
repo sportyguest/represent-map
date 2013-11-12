@@ -1160,7 +1160,7 @@ textdomain($lang);
                 // if submission failed, show error
                 } else {
                   $("#modal_addform .btn-primary").text("<?php echo _("Enviar");?>");
-                  $("#modal_addform .btn-primary").prop("disabled", "false");
+                  $("#modal_addform .btn-primary").removeAttr("disabled");
                   $("#modal_addform #result").html(data.msg);
                   $("#modal_addform #result").addClass("alert alert-danger");
                   var mandatory_fields = ["owner_name", "owner_email", "title", "category", "subcategory", "address", "datepicker", "uri", "image", "price", "description"];

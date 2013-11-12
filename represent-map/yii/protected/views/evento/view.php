@@ -22,8 +22,11 @@ Yii::app()->clientScript->registerMetaTag($model->url, null, null, array('proper
 Yii::app()->clientScript->registerMetaTag($model->name, null, null, array('property'=>'og:title'), null);
 Yii::app()->clientScript->registerMetaTag($model->description, null, null, array('property'=> 'og:description'), null);
 if (!empty($model->image_url)) {
-	Yii::app()->clientScript->registerMetaTag($model->image_url, null, null, array('property'=> 'og:image'), null);
+	$image_url = $model->image_url;
+} else {
+	$image_url = 'http://eventosdeportivos.sportyguest.es/images/preview.jpg';
 }
+Yii::app()->clientScript->registerMetaTag($image_url, null, null, array('property'=> 'og:image'), null);
 ?>
 
 <h1>View Evento #<?php echo $model->id; ?></h1>

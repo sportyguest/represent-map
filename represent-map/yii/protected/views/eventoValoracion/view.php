@@ -24,9 +24,12 @@ Yii::app()->clientScript->registerMetaTag(date("c"), null, null, array('property
 Yii::app()->clientScript->registerMetaTag("sportyguest_eventos:rating", null, null, array('property'=> 'og:type'), null);
 Yii::app()->clientScript->registerMetaTag($evento->name, null, null, array('property' => 'og:title'), null);
 Yii::app()->clientScript->registerMetaTag($evento->description, null, null, array('property' => 'og:description'), null);
-if (!empty($evento->image_url)) {
-	Yii::app()->clientScript->registerMetaTag($evento->image_url, null, null, array('property'=> 'og:image'), null);
+if (!empty($model->image_url)) {
+	$image_url = $model->image_url;
+} else {
+	$image_url = 'http://eventosdeportivos.sportyguest.es/images/preview.jpg';
 }
+Yii::app()->clientScript->registerMetaTag($image_url, null, null, array('property'=> 'og:image'), null);
 Yii::app()->clientScript->registerMetaTag($model->valoracion, null, null, array('property'=> 'sportyguest_eventos:rating_value'), null);
 Yii::app()->clientScript->registerMetaTag(EventoValoracion::VALORACION_ESCALA, null, null, array('property'=> 'sportyguest_eventos:rating_scale'), null);
 Yii::app()->clientScript->registerMetaTag($model->valoracion_organizacion, null, null, array('property'=> 'sportyguest_eventos:rating_org_value'), null);

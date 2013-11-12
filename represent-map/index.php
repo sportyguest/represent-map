@@ -476,7 +476,6 @@ $sent_button = "sent_" . $lang . ".png";
             "VALORACION_GENERAL": mostrarMedia(val[10]),
             "DESCRIPCION_TITULO": "<?php echo _("Descripción");?>",
             "DESCRIPCION": val[5],
-            "CREAR_UNA_EXPERIENCIA_CERCA_DE": "<?php echo _("Crea una experiencia cerca de ");?>",
             "VALORACION_POR_CRITERIOS": "<?php echo _("Valoración detallada");?>",
             "DIFICULTAD_TITULO": "<?php echo _("Dificultad");?>",
             "VALORACION_DIFICULTAD": mostrarMedia(val[11]),

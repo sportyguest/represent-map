@@ -7,13 +7,19 @@ require_once("/var/www/sportyguest/wp-load.php");
 require_once ("include/evento.php");
 require_once ("include/experiencia.php");
 require_once("include/db.php");
+// Language detection and variables setting
 $lang = "es_ES";
-if (isset($_GET['lang'])) $lang = $_GET['lang'];
+if (isset($_GET['lang'])) {
+  $lang = $_GET['lang'];
+}
 putenv("LC_ALL=$lang");
 setlocale(LC_ALL, $lang);
 bindtextdomain($lang, "locale");
 bind_textdomain_codeset($lang, 'UTF-8');
 textdomain($lang);
+$offer_experience_button = "offer_experience_" . $lang . ".png";
+$send_button = "send_" . $lang . ".png";
+$sent_button = "sent_" . $lang . ".png";
 ?>
 
 <!DOCTYPE html>
@@ -483,7 +489,10 @@ textdomain($lang);
             "ACTIVIDADES_COMPLEMENTARIAS_TITULO": "<?php echo _("Actividades complementarias");?>",
             "VALORACION_ACTIVIDADES_COMPLEMENTARIAS": mostrarMedia(val[15]),
             "IMG_SRC": val[16],
-            "IMG_ALT": val[0]
+            "IMG_ALT": val[0],
+            "BOTON_OFERTAR_EXPERIENCIA": "<?php echo $offer_experience_button; ?>",
+            "BOTON_ENVIAR": "<?php echo $send_button;?>",
+            "BOTON_ENVIADO": "<?php echo $sent_button;?>"
           };
           // If there are any double QUOTES in the file this line WILL BREAK
           if (marker.category == "experiencia") {

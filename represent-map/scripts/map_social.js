@@ -218,6 +218,7 @@ function valorar(evento_id, uid) {
 					},
 					function(response) {
 						console.log(response);
+						changeImgEnviado();
 					}
 				);
 			}
@@ -362,4 +363,7 @@ function changeImgParticipado() {
 }
 function changeImgAsistire() {
 	jQuery("#img_asistire").attr("src", "images/tick_on.png");
+}
+function changeImgEnviado() {
+	jQuery("#img_send_rating").attr("src", "images/buttons/" + jQuery("#img_send_rating").attr("data-sent"));
 }

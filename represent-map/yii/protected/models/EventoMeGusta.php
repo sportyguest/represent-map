@@ -26,12 +26,12 @@ class EventoMeGusta extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('facebook_Id, evento_id', 'required'),
+			array('facebook_id, evento_id', 'required'),
 			array('evento_id', 'numerical', 'integerOnly'=>true),
-			array('facebook_Id', 'length', 'max'=>20),
+			array('facebook_id', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, facebook_Id, evento_id', 'safe', 'on'=>'search'),
+			array('id, facebook_id, evento_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +53,7 @@ class EventoMeGusta extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'facebook_Id' => 'Facebook',
+			'facebook_id' => 'Facebook',
 			'evento_id' => 'Evento',
 		);
 	}
@@ -77,7 +77,7 @@ class EventoMeGusta extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('facebook_Id',$this->facebook_Id,true);
+		$criteria->compare('facebook_id',$this->facebook_id,true);
 		$criteria->compare('evento_id',$this->evento_id);
 
 		return new CActiveDataProvider($this, array(

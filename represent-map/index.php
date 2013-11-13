@@ -631,7 +631,7 @@ $sent_button = "sent_" . $lang . ".png";
       		res = 'nota (0.0)';
       	}
       	else{
-      		parteEntera = Math.round(dato);
+      		parteEntera = Math.floor(dato);
       		parteDecimal = (Math.round((dato - parteEntera)*10));
       		res = 'nota (' + parteEntera + ',' + parteDecimal +')';
       	}

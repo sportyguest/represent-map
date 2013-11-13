@@ -757,7 +757,7 @@ $sent_button = "sent_" . $lang . ".png";
             session = FB.getAuthResponse();
             uid = session['userID'];
             href_split = href.split("/");
-            evento_id = href_split[href_split.length - 2];
+            evento_id = href_split[href_split.length - 1];
             like(evento_id, uid);
           }
         );

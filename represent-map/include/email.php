@@ -22,7 +22,9 @@ class Email {
                                     "FB_EVENT_SUMMARY"	=> urlencode($evento->description),
                                     "FB_IMAGE_URL"    	=> urlencode("http://eventosdeportivos.sportyguest.es/images/badges/badge2.png"),
                                     "TWEET_TEXT"      	=> urlencode("Échale un vistazo a " . $evento->name),
-                                    "TWEET_URL"       	=> urlencode($url));
+                                    "TWEET_URL"       	=> urlencode($url),
+                                    "LINKEDIN_EVENT_URL"=> $url,
+                                    "GOOGLE_EVENT_URL"	=> $url);
 		$html = file_get_contents(Email::EMAIL_APPROVED);
 		$html = Email::replaceVariables($html, $nombres_variables);
 		$subject = "Se ha aprobado su evento";

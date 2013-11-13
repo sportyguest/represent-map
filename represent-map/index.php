@@ -754,12 +754,11 @@ $sent_button = "sent_" . $lang . ".png";
         });
         FB.Event.subscribe('edge.create',
           function(href, widget) {
-            session = FB.getSession();
-            uid = session['uid'];
+            session = FB.getAuthResponse();
+            uid = session['userID'];
             href_split = href.split("/");
             evento_id = href_split[href_split.length - 2];
             like(evento_id, uid);
-            alert('You liked the URL: ' + href);
           }
         );
       };

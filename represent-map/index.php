@@ -477,6 +477,7 @@ $sent_button = "sent_" . $lang . ".png";
             "VALORACION_MEDIA_TITULO_SHORT": "<?php echo _("Val. media:");?>",
             "VALORACION_GENERAL_TITULO": "<?php echo _("Valoración general");?>",
             "VALORACION_GENERAL": mostrarMedia(val[10]),
+            "VALORACION_GENERAL_VALOR": val[10],
             "DESCRIPCION_TITULO": "<?php echo _("Descripción");?>",
             "DESCRIPCION": val[5],
             "VALORACION_POR_CRITERIOS": "<?php echo _("Valoración detallada");?>",

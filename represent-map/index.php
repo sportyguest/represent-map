@@ -357,11 +357,13 @@ $sent_button = "sent_" . $lang . ".png";
                                   $valoracionAtractivo   . "', '" . 
                                   $valoracionPrecio   . "', '" .
                                   $valoracionActComplementarios . "', '" .
-                                  $evento->image_url . "']); //cuidado con las comillas 
-                 markerTitles[" . $marker_id . "] = '" . $evento->name . "';
-               "; 
+                                  $evento->image_url . "']);"; //cuidado con las comillas
+            if (strcmp($evento->category, "experiencia") != 0) {
+              echo "markerTitles[" . $marker_id . "] = '" . $evento->name . "';
+              ";
+              $marker_id++;
+            }
             $count[$evento->category]++;
-            $marker_id++;
           }  
         ?>
         // Properties of the sprite icons
@@ -415,6 +417,7 @@ $sent_button = "sent_" . $lang . ".png";
           });
           if (val[1] != 'experiencia') {
             marker.id = val[9];
+            marker.title = val[0];
           }
           marker.category = val[1];
           marker.subcategory = val[2];
@@ -553,12 +556,10 @@ $sent_button = "sent_" . $lang . ".png";
         jQuery('#search').typeahead({
           source: markerTitles, 
           onselect: function(obj) {
-            marker_id = jQuery.inArray(obj, markerTitles);
-            if(marker_id > -1) {
-              map.panTo(gmarkers[marker_id].getPosition());
-              map.setZoom(15);
-              google.maps.event.trigger(gmarkers[marker_id], 'click');
-            }
+            var marker = gmarkers.filter(function (objeto) { return objeto.hasOwnProperty("title") && objeto.title == obj; })[0];
+            map.panTo(marker.getPosition());
+            map.setZoom(15);
+            google.maps.event.trigger(marker, 'click');
             jQuery("#search").val("");
           }
         });

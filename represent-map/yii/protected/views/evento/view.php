@@ -25,7 +25,7 @@ Yii::app()->clientScript->registerMetaTag($image_url, null, null, array('propert
 <h2>Visita nuestro mapa interactivo de eventos deportivos:</h2>
 
 <?php
-echo CHtml::link(CHtml::image('/mapa/represent-map/images/preview.jpg', 'Mapa de eventos deportivos'), 'http://eventosdeportivos.sportyguest.es');
+echo CHtml::link(CHtml::image('/images/preview.jpg', 'Mapa de eventos deportivos'), 'http://eventosdeportivos.sportyguest.es');
 ?>
 <br>
 <br>

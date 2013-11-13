@@ -7,14 +7,6 @@ $this->breadcrumbs=array(
 	$model->name,
 );
 
-$this->menu=array(
-	array('label'=>'List Evento', 'url'=>array('index')),
-	array('label'=>'Create Evento', 'url'=>array('create')),
-	array('label'=>'Update Evento', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Evento', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Evento', 'url'=>array('admin')),
-);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/map_social.js'); 
 Yii::app()->clientScript->registerMetaTag("167839766714035", null, null, array('property'=>'og:app_id'), null);
 Yii::app()->clientScript->registerMetaTag(date("c"), null, null, array('property'=>'og:updated_time'), null);
 Yii::app()->clientScript->registerMetaTag("sportyguest_eventos:sport_event", null, null, array('property'=> 'og:type'), null);
@@ -29,14 +21,18 @@ if (!empty($model->image_url)) {
 Yii::app()->clientScript->registerMetaTag($image_url, null, null, array('property'=> 'og:image'), null);
 ?>
 
-<h1>View Evento #<?php echo $model->id; ?></h1>
+<h1>Evento #<?php echo $model->id; ?></h1>
+<h2>Visita nuestro mapa interactivo de eventos deportivos:</h2>
 
+<?php
+echo CHtml::link(CHtml::image('/mapa/represent-map/images/preview.jpg', 'Mapa de eventos deportivos'), 'http://eventosdeportivos.sportyguest.es');
+?>
+<br>
+<br>
+<h2>Información del evento:</h2>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
-		'owner_name',
-		'owner_email',
 		'name',
 		'image_url',
 		'description',
@@ -46,8 +42,5 @@ Yii::app()->clientScript->registerMetaTag($image_url, null, null, array('propert
 		'lng',
 		'category',
 		'subcategory',
-		'creation_date',
-		'date',
-		'approved',
 	),
 )); ?>

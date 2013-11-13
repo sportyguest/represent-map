@@ -7,13 +7,6 @@ $this->breadcrumbs=array(
 	$model->id,
 );
 
-$this->menu=array(
-	array('label'=>'List EventoValoracion', 'url'=>array('index')),
-	array('label'=>'Create EventoValoracion', 'url'=>array('create')),
-	array('label'=>'Update EventoValoracion', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete EventoValoracion', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage EventoValoracion', 'url'=>array('admin')),
-);
 $evento = Evento::model()->find(array(
     'select'=>'name,description,image_url',
     'condition'=>'id=:id',

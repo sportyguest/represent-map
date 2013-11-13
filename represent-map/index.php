@@ -847,7 +847,7 @@ $sent_button = "sent_" . $lang . ".png";
             }
             echo " id='filter_$key'></div>
                   <a href='#' onClick=\"toggleList('$key');\" class='category_info'>
-                    <span class='$key sprite' style='opacity: 1;'></span>" . $value["name"] .
+                    <span class='$key sprite' style='opacity: 1;'></span>" . $value["name"][$lang] .
                     "<span class='total'> ($markers_total)</span>
                   </a>
                 </div>
@@ -869,7 +869,7 @@ $sent_button = "sent_" . $lang . ".png";
               echo " id='filter_sub_$subcat_key'></div>
                   <!--<a href='#' onClick=\"toggleList('$subcat_key');\" class='category_info'>-->
                     <img id='bombilla' src='./images/icons/no-image.png' alt='' />
-                    $subcat_value
+                    $subcat_value[$lang]
                     <span class='total'> (" . count($markers_subcat) . ")</span>
                   <!--</a>-->
                 </div>

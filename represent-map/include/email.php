@@ -14,14 +14,15 @@ class Email {
 	}
 
 	public static function notifyEventApproved($evento) {
-        $nombres_variables = array( "EVENT_URL"       	=> Email::MAP_URL . "/#" . $evento->id,
+		$url = Email::MAP_URL . "/#" . $evento->id;
+        $nombres_variables = array( "EVENT_URL"       	=> $url,
                                     "EVENT_NAME"      	=> $evento->name,
-                                    "FB_EVENT_URL"    	=> urlencode(Email::MAP_URL . "/#" . $evento->id),
+                                    "FB_EVENT_URL"    	=> urlencode($url),
                                     "FB_EVENT_NAME"   	=> urlencode($evento->name),
                                     "FB_EVENT_SUMMARY"	=> urlencode($evento->description),
                                     "FB_IMAGE_URL"    	=> urlencode("http://eventosdeportivos.sportyguest.es/images/badges/badge2.png"),
                                     "TWEET_TEXT"      	=> urlencode("Échale un vistazo a " . $evento->name),
-                                    "TWEET_URL"       	=> urlencode(Email::MAP_URL . "/#" . $evento->id));
+                                    "TWEET_URL"       	=> urlencode($url));
 		$html = file_get_contents(Email::EMAIL_APPROVED);
 		$html = Email::replaceVariables($html, $nombres_variables);
 		$subject = "Se ha aprobado su evento";

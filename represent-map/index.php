@@ -545,9 +545,8 @@ $sent_button = "sent_" . $lang . ".png";
           console.log("idle triggered");
           // It opens the event selected in the URL
           if (window.location.hash.length > 0) {
-            console.log(window.location.hash);
-            var evento_URL = window.location.hash.substr(1);
-            google.maps.event.trigger(gmarkers[evento_URL], 'click');
+            var evento_id = window.location.hash.substr(1);
+            google.maps.event.trigger(gmarkers.filter(function (objeto) { return objeto.hasOwnProperty("id") && objeto.id == evento_id; })[0], 'click');
           }
         });
         // zoom to marker if selected in search typeahead list

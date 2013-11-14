@@ -185,6 +185,7 @@ class EventoValoracionController extends Controller
 		foreach ($result as $key => $value) {
 			$events[$value->id] = $value->name;
 		}
+		natcasesort($events);
 		$this->render('mobile',array(
 			'events' => $events,
 		));

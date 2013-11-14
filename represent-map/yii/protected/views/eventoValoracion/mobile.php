@@ -22,7 +22,7 @@
     <script src="http://connect.facebook.net/en_US/all.js"></script>
 
     <script type="text/javascript">
-      var url_home = "http://localhost/mapa/represent-map/";
+      var url_home = "http://eventosdeportivos.sportyguest.es/";
       // Initialize the Facebook JavaScript SDK
       FB.init({
         appId: '167652430078861',
@@ -31,23 +31,6 @@
         cookie: true,
       });
 
-      // Check if the current user is logged in and has authorized the app
-      //FB.getLoginStatus(checkLoginStatus);
-
-      // Login in the current user via Facebook and ask for email permission
-      function authUser() {
-        return FB.login(checkLoginStatus, {scope:'email,publish_actions'});
-      }
-
-      // Check the result of the user status and display login button if necessary
-      function checkLoginStatus(response) {
-          console.log(response);
-        if(response && response.status == 'connected') {
-          return response.authResponse.userID;  
-        } else {
-          return false;
-        }
-      }
       $(document).ready(function() {
         // Hide emails specific fields
         $("#comment-group").hide();
@@ -61,12 +44,11 @@
           var val_route = $("#val_route").val();
           var val_extra_activities = $("#val_extra_activities").val();
           var val_price = $("#val_price").val();
-          //var comment = $("#comment").val();
-          var userID = authUser();
-          // If the login is successful the data is sent to the server and to facebook
-          if (userID) {
-            valorar(evento_id, userID);
-          }
+          FB.login(function(response) {
+            if(response && response.status == 'connected') {
+              valorar(evento_id, response.authResponse.userID);
+            } 
+          }, {scope:'email,publish_actions'});
         });
         // Email button clicked
         $("#send-email").click(function() {
@@ -146,7 +128,7 @@
 <div data-role="page" id="page1">
     <div data-role="content">
         <div style="">
-            <img style="width: 288px; height: 100px" src="http://localhost/mapa/represent-map/images/badges/badge1.png">
+            <img style="width: 288px; height: 100px" src="http://eventosdeportivos.sportyguest.es/images/badges/badge1.png">
         </div>
         <h1>
             Puntúa el evento

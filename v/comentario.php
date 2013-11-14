@@ -25,7 +25,6 @@ $evento_id = $_GET["evento_id"];
     <script src="http://connect.facebook.net/en_US/all.js"></script>
 
     <script type="text/javascript">
-      var url_home = "http://localhost/mapa/represent-map/";
       // Initialize the Facebook JavaScript SDK
       FB.init({
         appId: '167652430078861',
@@ -37,7 +36,7 @@ $evento_id = $_GET["evento_id"];
   <div data-role="page">
     <div data-role="content">
       <div style="">
-          <img style="width: 288px; height: 100px" src="http://localhost/mapa/represent-map/images/badges/badge1.png">
+          <img style="width: 288px; height: 100px" src="http://eventosdeportivos.sportyguest.es/images/badges/badge1.png">
       </div>
       <h4>
           Gracias por valorar, ¿Quieres dejar un comentario?

@@ -79,6 +79,7 @@
         var rating_extra = jQuery("#val_extra_activities").val();
         if (!uid) {
           var comment = jQuery("#comment").val();
+          var email = jQuery("#email").val();
         }
         var data = {
           'EventoValoracion[evento_id]': evento_id, 
@@ -89,7 +90,8 @@
           'EventoValoracion[valoracion_recorrido]': rating_route,
           'EventoValoracion[valoracion_precio]': rating_price,
           'EventoValoracion[valoracion_actividad_complementaria]': rating_extra,
-          'EventoValoracion[comentario]': comment
+          'EventoValoracion[comentario]': comment,
+          'EventoValoracion[email]': email
         };
         // The rating is created in the database and then the rating is post to facebook
         $.ajax({

@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $evento_id
  * @property string $facebook_id
+ * @property string $email
  * @property string $facebook_valoracion_id
  * @property double $valoracion
  * @property double $valoracion_organizacion
@@ -14,6 +15,7 @@
  * @property double $valoracion_recorrido
  * @property double $valoracion_actividad_complementaria
  * @property double $valoracion_precio
+ * @property string $comentario
  *
  * The followings are the available model relations:
  * @property Evento $evento
@@ -42,13 +44,15 @@ class EventoValoracion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('evento_id, facebook_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'required'),
+			array('evento_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'required'),
 			array('evento_id', 'numerical', 'integerOnly'=>true),
 			array('valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'numerical'),
 			array('facebook_id, facebook_valoracion_id', 'length', 'max'=>20),
+			array('email', 'length', 'max'=>100),
+			array('comentario', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, evento_id, facebook_id, facebook_valoracion_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio', 'safe', 'on'=>'search'),
+			array('id, evento_id, facebook_id, email, facebook_valoracion_id, valoracion, valoracion_organizacion, valoracion_dificultad, valoracion_recorrido, valoracion_actividad_complementaria, valoracion_precio, comentario', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +77,7 @@ class EventoValoracion extends CActiveRecord
 			'id' => 'ID',
 			'evento_id' => 'Evento',
 			'facebook_id' => 'Facebook',
+			'email' => 'Email',
 			'facebook_valoracion_id' => 'Facebook Valoracion',
 			'valoracion' => 'Valoracion',
 			'valoracion_organizacion' => 'Valoracion Organizacion',
@@ -80,6 +85,7 @@ class EventoValoracion extends CActiveRecord
 			'valoracion_recorrido' => 'Valoracion Recorrido',
 			'valoracion_actividad_complementaria' => 'Valoracion Actividad Complementaria',
 			'valoracion_precio' => 'Valoracion Precio',
+			'comentario' => 'Comentario',
 		);
 	}
 
@@ -104,6 +110,7 @@ class EventoValoracion extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('evento_id',$this->evento_id);
 		$criteria->compare('facebook_id',$this->facebook_id,true);
+		$criteria->compare('email',$this->email,true);
 		$criteria->compare('facebook_valoracion_id',$this->facebook_valoracion_id,true);
 		$criteria->compare('valoracion',$this->valoracion);
 		$criteria->compare('valoracion_organizacion',$this->valoracion_organizacion);
@@ -111,6 +118,7 @@ class EventoValoracion extends CActiveRecord
 		$criteria->compare('valoracion_recorrido',$this->valoracion_recorrido);
 		$criteria->compare('valoracion_actividad_complementaria',$this->valoracion_actividad_complementaria);
 		$criteria->compare('valoracion_precio',$this->valoracion_precio);
+		$criteria->compare('comentario',$this->comentario,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

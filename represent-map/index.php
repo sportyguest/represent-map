@@ -1029,7 +1029,7 @@ $sent_button = "sent_" . $lang . ".png";
                   // Shows the categories
                   foreach(Evento::$events_categories as $key => $value) {
                     if ($value["can_add_new"]) {
-                      echo "<option value='$key'>" . $value["name"] . "</option>";
+                      echo "<option value='$key'>" . $value["name"][$lang] . "</option>";
                     }
                   }
                   ?>
@@ -1130,7 +1130,7 @@ $sent_button = "sent_" . $lang . ".png";
             if (Evento::$events_categories[$key]["can_add_new"]) {
               echo "subcategory[\"" . $key . "\"] = [];";
                 foreach($value as $subcat_key => $subcat_value) {
-                  echo "subcategory[\"" . $key . "\"][\"" . $subcat_key . "\"] = '" . $subcat_value . "';";
+                  echo "subcategory[\"" . $key . "\"][\"" . $subcat_key . "\"] = '" . $subcat_value[$lang] . "';";
                 }
             }
           }

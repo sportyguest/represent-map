@@ -1,6 +1,6 @@
 <?php
 include "header.php";
-
+$lang = "es_ES";
 if(isset($_GET['place_id'])) {
   $place_id = htmlspecialchars($_GET['place_id']); 
 } else if(isset($_POST['place_id'])) {
@@ -89,7 +89,7 @@ if($task == "doedit") {
                 if(strcasecmp($place->category, $key) == 0) { 
                   echo " selected='selected'";
                 }
-            echo ">" . utf8_decode($value["name"]) . "</option>";
+            echo ">" . utf8_decode($value["name"][$lang]) . "</option>";
           }
           ?>
         </select>
@@ -112,7 +112,7 @@ if($task == "doedit") {
             if (strcasecmp($place->subcategory, $subcat_key) == 0) {
               echo " selected='selected'";
             }
-            echo ">" . utf8_decode($subcat_value) . "</option>";
+            echo ">" . utf8_decode($subcat_value[$lang]) . "</option>";
           }
           echo "</select>";
         }

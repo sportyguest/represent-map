@@ -10,7 +10,7 @@ $this->layout = "mobile_rating_layout";
   var url_home = "http://eventosdeportivos.sportyguest.es/";
   // Initialize the Facebook JavaScript SDK
   FB.init({
-    appId: '167652430078861',
+    appId: '167839766714035',
     xfbml: true,
     status: true,
     cookie: true,

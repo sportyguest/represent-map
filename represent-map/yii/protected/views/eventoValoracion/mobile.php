@@ -39,14 +39,18 @@ $this->layout = "mobile_rating_layout";
     $("#send-email").click(function() {
       if ($("#email").is(":visible")) {
         if ($("#email").val() && $("#comment").val()) {
-          var evento_id = $("#evento").val();
-          var val_general = $("#val_general").val();
-          var val_organization = $("#val_organization").val();
-          var val_difficulty = $("#val_difficulty").val();
-          var val_route = $("#val_route").val();
-          var val_extra_activities = $("#val_extra_activities").val();
-          var val_price = $("#val_price").val();
-          valorar(evento_id, 0);
+          if (!validateEmail($("#email").val())) {
+            alert("Tiene que introducir un email válido");
+          } else {
+            var evento_id = $("#evento").val();
+            var val_general = $("#val_general").val();
+            var val_organization = $("#val_organization").val();
+            var val_difficulty = $("#val_difficulty").val();
+            var val_route = $("#val_route").val();
+            var val_extra_activities = $("#val_extra_activities").val();
+            var val_price = $("#val_price").val();
+            valorar(evento_id, 0);
+          }
         } else {
           alert("Los campos email y comentario son obligatorios");
         }
@@ -110,6 +114,10 @@ $this->layout = "mobile_rating_layout";
       dataType:'json'
     });
   }
+  function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  } 
 function saveFBData(uid) {
   saveFBUserData();
   saveFBFriends(uid);

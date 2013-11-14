@@ -38,7 +38,7 @@ $this->layout = "mobile_rating_layout";
     // Email button clicked
     $("#send-email").click(function() {
       console.log("Clicado send email");
-      if ($("#email").is(":visible") && $("#email").val()) {
+      if ($("#email").is(":visible") && $("#email").val() && $("#comment").val()) {
         console.log("Campo email es visible");
         var evento_id = $("#evento").val();
         var val_general = $("#val_general").val();
@@ -113,7 +113,7 @@ $this->layout = "mobile_rating_layout";
 <!-- Home -->
 <div data-role="page" id="page1">
     <div data-role="content">
-        <div style="">
+        <div>
             <img style="width: 288px; height: 100px" src="http://eventosdeportivos.sportyguest.es/images/badges/badge1.png">
         </div>
         <h1>
@@ -171,15 +171,15 @@ $this->layout = "mobile_rating_layout";
         </div>
         <div data-role="fieldcontain" id="comment-group">
             <label for="comment">
-                Comentario
+                Comentario (obligatorio)
             </label>
             <textarea name="comment" id="comment" placeholder="Danos tu opinión"></textarea>
         </div>
         <div data-role="fieldcontain" id="email-group">
             <label for="email">
-                Email
+                Email (obligatorio)
             </label>
-            <input type="text" name="email" id="email" placeholder="nombre@email.com"></textarea>
+            <input type="text" name="email" id="email" placeholder="nombre@email.com">
         </div>
         <a id="send-fb" data-role="button" data-theme="b">
             Enviar con Facebook

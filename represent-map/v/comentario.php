@@ -29,7 +29,7 @@ $evento_id = $_GET["evento_id"];
       });
       $(document).ready(function() {
         $("#no-gracias").click(function() {
-          window.location.href = "http://eventosdeportivos.spotyguest.es/v/gracias.html";
+          window.location.href = "http://eventosdeportivos.sportyguest.es/v/gracias.html";
         });
       });
     </script>

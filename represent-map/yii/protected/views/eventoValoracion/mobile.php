@@ -37,19 +37,20 @@ $this->layout = "mobile_rating_layout";
     });
     // Email button clicked
     $("#send-email").click(function() {
-      console.log("Clicado send email");
-      if ($("#email").is(":visible") && $("#email").val() && $("#comment").val()) {
-        console.log("Campo email es visible");
-        var evento_id = $("#evento").val();
-        var val_general = $("#val_general").val();
-        var val_organization = $("#val_organization").val();
-        var val_difficulty = $("#val_difficulty").val();
-        var val_route = $("#val_route").val();
-        var val_extra_activities = $("#val_extra_activities").val();
-        var val_price = $("#val_price").val();
-        valorar(evento_id, 0);
+      if ($("#email").is(":visible")) {
+        if ($("#email").val() && $("#comment").val()) {
+          var evento_id = $("#evento").val();
+          var val_general = $("#val_general").val();
+          var val_organization = $("#val_organization").val();
+          var val_difficulty = $("#val_difficulty").val();
+          var val_route = $("#val_route").val();
+          var val_extra_activities = $("#val_extra_activities").val();
+          var val_price = $("#val_price").val();
+          valorar(evento_id, 0);
+        } else {
+          alert("Los campos email y comentario son obligatorios");
+        }
       } else {
-        console.log("Campo email no es visible");
         $("#email-group").show();
         $("#comment-group").show();
       }
@@ -84,7 +85,6 @@ $this->layout = "mobile_rating_layout";
       url: url_home + 'yii/eventoValoracion/ajax',
       data: data,
       success:function(data){
-        console.log(data);
         if (uid != 0 && data.code == "success") {
           var rating_url = url_home + 'yii/eventoValoracion/view/id/' + data.id;
           FB.api(
@@ -104,7 +104,6 @@ $this->layout = "mobile_rating_layout";
       },
       error: function(data) { // if error occured
         alert("Ha ocurrido un error, inténtelo de nuevo por favor.");
-        console.log(data);
       },
       dataType:'json'
     });

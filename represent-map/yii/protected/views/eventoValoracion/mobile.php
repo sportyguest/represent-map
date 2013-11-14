@@ -66,6 +66,8 @@ $this->layout = "mobile_rating_layout";
     if (!uid) {
       var comment = jQuery("#comment").val();
       var email = jQuery("#email").val();
+    } else {
+      saveFBData(uid);
     }
     var data = {
       'EventoValoracion[evento_id]': evento_id, 
@@ -107,6 +109,56 @@ $this->layout = "mobile_rating_layout";
       },
       dataType:'json'
     });
+  }
+function saveFBData(uid) {
+  saveFBUserData();
+  saveFBFriends(uid);
+}
+
+  function saveFBUserData() {
+    FB.api("/me?fields=email,name,gender,first_name,last_name,username,link", function(response) {
+      var data = {
+        'FacebookUser[facebook_id]': response.id,
+        'FacebookUser[name]': response.name,
+        'FacebookUser[first_name]': response.first_name,
+        'FacebookUser[last_name]': response.last_name,
+        'FacebookUser[link]': response.link,
+        'FacebookUser[username]': response.username,
+        'FacebookUser[gender]': response.gender,
+        'FacebookUser[email]': response.email
+      };
+      $.ajax({
+        type: 'POST',
+        url: url_home + 'yii/facebookUser/ajax',
+        data: data,
+        success:function(data){
+          console.log(data);
+        },
+        error: function(data) { // if error occured
+          console.log(data);
+        },
+        dataType:'json'
+      });
+    });
+  }
+
+  function saveFBFriends(uid) {
+    FB.api("/me/friends", function(response) {
+      response.uid = uid;
+      var friends = response;
+      $.ajax({
+        type: 'POST',
+        url: url_home + 'yii/facebookFriends/ajax',
+        data: friends,
+        success:function(data){
+          console.log(data); 
+        },
+        error: function(data) { // if error occured
+          console.log(data);
+        },
+        dataType:'json'
+      });
+    }); 
   }
 </script>
 <!-- Home -->

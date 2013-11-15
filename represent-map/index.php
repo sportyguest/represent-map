@@ -307,6 +307,15 @@ $sent_button = "sent_" . $lang . ".png";
           usort($approved_events, function($evento1,$evento2) {
             return Evento::getCodeEvent($evento1->category) - Evento::getCodeEvent($evento2->category);
           });
+          $consulta = "SELECT AVG(valoracion) valoracion, AVG(valoracion_dificultad) valoracion_dificultad, AVG(valoracion_organizacion) valoracion_organizacion, AVG(valoracion_recorrido) valoracion_recorrido, AVG(valoracion_precio) valoracion_precio, AVG(valoracion_actividad_complementaria) valoracion_actividad_complementaria, evento_id, COUNT(evento_id) FROM wp_evento_valoracion GROUP BY evento_id";
+          $valoraciones = $wpdb->get_results($consulta);
+          $consulta = "SELECT evento_id, COUNT(evento_id) count FROM wp_evento_asistire GROUP BY evento_id";
+          $asistire = $wpdb->get_results($consulta);
+          $consulta = "SELECT evento_id, COUNT(evento_id) count FROM wp_evento_me_gustaria_participar GROUP BY evento_id";
+          $me_gustaria_participar = $wpdb->get_results($consulta);
+          $consulta = "SELECT evento_id, COUNT(evento_id) count FROM wp_evento_participacion GROUP BY evento_id";
+          $participacion = $wpdb->get_results($consulta);
+          // Echo events to javascript
           foreach($approved_events as $evento){
             $evento->name = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->name)));
             $evento->description= htmlspecialchars_decode(
@@ -316,24 +325,35 @@ $sent_button = "sent_" . $lang . ".png";
             $evento->address = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->address)));
             $evento->category = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->category)));
             $evento->url = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->url)));
-            $evento->id = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->id))); // añadida
-            // añadido
-            $wpdb->show_errors();
-              
-            //var_dump($valoracionGeneral);
+            $evento->id = htmlspecialchars_decode(addslashes(htmlspecialchars($evento->id)));
+
             if($evento->category != 'experiencia'){
-            	$consulta = "SELECT AVG(valoracion) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
-            	$valoracionGeneral = $wpdb->get_var($consulta);
-	            $consulta = "SELECT AVG(valoracion_dificultad) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
-	            $valoracionDificultad = $wpdb->get_var($consulta);  
-	            $consulta = "SELECT AVG(valoracion_organizacion) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
-	            $valoracionOrganizacion  = $wpdb->get_var($consulta);  
-				      $consulta = "SELECT AVG(valoracion_recorrido) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
-	            $valoracionAtractivo = $wpdb->get_var($consulta);  
-	           	$consulta = "SELECT AVG(valoracion_precio) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
-	            $valoracionPrecio = $wpdb->get_var($consulta);  
-	            $consulta = "SELECT AVG(valoracion_actividad_complementaria) FROM wp_evento_valoracion WHERE evento_id=" . $evento->id;
-	            $valoracionActComplementarios = $wpdb->get_var($consulta);  
+              $valoracion = array_filter($valoraciones, 
+                function($item) use ($evento) { 
+                  return $item->evento_id == $evento->id;
+                }
+              );
+              $valoracionGeneral = $valoracion->valoracion;
+              $valoracionDificultad = $valoracion->valoracion_dificultad;
+              $valoracionOrganizacion = $valoracion->valoracion_organizacion;
+              $valoracionAtractivo = $valoracion->valoracion_recorrido;
+              $valoracionPrecio = $valoracion->valoracion_precio;
+              $valoracionActComplementarios = $valoracion->valoracion_actividad_complementaria;
+              $count_asistire = array_filter($asistire, 
+                function($item) use($evento) {
+                  return $item->evento_id == $evento->id;
+                }
+              )[0]->count;
+              $count_me_gustaria_participar = array_filter($me_gustaria_participar,
+                function($item) use($evento) {
+                  return $item->evento_id == $evento->id;
+                }
+              )[0]->count;
+              $count_participacion = array_filter($participacion,
+                function($item) use($evento) {
+                  return $item->evento_id == $evento->id;
+                }
+              )[0]->count;
             }
 
             $date = "";
@@ -357,7 +377,10 @@ $sent_button = "sent_" . $lang . ".png";
                                   $valoracionAtractivo   . "', '" . 
                                   $valoracionPrecio   . "', '" .
                                   $valoracionActComplementarios . "', '" .
-                                  $evento->image_url . "']);"; //cuidado con las comillas
+                                  $evento->image_url . "', '" .
+                                  $count_asistire . "', '" .
+                                  $count_participacion . "', '" .
+                                  $count_me_gustaria_participar ."']);"; //cuidado con las comillas
             if (strcmp($evento->category, "experiencia") != 0) {
               echo "markerTitles[" . $marker_id . "] = '" . $evento->name . "';
               ";
@@ -418,6 +441,9 @@ $sent_button = "sent_" . $lang . ".png";
           if (val[1] != 'experiencia') {
             marker.id = val[9];
             marker.title = val[0];
+            var count_asistire = val[17];
+            var count_participacion = val[18];
+            var count_me_gustaria_participar = val[19];
           }
           marker.category = val[1];
           marker.subcategory = val[2];
@@ -495,7 +521,10 @@ $sent_button = "sent_" . $lang . ".png";
             "IMG_ALT": val[0],
             "BOTON_OFERTAR_EXPERIENCIA": "<?php echo $offer_experience_button; ?>",
             "BOTON_ENVIAR": "<?php echo $send_button;?>",
-            "BOTON_ENVIADO": "<?php echo $sent_button;?>"
+            "BOTON_ENVIADO": "<?php echo $sent_button;?>",
+            "NUMERO_ASISTIRE": Math.max(count_asistire, 0),
+            "NUMERO_ME_GUSTARIA_ASISTIR": Math.max(count_me_gustaria_participar, 0),
+            "NUMERO_HE_PARTICIPADO": Math.max(count_participacion, 0)
           };
           // If there are any double QUOTES in the file this line WILL BREAK
           if (marker.category == "experiencia") {
@@ -506,7 +535,9 @@ $sent_button = "sent_" . $lang . ".png";
           for (var key in valores) {
             if (valores.hasOwnProperty(key)) {
               var value = valores[key];
-              popup = popup.replace(new RegExp("%" + key + "%", "g"), value);
+              if (value != undefined) {
+                popup = popup.replace(new RegExp("%" + key + "%", "g"), value);
+              }
             }
           }
           // add marker click effects (open infowindow)

@@ -58,6 +58,14 @@ if($search != "") {
   $places = Evento::getEventsByName($wpdb, $search, $page_start, $items_per_page);
   $total = Evento::getCountByName($wpdb, $search); 
 }
+$consulta = "SELECT evento_id, COUNT(evento_id) count FROM wp_evento_me_gusta GROUP BY evento_id";
+$me_gusta = $wpdb->get_results($consulta);
+$consulta = "SELECT evento_id, COUNT(evento_id) count FROM wp_evento_asistire GROUP BY evento_id";
+$asistire = $wpdb->get_results($consulta);
+$consulta = "SELECT evento_id, COUNT(evento_id) count FROM wp_evento_me_gustaria_participar GROUP BY evento_id";
+$me_gustaria_participar = $wpdb->get_results($consulta);
+$consulta = "SELECT evento_id, COUNT(evento_id) count FROM wp_evento_participacion GROUP BY evento_id";
+$participacion = $wpdb->get_results($consulta);
 
 echo $admin_head;
 ?>
@@ -75,6 +83,38 @@ echo $admin_head;
   <ul>
     <?php
       foreach($places as $place) {
+        $count_me_gusta = array_filter($me_gusta,
+          function($item) use($place) {
+            return $item->evento_id == $place->id;
+          }
+        )[0]->count;
+        $count_asistire = array_filter($asistire, 
+          function($item) use($place) {
+            return $item->evento_id == $place->id;
+          }
+        )[0]->count;
+        $count_me_gustaria_participar = array_filter($me_gustaria_participar,
+          function($item) use($place) {
+            return $item->evento_id == $place->id;
+          }
+        )[0]->count;
+        $count_participacion = array_filter($participacion,
+          function($item) use($place) {
+            return $item->evento_id == $place->id;
+          }
+        )[0]->count;
+        if (empty($count_me_gusta)) {
+          $count_me_gusta = 0;
+        }
+        if (empty($count_asistire)) {
+          $count_asistire = 0;
+        }
+        if (empty($count_me_gustaria_participar)) {
+          $count_me_gustaria_participar = 0;
+        }
+        if (empty($count_participacion)) {
+          $count_participacion = 0;
+        }
         $place->url = str_replace("http://", "", $place->url);
         $place->url = str_replace("https://", "", $place->url);
         $place->url = str_replace("www.", "", $place->url);
@@ -109,6 +149,10 @@ echo $admin_head;
                   $place->url
                 </span>
               </a>
+              <span title='Like'>(L:" . $count_me_gusta . ")</span>
+              <span title='Asistiré'>(A:" . $count_asistire . ")</span>
+              <span title='Han participado'>(P:" . $count_participacion . ")</span>
+              <span title='Les gustaría participar'>(GP:" . $count_me_gustaria_participar . ")</span>
             </div>
           </li>
         ";

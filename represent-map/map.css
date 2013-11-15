@@ -608,15 +608,15 @@ div#capa4{
 
 div#contenedor_sup_izq{
 	float: left;
-	max-width: 61%;
-	width: 61%;
+	max-width: 58%;
+	width: 58%;
   padding-right: 2%;
 }
 
 div#contenedor_sup_der{
 	float: right;
-	max-width: 37%;
-	width: 37%;
+	max-width: 40%;
+	width: 40%;
 	#position: relative;
 	bottom: 100%;
 }

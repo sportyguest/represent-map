@@ -28,7 +28,7 @@ class EventoValoracionController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','ajax'),
+				'actions'=>array('index','view','ajax','mobile'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -166,6 +166,29 @@ class EventoValoracionController extends Controller
 				return;
 			}
 		}
+	}
+
+	public function actionMobile() {
+
+		$model=new EventoValoracion;
+
+		if(isset($_POST['EventoValoracion']))
+		{
+			$model->attributes=$_POST['EventoValoracion'];
+			$model->save();
+		}
+		$criteria = new CDbCriteria;
+		$criteria->select = 'id, name';
+		$criteria->condition='approved = 1';
+		$result = Evento::model()->findAll($criteria, array());
+		$events = array();
+		foreach ($result as $key => $value) {
+			$events[$value->id] = $value->name;
+		}
+		natcasesort($events);
+		$this->render('mobile',array(
+			'events' => $events,
+		));
 	}
 	
 	/**

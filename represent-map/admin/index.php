@@ -161,18 +161,38 @@ echo $admin_head;
   </ul>
   
   <?php if($p > 1 || $total >= $items_per_page) { ?>
-    <ul class="pager">
-      <?php if($p > 1) { ?>
-        <li class="previous">
-          <a href="index.php?view=<?php echo $view;?>&search=<?php echo $search;?>&p=<?php echo $p-1; ?>">&larr; Previous</a>
-        </li>
-      <?php } ?>
-      <?php if($total >= $items_per_page * $p) { ?>
-        <li class="next">
-          <a href="index.php?view=<?php echo $view;?>&search=<?php echo $search;?>&p=<?php echo $p+1; ?>">Next &rarr;</a>
-        </li>
-      <?php } ?>
-    </ul>
+	<ul class="pagination">
+		<?php 
+			if ($p <= 1) {
+				$class = "disabled";
+			} else {
+				$href = "index.php?view=' . $view . '&search=' . $search . '&p=' . ($p - 1) . '";
+			}
+			echo "<li class='" . $class . "'><a href='" . $href . "'>&laquo;</a></li>";
+		?>
+		<?php for($i = 0; $total >= $items_per_page * $i; $i++) { ?>
+			<?php
+				if ($p == $i + 1) {
+					$class = "active";
+					$href = "";
+				} else {
+					$class = "";
+					$href = 'index.php?view=' . $view . '&search=' . $search . '&p=' . ($i + 1);
+				}
+				echo "<li class='" . $class . "'><a href='" . $href . "'>" . ($i + 1) . "</a></li>";
+			?>
+		<?php } ?>
+		<?php
+			if ($total <= $items_per_page * $p) {
+				$class = "disabled";
+				$href = "";
+			} else {
+				$class = "";
+				$href = 'index.php?view=' . $view . '&search=' . $search . '&p=' . ($p + 1);
+			}
+			echo "<li class='" . $class . "'><a href='" . $href . "'>&raquo;</a></li>";
+		?>
+	</ul>
   <?php } ?>
 
 </div>

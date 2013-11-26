@@ -332,7 +332,7 @@ $sent_button = "sent_" . $lang . ".png";
                 function($item) use ($evento) { 
                   return $item->evento_id == $evento->id;
                 }
-              );
+              )[0];
               $valoracionGeneral = $valoracion->valoracion;
               $valoracionDificultad = $valoracion->valoracion_dificultad;
               $valoracionOrganizacion = $valoracion->valoracion_organizacion;

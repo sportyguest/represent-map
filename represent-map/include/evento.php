@@ -75,6 +75,7 @@ Class Evento {
 					                        "maraton"                			=> array("es_ES" => "Maratón", "en" => "Marathon"),
 					                        "medio_maraton"          			=> array("es_ES" => "Medio maratón", "en" => "Half Marathon"),
 					                        "canicross"                       	=> array("es_ES" => "Canicross", "en" => "Cani cross"),
+					                        "orientacion"						=> array("es_ES" => "Orientación", "en" => "Orienteering"),
 					                        "otros"                        		=> array("es_ES" => "Otros", "en" => "Others")),
 	    "escalada" 				=> array(	"escalada_en_roca"                  => array("es_ES" => "Escalada en roca", "en" => "Rock climbing"),
 					                        "grandes_paredes"                   => array("es_ES" => "Grandes paredes", "en" => "Big Walls"),

@@ -19,6 +19,10 @@ Class Evento {
 	var $date_creacion;
 	var $date;
 	var $approved;
+    var $phone;
+    var $start_time;
+    var $periodo_de_inscripcion;
+    var $difficulty;
 	// Events categories
 	static $events_categories = array(
 		"ciclismo" => array("name" => array("es_ES" => "Ciclismo", "en" => "Cycling"), 
@@ -108,7 +112,7 @@ Class Evento {
 		"experiencia" 			=> array(	"experiencias" 						=> array("es_ES" => "Experiencias", "en" => "Experiences"))
 	);
 
-	function Evento($nowner_name, $nowner_email, $nname, $nimage_url, $nprice, $ndescription, $nurl,$naddress,$nlat,$nlng,$ncategory, $nsubcategory,$ndate){
+	function Evento($nowner_name, $nowner_email, $nname, $nimage_url, $nprice, $ndescription, $nurl,$naddress,$nlat,$nlng,$ncategory, $nsubcategory,$ndate, $nphone, $nstart_time, $nperiodo_de_inscripcion, $ndifficulty){
 		$this->owner_name = $nowner_name;
 		$this->owner_email = $nowner_email;
 		$this->name = $nname;
@@ -122,6 +126,10 @@ Class Evento {
 		$this->category = $ncategory;	
 		$this->subcategory = $nsubcategory;	
 		$this->date = $ndate;
+        $this->phone = $nphone;
+        $this->start_time = $nstart_time;
+        $this->periodo_de_inscripcion = $nperiodo_de_inscripcion;
+        $this->difficulty = $ndifficulty;
 	}
 
 	function saveDB($wpdb) {
@@ -142,7 +150,11 @@ Class Evento {
                 'lng'           => $this->lng,
                 'category'      => $this->category,
                 'subcategory'   => $this->subcategory,
-                'date'          => $date_aux
+                'date'          => $date_aux,
+                'phone'         => $this->phone,
+                'start_time'    => $this->start_time,
+                'periodo_de_inscripcion' => $this->periodo_de_inscripcion,
+                'difficulty'    => $this->difficulty
 			)
 		);
 	}
@@ -164,7 +176,11 @@ Class Evento {
                 'lng'           => $this->lng,
                 'category'      => $this->category,
                 'subcategory'   => $this->subcategory,
-                'date'          => $date_aux
+                'date'          => $date_aux,
+                'phone'         => $this->phone,
+                'start_time'    => $this->start_time,
+                'periodo_de_inscripcion' => $this->periodo_de_inscripcion,
+                'difficulty'    => $this->difficulty
 			),
 			array(
 				'id'			=> $this->id
@@ -182,7 +198,11 @@ Class Evento {
 				'%f',
 				'%s',
 				'%s',
-				'%s'
+				'%s',
+                '%s',
+                '%s',
+                '%s',
+                '%s'
 			),
 			array(
 				'%d'

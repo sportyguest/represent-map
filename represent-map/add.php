@@ -26,6 +26,10 @@ $date = $_POST['datepicker'];
 $web = $_POST['uri'];
 $subcategory = $_POST['subcategory'];
 $price = $_POST['price'];
+$phone = $_POST['owner_phone'];
+$start_time = $_POST['start_time'];
+$periodo_de_inscripcion = $_POST['periodo_inscripcion'];
+$difficulty = $_POST['difficulty'];
 
 $errors = array();
 // validate fields
@@ -56,11 +60,23 @@ if (empty($date)) {
 if (empty($web)) {
   $errors["uri"] = 1;
 }
-if (strlen($price) == 0 || !is_numeric(str_replace("€", "", $price))) {
+if (empty($price) == 0) {
   $errors["price"] = 1;
 }
 if (empty($image_name)) {
   $errors["image"] = 1;
+}
+if (empty($phone)) {
+    $errors["owner_phone"] = 1;
+}
+if (empty($start_time)) {
+    $errors["start_time"] = 1;
+}
+if (empty($periodo_de_inscripcion)) {
+    $errors["periodo_inscripcion"] = 1;
+}
+if (empty($difficulty)) {
+    $errors["difficulty"] = 1;
 }
 if (!empty($errors)) {
   echo json_encode(array( "code" => "fail", 
@@ -81,7 +97,7 @@ if (isset($_FILES["image"]) && isset($_FILES["image"]["name"])) {
   $image_url = Evento::createImageURL("http://eventosdeportivos.sportyguest.es/", $image_name);
 }
 
-$evento = new Evento($owner_name, $owner_email, $title, $image_url, $price, $description, $web, $address, $lat, $lng, $category, $subcategory, $date);
+$evento = new Evento($owner_name, $owner_email, $title, $image_url, $price, $description, $web, $address, $lat, $lng, $category, $subcategory, $date, $phone, $start_time, $periodo_de_inscripcion, $difficulty);
 $evento->saveDB($wpdb);
 Email::notifyEventCreated($evento);
 
